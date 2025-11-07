@@ -5,6 +5,19 @@ Handles peer discovery, message broadcasting, and network communication
 import zmq
 import zmq.asyncio
 import asyncio
+import sys
+import asyncio
+
+if sys.platform == 'win32':
+    import winloop
+    asyncio.set_event_loop_policy(winloop.EventLoopPolicy())
+else:
+    # Use uvloop on Linux/macOS for production
+    try:
+        import uvloop
+        asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
+    except ImportError:
+        pass
 import json
 import socket
 import time

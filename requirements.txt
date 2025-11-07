@@ -1,5 +1,8 @@
 # Core Networking (for agent/p2p/node.py)
 pyzmq
+# Performance Event Loops
+winloop; sys_platform == 'win32'
+uvloop; sys_platform != 'win32'
 
 # Cryptography - Signing (for agent/crypto/signing.py)
 cryptography
@@ -11,8 +14,10 @@ pynacl
 stable-baselines3
 gymnasium
 numpy
+seaborn
 
 tensorboard
+PyYAML
 
 tqdm
 rich
@@ -20,6 +25,8 @@ rich
 docker
 seaborn
 psutil
+#coded in Rust ,to optimise the proccessing time of signing(crypto)
+orjson 
 
 pytest_asyncio
 
