@@ -16,24 +16,59 @@ import math
 from typing import Dict, List, Tuple, Optional
 from collections import deque, defaultdict
 from dataclasses import dataclass
-from agent.schema.schema import JobDistributionStats
+from agent.schema.schema import JobDistributionStats # Original external import
 
 
 class ProgressiveTaxation:
-    """Progressive taxation system - rich nodes pay higher tax rates"""
-    
+    """
+    Progressive taxation system - rich nodes pay higher tax rates
+
+    INNOVATION: Prevents wealth monopolization through graduated tax brackets.
+    This is deliberately simplified (not marginal) for network efficiency.
+    """
+
     def __init__(self):
-        self.tax_brackets = [] 
+        # Tax brackets (wealth -> tax_rate)
+        self.tax_brackets = [
+            (0, 0.00),          # 0-100 AC: 0%
+            (100.0001, 0.05),        # 100-500 AC: 5%
+            (500, 0.10),        # 500-1000 AC: 10%
+            (1000, 0.15),       # 1000-2000 AC: 15%
+            (2000, 0.20),       # 2000-5000 AC: 20%
+            (5000, 0.25),       # 5000-10000 AC: 25%
+            (10000, 0.30),      # 10000+ AC: 30%
+        ]
+        
+        # Tax revenue pool (for UBI). Initialized to 0.0, will accumulate.
         self.tax_revenue_pool = 0.0
 
-    def calculate_tax(self, wealth: float, earnings: float) -> float: pass
-    def get_tax_rate(self, wealth: float) -> float: pass
+    def calculate_tax(self, wealth: float, earnings: float) -> float:
+        """
+        Calculate tax on earnings based on total wealth
+        """
+        tax_rate = 0.0
+        for threshold, rate in reversed(self.tax_brackets):
+            if wealth >= threshold:
+                tax_rate = rate
+                break
+
+        tax = earnings * tax_rate
+        self.tax_revenue_pool += tax
+        return tax
+
+    def get_tax_rate(self, wealth: float) -> float:
+        """Get tax rate for given wealth level (Helper for logging/display)."""
+        for threshold, rate in reversed(self.tax_brackets):
+            if wealth >= threshold:
+                return rate
+        return 0.0
 
 
 class UniversalBasicIncome:
     """Universal Basic Income (UBI) system"""
 
     def __init__(self, ubi_amount: float = 5.0, activity_window: float = 3600.0):
+        # Stubs from Commit 1
         self.ubi_amount = ubi_amount
         self.activity_window = activity_window
         self.last_ubi_distribution: Dict[str, float] = {}
@@ -48,6 +83,7 @@ class DiversityQuotas:
     """Diversity quotas for fair job distribution"""
 
     def __init__(self, window_size: int = 100, max_share: float = 0.30):
+        # Stubs from Commit 1
         self.window_size = window_size
         self.max_share = max_share
         self.recent_winners: deque = deque(maxlen=window_size)
@@ -63,6 +99,7 @@ class TrustDecay:
     """Trust decay system - trust naturally decays over time"""
 
     def __init__(self, decay_rate: float = 0.01, min_trust: float = 0.1):
+        # Stubs from Commit 1
         self.decay_rate = decay_rate
         self.min_trust = min_trust
         self.last_decay: Dict[str, float] = {}
@@ -74,6 +111,7 @@ class JobComplexityAnalyzer:
     """Analyzes job complexity for fair compensation"""
 
     def __init__(self):
+        # Stubs from Commit 1
         self.job_type_multipliers = {}
 
     def analyze_complexity(self, job: dict) -> float: pass
@@ -83,6 +121,7 @@ class ProofOfWorkVerification:
     """Proof of work verification system"""
 
     def __init__(self, verification_probability: float = 0.3):
+        # Stubs from Commit 1
         self.verification_probability = verification_probability
         self.pending_verifications: Dict[str, dict] = {}
 
@@ -97,6 +136,7 @@ class CooperativeRewards:
     """Rewards for cooperative behavior"""
 
     def __init__(self):
+        # Stubs from Commit 1
         self.verifications_performed: Dict[str, int] = defaultdict(int)
         self.help_provided: Dict[str, int] = defaultdict(int)
 
@@ -108,7 +148,7 @@ class EconomicFairnessEngine:
     """Master fairness engine - coordinates all fairness mechanisms"""
 
     def __init__(self):
-        # Initialize components with their basic structures
+        # Stubs from Commit 1
         self.taxation = ProgressiveTaxation()
         self.ubi = UniversalBasicIncome(ubi_amount=5.0)
         self.diversity = DiversityQuotas(window_size=100, max_share=0.30)
@@ -117,7 +157,7 @@ class EconomicFairnessEngine:
         self.verification = ProofOfWorkVerification(verification_probability=0.3)
         self.cooperation = CooperativeRewards()
 
-    # Public methods are defined as stubs for now
+    # Public methods are defined as stubs for now (Commit 1)
     def calculate_fair_bid_score(self, base_score: float, node_id: str, trust_score: float) -> float: pass
     def calculate_fair_payment(self, base_payment: float, job: dict, node_id: str, wealth: float, completion_time: float) -> Tuple[float, float, str]: pass
     def distribute_ubi_if_eligible(self, node_id: str) -> float: pass
