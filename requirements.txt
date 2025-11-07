@@ -22,7 +22,12 @@ PyYAML
 tqdm
 rich
 
-
+docker
+seaborn
 psutil
 #coded in Rust ,to optimise the proccessing time of signing(crypto)
 orjson 
+
+pytest_asyncio
+
+aiohttp
