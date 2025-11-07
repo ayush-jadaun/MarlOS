@@ -1,0 +1,9 @@
+{
+  "job_type": "shell",
+  "priority": 0.95,
+  "payment": 500.0,
+  "deadline": 60,
+  "payload": {
+    "command": "date && uptime && echo 'Urgent job completed!'"
+  }
+}

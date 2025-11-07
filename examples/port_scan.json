@@ -1,0 +1,10 @@
+{
+  "job_type": "port_scan",
+  "priority": 0.85,
+  "payment": 200.0,
+  "payload": {
+    "target": "127.0.0.1",
+    "ports": "1-100",
+    "scan_type": "syn"
+  }
+}
