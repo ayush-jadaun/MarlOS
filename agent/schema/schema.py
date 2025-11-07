@@ -2,9 +2,8 @@ import time
 import math
 from typing import Dict, List, Tuple, Optional
 from collections import deque, defaultdict
-from dataclasses import dataclass
+from dataclasses import dataclass, asdict
 from enum import Enum
-
 
 @dataclass
 class JobDistributionStats:
@@ -72,3 +71,39 @@ class JobResult:
             'duration': self.duration
         }
 
+
+
+
+@dataclass
+class LedgerEntry:
+    """Single ledger entry"""
+    entry_id: str
+    timestamp: float
+    from_node: Optional[str]
+    to_node: Optional[str]
+    amount: float
+    tx_type: str  # DEPOSIT, WITHDRAW, STAKE, UNSTAKE, SLASH, TRANSFER
+    reason: str
+    job_id: Optional[str]
+    balance_after: float
+    signature: str  # Cryptographic proof
+    
+    def to_dict(self) -> dict:
+        return asdict(self)
+
+
+@dataclass
+class Transaction:
+    """Token transaction record"""
+    tx_id: str
+    timestamp: float
+    tx_type: str  # DEPOSIT, WITHDRAW, STAKE, UNSTAKE, SLASH
+    amount: float
+    balance_after: float
+    reason: str
+    job_id: Optional[str] = None
+    from_node: Optional[str] = None
+    to_node: Optional[str] = None
+    
+    def to_dict(self) -> dict:
+        return asdict(self)
