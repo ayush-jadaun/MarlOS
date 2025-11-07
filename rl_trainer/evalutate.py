@@ -4,7 +4,7 @@ RL Policy Evaluation and Visualization
 import numpy as np
 import matplotlib.pyplot as plt
 from stable_baselines3 import PPO
-from env import AetherSwarmEnv
+from env import MarlOSEnv
 
 
 def visualize_learning_curve(log_dir: str = "./logs/"):
@@ -23,7 +23,7 @@ def test_policy_decisions(model_path: str, n_scenarios: int = 10):
     print(f"\n🧪 Testing policy decisions: {model_path}\n")
     
     model = PPO.load(model_path)
-    env = AetherSwarmEnv()
+    env = MarlOSEnv()
     
     action_names = ['BID', 'FORWARD', 'DEFER']
     
@@ -65,7 +65,7 @@ def compare_policies(model_paths: list, n_episodes: int = 10):
     for model_path in model_paths:
         print(f"Testing: {model_path}")
         model = PPO.load(model_path)
-        env = AetherSwarmEnv()
+        env = MarlOSEnv()
         
         rewards = []
         success_rates = []
@@ -110,4 +110,4 @@ def compare_policies(model_paths: list, n_episodes: int = 10):
 
 if __name__ == "__main__":
     # Test policy
-    test_policy_decisions("models/policy_MarlOS_v1", n_scenarios=5)
+    test_policy_decisions("models/policy_v1", n_scenarios=5)

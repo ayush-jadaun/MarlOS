@@ -150,7 +150,7 @@ class MarlOSEnv(gym.Env):
             reward = self._execute_defer()
 
         if self.fairness_engine and self.episode_step % 10 == 0:  # Every 10 steps = 1 "hour"
-            ubi_amount = self.fairness_engine.ubi.distribute_ubi_if_eligible(self.node_id)
+            ubi_amount = self.fairness_engine.distribute_ubi_if_eligible(self.node_id)
             if ubi_amount > 0:
                 self.wallet_balance += ubi_amount
                 self.total_ubi_received += ubi_amount

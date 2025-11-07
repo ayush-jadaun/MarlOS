@@ -47,7 +47,7 @@ def train_comprehensive(
     print("\n📚 SCENARIO 1: Normal Balanced Operation")
     print("-" * 70)
     normal_env = make_vec_env(
-        AetherSwarmEnv,
+        MarlOSEnv,
         n_envs=n_envs,
         vec_env_cls=SubprocVecEnv,
         env_kwargs={'num_agents': 5, 'max_jobs': 20, 'enable_fairness': True}
@@ -76,7 +76,7 @@ def train_comprehensive(
     print("\n📚 SCENARIO 2: High Competition (10 agents)")
     print("-" * 70)
     competition_env = make_vec_env(
-        AetherSwarmEnv,
+        MarlOSEnv,
         n_envs=n_envs,
         vec_env_cls=SubprocVecEnv,
         env_kwargs={'num_agents': 10, 'max_jobs': 20, 'enable_fairness': True}
@@ -95,7 +95,7 @@ def train_comprehensive(
     print("\n📚 SCENARIO 3: Resource Scarcity (few jobs)")
     print("-" * 70)
     scarcity_env = make_vec_env(
-        AetherSwarmEnv,
+        MarlOSEnv,
         n_envs=n_envs,
         vec_env_cls=SubprocVecEnv,
         env_kwargs={'num_agents': 5, 'max_jobs': 5, 'enable_fairness': True}
@@ -114,7 +114,7 @@ def train_comprehensive(
     print("\n📚 SCENARIO 4: Job Abundance (many jobs)")
     print("-" * 70)
     abundance_env = make_vec_env(
-        AetherSwarmEnv,
+        MarlOSEnv,
         n_envs=n_envs,
         vec_env_cls=SubprocVecEnv,
         env_kwargs={'num_agents': 3, 'max_jobs': 50, 'enable_fairness': True}
@@ -130,7 +130,7 @@ def train_comprehensive(
     abundance_env.close()
 
     # Save comprehensive model
-    model_path = f"rl_trainer/models/{model_name}"
+    model_path = f"models/{model_name}"
     model.save(model_path)
 
     print(f"\n✅ COMPREHENSIVE TRAINING COMPLETE!")
@@ -185,7 +185,7 @@ def train_policy(
     # Create vectorized environment
     print("Creating training environments...")
     env = make_vec_env(
-        AetherSwarmEnv,
+        MarlOSEnv,
         n_envs=n_envs,
         vec_env_cls=SubprocVecEnv,
         env_kwargs={'num_agents': 5, 'max_jobs': 20}
@@ -194,7 +194,7 @@ def train_policy(
     # Create evaluation environment
     print("Creating evaluation environment...")
     eval_env = make_vec_env(
-        AetherSwarmEnv,
+        MarlOSEnv,
         n_envs=1,
         env_kwargs={'num_agents': 5, 'max_jobs': 20}
     )
@@ -264,7 +264,7 @@ def evaluate_policy(model_path: str, n_episodes: int = 10):
     model = PPO.load(model_path)
     
     # Create environment
-    env = AetherSwarmEnv(num_agents=5, max_jobs=20)
+    env = MarlOSEnv(num_agents=5, max_jobs=20)
     
     # Run episodes
     total_rewards = []
@@ -331,7 +331,7 @@ def continue_training_from_experiences(
         model = PPO.load(model_path)
         
         # Create environment
-        env = make_vec_env(AetherSwarmEnv, n_envs=4)
+        env = make_vec_env(MarlOSEnv, n_envs=4)
         
         # Set environment in model
         model.set_env(env)
