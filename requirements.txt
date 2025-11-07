@@ -1,3 +1,12 @@
+# Core Networking (for agent/p2p/node.py)
+pyzmq
+
+# Cryptography - Signing (for agent/crypto/signing.py)
+cryptography
+
+# Cryptography - Encryption (for agent/crypto/encryption.py)
+pynacl
+
 # RL 
 stable-baselines3
 gymnasium
