@@ -1,5 +1,5 @@
 """
-Cryptography module for AetherOS
+Cryptography module
 """
 from .signing import SigningKey, VerifyingKey, sign_message, verify_message
 from .encryption import MessageEncryption, AsymmetricEncryption

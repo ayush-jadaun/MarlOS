@@ -16,3 +16,11 @@ tensorboard
 
 tqdm
 rich
+
+docker
+seaborn
+psutil
+
+pytest_asyncio
+
+aiohttp
