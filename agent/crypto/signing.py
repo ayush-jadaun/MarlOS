@@ -4,6 +4,7 @@ Handles key generation, signing, and verification
 """
 import os
 import json
+import orjson  # <-- FAST RUST JSON
 from pathlib import Path
 from typing import Tuple, Optional
 from cryptography.hazmat.primitives.asymmetric.ed25519 import (
@@ -67,6 +68,10 @@ class SigningKey:
         
         with open(filepath, 'w') as f:
             json.dump(key_data, f, indent=2)
+    @classmethod
+    def generate(cls) -> 'SigningKey':
+        """Generate a new random signing key"""
+        return cls()
     
     @classmethod
     def load_from_file(cls, filepath: str) -> 'SigningKey':
@@ -137,10 +142,12 @@ def sign_message(signing_key: SigningKey, message: dict) -> dict:
     message_copy.pop('signature', None)
     message_copy.pop('public_key', None)  # Also remove public_key before signing
 
-    message_bytes = json.dumps(message_copy, sort_keys=True).encode()
+    # OPTIMIZATION: Use orjson for fast serialization directly to bytes
+    # Must use OPT_SORT_KEYS for deterministic signatures
+    message_bytes = orjson.dumps(message_copy, option=orjson.OPT_SORT_KEYS)
+    
     signature = signing_key.sign(message_bytes)
 
-    # Add signature and public key
     message['signature'] = base64.b64encode(signature).decode()
     message['public_key'] = signing_key.public_key_hex()
 
@@ -161,13 +168,13 @@ def verify_message(message: dict) -> bool:
         message_copy = message.copy()
         message_copy.pop('signature')
         message_copy.pop('public_key', None)
-        
-        message_bytes = json.dumps(message_copy, sort_keys=True).encode()
-        
+        # OPTIMIZATION FIX: Must use orjson here too!
+        message_bytes = orjson.dumps(message_copy, option=orjson.OPT_SORT_KEYS)
+
         return verifying_key.verify(message_bytes, signature)
-    
+
     except Exception as e:
-        print(f"Verification failed: {e}")
+        # print(f"DEBUG: Verification failed: {e}") 
         return False
 
 

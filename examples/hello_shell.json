@@ -1,0 +1,8 @@
+{
+  "job_type": "shell",
+  "priority": 0.5,
+  "payment": 100.0,
+  "payload": {
+    "command": "echo 'Hello from MarlOS Swarm!'"
+  }
+}

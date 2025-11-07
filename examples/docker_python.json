@@ -1,0 +1,13 @@
+{
+  "job_type": "docker",
+  "priority": 0.7,
+  "payment": 150.0,
+  "payload": {
+    "image": "python:3.11-alpine",
+    "command": [
+      "python",
+      "-c",
+      "import sys; print(f'Python {sys.version} running in Docker!')"
+    ]
+  }
+}
