@@ -6,7 +6,6 @@ import json
 import sqlite3
 from pathlib import Path
 from typing import List, Dict, Optional
-from dataclasses import dataclass, asdict
 import time
 from ..schema.schema import LedgerEntry
 
