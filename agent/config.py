@@ -70,3 +70,25 @@ class NetworkConfig:
     broadcast_address: str = "tcp://*"
     max_peers: int = 50
 
+
+
+
+@dataclass
+class ExecutorConfig:
+    """Job executor configuration"""
+    max_concurrent_jobs: int = 3
+    job_timeout: int = 300  # seconds
+    docker_enabled: bool = True
+    sandbox_enabled: bool = True
+
+
+@dataclass
+class JobDistributionStats:
+    """Track job distribution across nodes"""
+    node_id: str
+    jobs_won: int
+    jobs_lost: int
+    total_earnings: float
+    last_win_time: float
+    win_rate: float
+

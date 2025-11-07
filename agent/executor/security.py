@@ -37,24 +37,26 @@ class MalwareScanRunner:
         print(f"[MALWARE] Scanning: {file_url}")
         
         # Download file
+        file_content = None
         with tempfile.TemporaryDirectory() as tmpdir:
             file_path = os.path.join(tmpdir, 'sample')
-            
+
             # Download
             async with aiohttp.ClientSession() as session:
                 async with session.get(file_url) as resp:
                     if resp.status != 200:
                         raise Exception(f"Failed to download file: {resp.status}")
-                    
+
+                    file_content = await resp.read()
                     with open(file_path, 'wb') as f:
-                        f.write(await resp.read())
-            
+                        f.write(file_content)
+
             # Verify hash if provided
             if expected_hash:
-                actual_hash = hashlib.sha256(open(file_path, 'rb').read()).hexdigest()
+                actual_hash = hashlib.sha256(file_content).hexdigest()
                 if actual_hash != expected_hash:
                     raise Exception(f"Hash mismatch: expected {expected_hash}, got {actual_hash}")
-            
+
             # Scan with ClamAV (if available)
             try:
                 result = await asyncio.create_subprocess_exec(
@@ -62,12 +64,12 @@ class MalwareScanRunner:
                     stdout=asyncio.subprocess.PIPE,
                     stderr=asyncio.subprocess.PIPE
                 )
-                
+
                 stdout, stderr = await result.communicate()
                 output = stdout.decode('utf-8')
-                
+
                 is_infected = 'FOUND' in output
-                
+
                 return {
                     'file_url': file_url,
                     'infected': is_infected,
@@ -75,15 +77,13 @@ class MalwareScanRunner:
                     'scanner': 'clamav',
                     'success': True
                 }
-            
+
             except FileNotFoundError:
                 # ClamAV not installed, use simple heuristics
-                return await self._heuristic_scan(file_path)
-    
-    async def _heuristic_scan(self, file_path: str) -> Dict:
+                return await self._heuristic_scan(file_content)
+
+    async def _heuristic_scan(self, content: bytes) -> Dict:
         """Simple heuristic-based scan"""
-        with open(file_path, 'rb') as f:
-            content = f.read()
         
         # Simple checks
         suspicious = False
@@ -281,15 +281,32 @@ class HashCrackRunner:
         }
         return algorithms.get(algorithm, hashlib.md5)
     
+    # A safer, streaming approach for _download_wordlist_chunk:
     async def _download_wordlist_chunk(self, url: str, start: int, end: int) -> list:
-        """Download specific chunk of wordlist"""
-        # Simplified: download and slice
+        """Download and process wordlist chunk line by line"""
+        wordlist_chunk = []
+
         async with aiohttp.ClientSession() as session:
             async with session.get(url) as resp:
-                content = await resp.text()
-                lines = content.split('\n')
-                return lines[start:end]
+                if resp.status != 200:
+                    raise Exception(f"Failed to download wordlist: {resp.status}")
 
+                # Get the full text content and split into lines
+                text = await resp.text()
+                lines = text.split('\n')
+
+                # Extract the specified chunk
+                for i, line in enumerate(lines):
+                    if i >= start and i < end:
+                        line = line.strip()
+                        if line:  # Skip empty lines
+                            wordlist_chunk.append(line)
+
+                    # Safety break to prevent enormous in-memory lists
+                    if len(wordlist_chunk) > 10_000_000:
+                        raise Exception("Wordlist chunk size is too large")
+
+        return wordlist_chunk
 
 class ThreatIntelRunner:
     """

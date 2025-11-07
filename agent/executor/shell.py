@@ -19,7 +19,7 @@ class ShellRunner:
         'ls', 'cat', 'grep', 'find', 'wc', 'head', 'tail', 'sort', 'uniq',
         'echo', 'pwd', 'whoami', 'date', 'hostname', 'uname', 'df', 'du',
         'ps', 'top', 'free', 'uptime', 'ping', 'curl', 'wget', 'git',
-        'python3', 'python', 'node', 'npm', 'pip', 'docker'
+        'python3', 'python', 'node', 'npm', 'pip', 'docker', 'sleep'
     }
 
     # Blacklisted dangerous commands
@@ -103,9 +103,13 @@ class ShellRunner:
             print(f"[SHELL] ⚠️  UNSAFE MODE: Whitelist disabled for command")
 
         try:
-            # Validate command for security
+            # Validate command for security FIRST
             self._validate_command(command)
-
+        except ValueError as e:
+            # Re-raise validation errors immediately
+            raise e
+        
+        try:
             print(f"[SHELL] Executing: {command}")
 
             # Parse command safely using shlex

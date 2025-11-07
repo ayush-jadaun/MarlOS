@@ -3,6 +3,7 @@ import math
 from typing import Dict, List, Tuple, Optional
 from collections import deque, defaultdict
 from dataclasses import dataclass
+from enum import Enum
 
 
 @dataclass
@@ -25,3 +26,49 @@ class Bid:
     stake_amount: float
     estimated_time: float
     timestamp: float
+
+
+
+@dataclass
+class JobBackup:
+    """Backup job information"""
+    job_id: str
+    job: dict
+    primary_node: str
+    backup_node: str
+    last_heartbeat: float
+    progress: float
+
+
+class JobStatus(str, Enum):
+    """Job execution status"""
+    PENDING = "pending"
+    RUNNING = "running"
+    SUCCESS = "success"
+    FAILURE = "failure"
+    TIMEOUT = "timeout"
+    CANCELLED = "cancelled"
+
+
+@dataclass
+class JobResult:
+    """Job execution result"""
+    job_id: str
+    status: JobStatus
+    output: dict
+    error: Optional[str]
+    start_time: float
+    end_time: float
+    duration: float
+    
+    def to_dict(self) -> dict:
+        return {
+            'job_id': self.job_id,
+            'status': self.status,
+            'output': self.output,
+            'error': self.error,
+            'start_time': self.start_time,
+            'end_time': self.end_time,
+            'duration': self.duration
+        }
+

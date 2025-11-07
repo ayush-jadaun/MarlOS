@@ -131,7 +131,7 @@ class DockerBuildRunner:
         
         payload = job.get('payload', {})
         dockerfile_content = payload.get('dockerfile')
-        tag = payload.get('tag', f"aetheros-build-{job['job_id']}")
+        tag = payload.get('tag', f"marlos-build-{job['job_id']}")
         buildargs = payload.get('buildargs', {})
         
         if not dockerfile_content:
