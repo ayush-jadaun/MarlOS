@@ -16,3 +16,6 @@ tensorboard
 
 tqdm
 rich
+
+
+psutil
