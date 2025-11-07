@@ -7,3 +7,12 @@ cryptography
 # Cryptography - Encryption (for agent/crypto/encryption.py)
 pynacl
 
+# RL 
+stable-baselines3
+gymnasium
+numpy
+
+tensorboard
+
+tqdm
+rich
