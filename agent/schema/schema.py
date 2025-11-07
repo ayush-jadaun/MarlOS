@@ -2,8 +2,22 @@ import time
 import math
 from typing import Dict, List, Tuple, Optional
 from collections import deque, defaultdict
-from dataclasses import dataclass, asdict
+from dataclasses import dataclass,asdict
 from enum import Enum
+
+@dataclass
+class ReputationEvent:
+    """Reputation event record"""
+    timestamp: float
+    event_type: str  # success, failure, timeout, malicious
+    trust_delta: float
+    trust_after: float
+    reason: str
+    job_id: Optional[str] = None
+    
+    def to_dict(self) -> dict:
+        return asdict(self)
+
 
 @dataclass
 class JobDistributionStats:
