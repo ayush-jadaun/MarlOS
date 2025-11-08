@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 
-// Connect to all 3 agents (dashboard servers mapped from docker-compose)
+// Connect to all 3 agents
 const AGENT_PORTS = [8081, 8082, 8083];
 const RECONNECT_DELAY = 3000;
 const MAX_RECONNECT_ATTEMPTS = 10;

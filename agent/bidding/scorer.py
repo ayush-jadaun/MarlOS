@@ -37,9 +37,10 @@ class BidScorer:
         self.URGENCY_WEIGHT = 0.10
         self.PRIORITY_WEIGHT = 0.10
 
-        # Fairness parameters
-        self.FAIRNESS_JITTER = 0.05  # ±5% random jitter
-        self.IDLE_BONUS_MAX = 0.15   # Up to +15% for idle agents
+        # Fairness parameters (REDUCED to prevent score saturation)
+        self.FAIRNESS_JITTER = 0.02  # ±2% random jitter (reduced from 5%)
+        self.IDLE_BONUS_MAX = 0.05   # Up to +5% for idle agents (reduced from 15%)
+        self.COORDINATOR_BONUS_MAX = 0.05  # Up to +5% for starving nodes (reduced from 10%)
         self.jobs_since_last_win = 0  # Track idle time
 
         # INNOVATION: Economic fairness engine
@@ -84,58 +85,39 @@ class BidScorer:
             priority * self.PRIORITY_WEIGHT
         )
 
-        # DEBUG: Log base score components
-        print(f"[SCORE DEBUG] {self.node_id} - Job {job.get('job_id', 'unknown')}")
-        print(f"  Base Score: {base_score:.4f}")
-        print(f"    - Capability: {capability_score:.3f} × {self.CAPABILITY_WEIGHT} = {capability_score * self.CAPABILITY_WEIGHT:.3f}")
-        print(f"    - Load:       {load_score:.3f} × {self.LOAD_WEIGHT} = {load_score * self.LOAD_WEIGHT:.3f}")
-        print(f"    - Trust:      {trust:.3f} × {self.TRUST_WEIGHT} = {trust * self.TRUST_WEIGHT:.3f}")
-        print(f"    - Urgency:    {urgency_score:.3f} × {self.URGENCY_WEIGHT} = {urgency_score * self.URGENCY_WEIGHT:.3f}")
-        print(f"    - Priority:   {priority:.3f} × {self.PRIORITY_WEIGHT} = {priority * self.PRIORITY_WEIGHT:.3f}")
+        # DECENTRALIZED FAIRNESS MECHANISMS (IMPROVED to prevent score saturation):
 
-        # DECENTRALIZED FAIRNESS MECHANISMS (MULTIPLICATIVE):
+        # Apply economic fairness FIRST (multiplicative adjustments on base only)
+        if self.fairness_engine:
+            base_score = self.fairness_engine.calculate_fair_bid_score(
+                base_score=base_score,
+                node_id=self.node_id,
+                trust_score=trust_score
+            )
 
-        # 1. Idle Multiplier
-        idle_multiplier = 1.0 + min(0.10, self.jobs_since_last_win * 0.02)
+        # Then add smaller additive bonuses
+        # 1. Idle Bonus - reward agents who haven't won recently (reduced magnitude)
+        idle_bonus = min(self.IDLE_BONUS_MAX, self.jobs_since_last_win * 0.01)  # 1% per job missed
 
-        # 2. Coordinator-based fairness multiplier
-        starvation_multiplier = 1.0
+        # 2. Coordinator-based fairness bonus (prevents starvation, reduced magnitude)
+        coordinator_bonus = 0.0
         if self.coordinator:
             starvation_score = self.coordinator.fairness.get_starvation_score(self.node_id)
-            starvation_multiplier = 1.0 + (starvation_score * 0.15)
+            # Convert to bonus: starving nodes get up to +5% boost (reduced from 10%)
+            coordinator_bonus = starvation_score * self.COORDINATOR_BONUS_MAX
 
             if starvation_score > 0.5:
                 print(f"[FAIRNESS] Applying starvation boost: {starvation_multiplier:.2f}x (score: {starvation_score:.2f})")
 
-        # 3. Fairness Jitter
-        jitter_multiplier = 1.0 + random.uniform(-0.03, 0.03)
+        # 3. Fairness Jitter - random ±2% to prevent deterministic monopoly (reduced from 5%)
+        jitter = random.uniform(-self.FAIRNESS_JITTER, self.FAIRNESS_JITTER)
 
-        # Final score with fairness
-        final_score = base_score * idle_multiplier * starvation_multiplier * jitter_multiplier
+        # Combine all components
+        final_score = base_score + idle_bonus + coordinator_bonus + jitter
 
-        # DEBUG: Log fairness adjustments
-        print(f"  Fairness Multipliers:")
-        print(f"    - Idle:       {idle_multiplier:.4f}x (jobs since win: {self.jobs_since_last_win})")
-        print(f"    - Starvation: {starvation_multiplier:.4f}x")
-        print(f"    - Jitter:     {jitter_multiplier:.4f}x")
-        print(f"  Score after fairness: {final_score:.4f}")
-
-        # INNOVATION: Apply economic fairness mechanisms
-        if self.fairness_engine:
-            pre_engine_score = final_score
-            final_score = self.fairness_engine.calculate_fair_bid_score(
-                base_score=final_score,
-                node_id=self.node_id,
-                trust_score=trust_score
-            )
-            print(f"  Score after fairness engine: {final_score:.4f} (change: {final_score - pre_engine_score:+.4f})")
-
-        clamped_score = min(1.0, max(0.0, final_score))
-        if clamped_score != final_score:
-            print(f"  ⚠️  Score clamped: {final_score:.4f} → {clamped_score:.4f}")
-        
-        print(f"  ✅ Final Score: {clamped_score:.4f}")
-        print()
+        # Apply sigmoid-like soft clamping to prevent hard ceiling saturation
+        # This spreads out scores near 1.0 to maintain differentiation
+        final_score = self._soft_clamp(final_score)
 
         return clamped_score
 
@@ -175,6 +157,40 @@ class BidScorer:
         if self.fairness_engine:
             return self.fairness_engine.get_fairness_metrics()
         return {}
+
+    def _soft_clamp(self, score: float, k: float = 10.0) -> float:
+        """
+        Soft clamping function to prevent score saturation at 1.0
+        Uses sigmoid-like curve for smooth transition
+
+        This ensures scores near 1.0 remain differentiated rather than
+        all hitting the hard ceiling
+
+        Args:
+            score: Input score (can be > 1.0)
+            k: Steepness parameter (higher = sharper transition)
+
+        Returns:
+            Smoothly clamped score in range [0, 1)
+        """
+        if score <= 0.0:
+            return 0.0
+
+        # Sigmoid-like function: 1 / (1 + e^(-k*(score - 0.5)))
+        # Maps [0, inf) -> [0, 1) with smooth transition
+        import math
+        try:
+            # Center sigmoid around score=0.8 to preserve low scores
+            centered_score = score - 0.8
+            clamped = 1.0 / (1.0 + math.exp(-k * centered_score))
+            # Scale back: map [0.5, 1) -> [0, 1)
+            scaled = (clamped - 0.5) * 2.0
+            # Offset to preserve original range
+            result = 0.8 * score + 0.2 * scaled
+            return min(0.999, max(0.0, result))  # Never quite reach 1.0
+        except (OverflowError, ValueError):
+            # Fallback for extreme values
+            return 0.999 if score > 1.0 else score
     
     def _score_capability(self, job: dict, capabilities: list,
                          job_history: Dict[str, int]) -> float:

@@ -14,8 +14,8 @@ from .config import AgentConfig, load_config
 from .crypto.signing import SigningKey, sign_message, verify_message
 from .p2p.node import P2PNode
 from .p2p.protocol import MessageType, JobBroadcastMessage
-from .token.wallet import Wallet
-from .token.economy import TokenEconomy
+from .tokens.wallet import Wallet
+from .tokens.economy import TokenEconomy
 from .trust.reputation import ReputationSystem
 from .trust.watchdog import TrustWatchdog
 from .rl.policy import RLPolicy, Action
@@ -35,6 +35,7 @@ from .dashboard.server import DashboardServer
 from .bidding.router import JobRouter
 from .rl.online_learner import OnlineLearner
 from .p2p.coordinator import CoordinatorElection
+from .predictive.integration import PredictiveExtension
 
 
 class MarlOSAgent:
@@ -110,7 +111,10 @@ class MarlOSAgent:
             config.data_dir
         )
         self.rl_policy.online_learner = self.online_learner
-        
+
+        # Predictive Pre-Execution System (RL-powered speculation)
+        self.predictive = PredictiveExtension(self)
+
         # State
         self.running = False
         self.jobs_completed = 0
@@ -255,7 +259,8 @@ class MarlOSAgent:
             if to_node == self.node_id or from_node == self.node_id:
                 print(f"[LEDGER] Syncing transaction: {from_node} → {to_node} ({amount} AC)")
 
-                from .token.ledger import LedgerEntry
+                # Create ledger entry
+                from .tokens.ledger import LedgerEntry
 
                 entry = LedgerEntry(
                     entry_id=message.get('message_id', f"tx-{job_id}"),
@@ -309,6 +314,9 @@ class MarlOSAgent:
         await self.watchdog.start()
         await self.recovery.start()
         await self.online_learner.start()
+
+        # Start predictive system (if enabled in config)
+        await self.predictive.start()
     
         print(f"\n✅ Agent {self.node_name} is ONLINE")
         
@@ -332,7 +340,8 @@ class MarlOSAgent:
         await self.watchdog.stop()
         await self.recovery.stop()
         await self.dashboard.stop()
-        
+        await self.predictive.stop()
+
         print("✅ Agent stopped cleanly")
     
     async def _handle_new_job(self, job_message: dict):
@@ -357,7 +366,11 @@ class MarlOSAgent:
         if self.reputation.am_i_quarantined():
             print(f"   🚫 Cannot bid - currently quarantined")
             return
-        
+
+        # Observe job for pattern learning (predictive system)
+        self.predictive.observe_job_submission(job_message)
+
+        # Calculate base score
         score = self.scorer.calculate_score(
             job=job_message,
             capabilities=self.executor.get_capabilities(),
@@ -499,12 +512,67 @@ class MarlOSAgent:
     
     async def _execute_job(self, job: dict, stake_amount: float):
         """Execute a job we won"""
-        job_id = job['job_id']
-        
+        job_id = job['job_id'] # This is the REAL job_id
+
         print(f"\n▶️  Executing job {job_id}")
-        
-        result = await self.executor.execute_job(job)
-    
+
+        # Check cache for pre-executed result
+        cached_result = self.predictive.check_cache(job)
+
+        if cached_result:
+            print(f"*** [CACHE] CACHE HIT! Using pre-executed result for job {job_id} ***")
+
+            fingerprint = job.get('fingerprint')
+            if fingerprint:
+                self.predictive.speculation_engine.report_cache_hit(fingerprint)
+
+            # --- THIS IS THE FIX ---
+            # We must create a NEW JobResult object using the REAL job_id.
+            # Do NOT use the cached_result object directly, as it has the
+            # speculative job's ID and a FAILURE status.
+
+            # We use the *output* from the cache, but the *identity* of the real job.
+
+            # Handle both JobResult objects and dicts from cache
+            final_output = {}
+            final_error = None
+            final_status = JobStatus.SUCCESS # Default to success for a cache hit
+
+            if isinstance(cached_result, JobResult):
+                # If the cached result was a FAILURE (e.g., 'No command'),
+                # we must re-run the job. We can't use a failed cached result.
+                if cached_result.status == JobStatus.FAILURE:
+                    print(f"⚠️  [CACHE] Cached result was a FAILURE. Re-executing job {job_id} normally.")
+                    await self.executor.execute_job(job) # This will call _handle_job_result on its own
+                    return
+
+                final_output = cached_result.output
+                final_error = cached_result.error
+                final_status = cached_result.status # Use the cached status (should be SUCCESS)
+
+            elif isinstance(cached_result, dict):
+                final_output = cached_result.get('output', {})
+                final_error = cached_result.get('error')
+                final_status = cached_result.get('status', JobStatus.SUCCESS)
+
+            # Create the final result with the REAL job_id
+            result = JobResult(
+                job_id=job_id,  # Use the REAL job_id
+                status=final_status,
+                output=final_output,
+                error=final_error,
+                start_time=time.time(), # Mark as instant
+                end_time=time.time(),
+                duration=0.0 
+            )
+
+            # Handle this new, correct result
+            await self._handle_job_result(result)
+            return
+
+        # Not in cache - execute normally
+        await self.executor.execute_job(job)
+
     async def _handle_job_result(self, result: JobResult):
         """
         Handle job completion result
@@ -553,9 +621,14 @@ class MarlOSAgent:
                 deadline=deadline,
                 success=True
             )
-
+            # Release stake
             self.wallet.unstake(stake, job_id, success=True)
-            self.wallet.deposit(payment_amount, reason, job_id=job_id)
+            
+            if payment_amount >0:
+                self.wallet.deposit(payment_amount,reason,job_id=job_id)
+                print(f"   Earned {payment_amount:.2f} MC")
+            else:
+                print(f"    Speculative job success, no payment")
             
             on_time = result.end_time < deadline
             self.reputation.reward_success(job_id, on_time)
@@ -568,7 +641,6 @@ class MarlOSAgent:
                 reason=reason
             )
             
-            print(f"   💰 Earned {payment_amount:.2f} AC")
             print(f"   ⭐ Trust: {self.reputation.get_my_trust_score():.3f}")
 
         else:
@@ -619,12 +691,25 @@ class MarlOSAgent:
                 'balance': self.wallet.balance,
                 'staked': self.wallet.staked
             }
-            
+
+            # Add predictive stats if enabled
+            predictive_stats = self.predictive.get_stats()
+            if predictive_stats.get('enabled'):
+                cache_stats = predictive_stats.get('cache', {})
+                speculation_stats = predictive_stats.get('speculation', {})
+                stats['cache_hit_rate'] = cache_stats.get('hit_rate', 0)
+                stats['speculations'] = speculation_stats.get('speculations_attempted', 0)
+
             print(f"\n📊 Stats: {stats['peers']} peers | "
                   f"{stats['active_jobs']} active | "
                   f"{stats['completed']} completed | "
                   f"Trust: {stats['trust']:.3f} | "
                   f"Balance: {stats['balance']:.2f} AC")
+
+            # Print predictive stats if enabled
+            if predictive_stats.get('enabled'):
+                print(f"   🔮 Predictive: Cache Hit Rate {stats.get('cache_hit_rate', 0):.1f}% | "
+                      f"Speculations: {stats.get('speculations', 0)}")
     
     async def _idle_reward_task(self):
         """Give idle rewards for being online"""
@@ -781,29 +866,8 @@ class MarlOSAgent:
             'quarantined': self.reputation.am_i_quarantined(),
             'reputation_stats': self.reputation.get_reputation_stats(),
             'watchdog_stats': self.watchdog.get_watchdog_stats(),
-            'fairness_stats': fairness_stats,
-            
-            # === REPUTATION EVENTS (FIXED) ===
-            'reputation_events': [
-                {
-                    'timestamp': e.timestamp,
-                    'event': e.event_type,
-                    'delta': e.trust_delta,
-                    'new_score': e.trust_after,
-                    'reason': e.reason,
-                    'job_id': e.job_id
-                }
-                for e in self.reputation.reputation_history[-100:]  # Last 100 events
-            ],
-            
-            # === SYSTEM METRICS ===
-            'metrics': {
-                'cpu_usage': self._get_cpu_usage(),
-                'memory_usage': self._get_memory_usage(),
-                'disk_usage': self._get_disk_usage()
-            },
-            
-            'timestamp': time.time()
+            'fairness_stats': fairness_stats,  # Add fairness statistics
+            'predictive_stats': self.predictive.get_stats()  # Add predictive system stats
         }
     
     def _get_cpu_usage(self) -> float:

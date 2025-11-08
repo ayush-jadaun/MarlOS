@@ -30,6 +30,7 @@ pip-log.txt
 # =========================
 build/
 dist/
+dist-electron/
 *.egg-info/
 .eggs/
 *.egg

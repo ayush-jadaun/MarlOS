@@ -28,12 +28,14 @@ class PeerDiscovery:
         
         # Multicast config
         self.multicast_group = '239.255.255.250'
+        
+        
         self.multicast_port = 5353
         
         # Bootstrap nodes (hardcoded fallbacks)
         self.bootstrap_nodes = [
-            'aetheros-bootstrap-1.example.com:5555',
-            'aetheros-bootstrap-2.example.com:5555'
+            'marlos-bootstrap-1.example.com:5555',
+            'marlos-bootstrap-2.example.com:5555'
         ]
         
         self.running = False

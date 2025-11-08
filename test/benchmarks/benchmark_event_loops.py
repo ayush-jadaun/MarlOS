@@ -58,4 +58,4 @@ if __name__ == "__main__":
         improvement = ((std_time - opt_time) / std_time) * 100
         speedup = std_time / opt_time
         print(f"🏆 WINNER: {'Winloop/Uvloop' if opt_time < std_time else 'Standard'}")
-        print(f"⚡ Speedup: {speedup:.2f}x faster ({improvement:.1f}% improvement)")
+        print(f" Speedup: {speedup:.2f}x faster ({improvement:.1f}% improvement)")

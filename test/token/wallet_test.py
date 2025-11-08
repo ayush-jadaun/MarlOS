@@ -14,8 +14,8 @@ import sys
 sys.path.insert(0, '../')
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
 
-from agent.token.wallet import Wallet
-from agent.token.ledger import TransactionLedger, LedgerEntry
+from agent.tokens.wallet import Wallet
+from agent.tokens.ledger import TransactionLedger, LedgerEntry
 from agent.schema.schema import Transaction
 
 
