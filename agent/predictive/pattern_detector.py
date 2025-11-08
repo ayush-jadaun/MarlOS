@@ -10,6 +10,12 @@ from typing import Dict, List, Tuple, Optional
 import numpy as np
 
 
+IGNORE_KEYS = {
+    'job_id', 'payment', 'priority', 'deadline', 'timestamp', 'is_speculative', 
+    'fingerprint', 'job_type', 'status', 'output', 'error', 'start_time', 
+    'end_time', 'duration', 'node_id', 'message_id', 'signature'
+}
+
 class PatternDetector:
     """
     Detects predictable patterns in job submissions
@@ -44,35 +50,41 @@ class PatternDetector:
         print(f"[PREDICT] Pattern detector initialized (min_occurrences={min_occurrences})")
 
     def observe_job(self, job: dict):
-        """
-        Observe a job submission and update pattern tracking
+            """
+            Observe a job submission and update pattern tracking
+            Call this every time a job is submitted (before execution)
+            """
+            global IGNORE_KEYS # Use the list from top of file
+            self.total_jobs_seen += 1
 
-        Call this every time a job is submitted (before execution)
-        """
-        self.total_jobs_seen += 1
+            job_type = job.get('job_type', 'unknown')
+            timestamp = time.time()
 
-        job_type = job.get('job_type', 'unknown')
-        timestamp = time.time()
+            # Track Pattern 1: Repeated jobs
+            fingerprint = self._compute_fingerprint(job)
+            self.job_fingerprints[fingerprint].append(timestamp)
 
-        # Track Pattern 1: Repeated jobs
-        fingerprint = self._compute_fingerprint(job)
-        self.job_fingerprints[fingerprint].append(timestamp)
+            # --- FIX: Find and save the REAL job parameters ---
+            params = {}
+            for key, value in job.items():
+                if key not in IGNORE_KEYS:
+                    params[key] = value
+            
+            # Track Pattern 2: Sequences
+            if len(self.job_history) > 0:
+                prev_type = self.job_history[-1]['type']
+                self.job_sequences[(prev_type, job_type)] += 1
 
-        # Track Pattern 2: Sequences
-        if len(self.job_history) > 0:
-            prev_type = self.job_history[-1]['type']
-            self.job_sequences[(prev_type, job_type)] += 1
+            self.job_history.append({
+                'type': job_type,
+                'fingerprint': fingerprint,
+                'timestamp': timestamp,
+                'params': params  # <-- Now saves {'command': '...'}
+            })
 
-        self.job_history.append({
-            'type': job_type,
-            'fingerprint': fingerprint,
-            'timestamp': timestamp
-        })
-
-        # Track Pattern 3: Time patterns
-        hour = time.localtime(timestamp).tm_hour
-        self.hourly_patterns[hour][job_type] += 1
-
+            # Track Pattern 3: Time patterns
+            hour = time.localtime(timestamp).tm_hour
+            self.hourly_patterns[hour][job_type] += 1
     def predict_next_jobs(self) -> List[dict]:
         """
         Predict what jobs are likely to be submitted soon
@@ -193,20 +205,24 @@ class PatternDetector:
         return predictions
 
     def _compute_fingerprint(self, job: dict) -> str:
-        """
-        Compute unique fingerprint for a job
+            """
+            Compute unique fingerprint for a job
+            Jobs with same type and parameters get same fingerprint
+            """
+            global IGNORE_KEYS # Use the list from top of file
+            
+            job_type = job.get('job_type', 'unknown')
+            
+            # Get all *other* keys as the parameters
+            params = {}
+            for key, value in job.items():
+                if key not in IGNORE_KEYS:
+                    params[key] = value
+            
+            param_str = str(sorted(params.items()))
+            content = f"{job_type}:{param_str}"
 
-        Jobs with same type and parameters get same fingerprint
-        """
-        job_type = job.get('job_type', 'unknown')
-        params = job.get('params', {})
-
-        # Create deterministic string representation
-        param_str = str(sorted(params.items()))
-        content = f"{job_type}:{param_str}"
-
-        # Hash it
-        return hashlib.md5(content.encode()).hexdigest()[:16]
+            return hashlib.md5(content.encode()).hexdigest()[:16]
 
     def get_stats(self) -> dict:
         """Get pattern detection statistics"""

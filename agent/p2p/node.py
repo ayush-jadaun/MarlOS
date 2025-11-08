@@ -212,11 +212,10 @@ class P2PNode:
         """Stop the P2P node"""
         print(f"[P2P] Stopping node {self.node_id}")
         self.running = False
-        
-        # Send goodbye
+
+        # Send goodbye (node_id is added automatically by broadcast_message)
         await self.broadcast_message(
-            MessageType.PEER_GOODBYE,
-            node_id=self.node_id
+            MessageType.PEER_GOODBYE
         )
         
         # Close sockets

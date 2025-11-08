@@ -1,0 +1,580 @@
+# MarlOS Agent Configuration
+# Comprehensive configuration for Multi-Agent RL Operating System
+# Version: 1.0.0
+
+# =============================================================================
+# AGENT IDENTITY
+# =============================================================================
+agent:
+  # Unique identifier for this node (auto-generated if not specified)
+  node_id: null  # Format: agent-{uuid}
+
+  # Human-readable name for monitoring/debugging
+  node_name: "MarlOS Node"
+
+  # Data directory for persistence (wallets, reputation, logs)
+  data_dir: "./data"
+
+
+# =============================================================================
+# PEER-TO-PEER NETWORK CONFIGURATION
+# =============================================================================
+network:
+  # ZeroMQ Port Configuration
+  # These ports must be accessible for P2P communication
+  pub_port: 5555      # Publisher port (broadcasts messages)
+  sub_port: 5556      # Subscriber port (receives messages)
+  beacon_port: 5557   # Beacon port (peer discovery)
+
+  # Network Topology
+  broadcast_address: "tcp://*"  # Listen on all interfaces
+  max_peers: 50                  # Maximum concurrent peer connections
+
+  # Discovery & Heartbeat
+  discovery_interval: 5   # Seconds between peer discovery broadcasts
+  heartbeat_interval: 3   # Seconds between heartbeat messages
+
+  # Bootstrap Peers (comma-separated)
+  # Example: "tcp://peer1:5555,tcp://peer2:5555"
+  bootstrap_peers: null
+
+  # Security Settings
+  message_signature: true        # Cryptographically sign all messages (Ed25519)
+  replay_protection: true        # Prevent replay attacks with nonces
+  clock_sync_tolerance: 30       # Max clock drift in seconds
+  rate_limit_enabled: true       # Enable flood protection
+  rate_limit_msgs_per_sec: 100   # Max messages per peer per second
+
+
+# =============================================================================
+# TOKEN ECONOMY CONFIGURATION (MarlCredits)
+# =============================================================================
+token_economy:
+  # Initial Balance
+  starting_balance: 100.0   # MC tokens for new nodes
+
+  # Economic Parameters
+  network_fee: 0.05        # 5% transaction fee
+  idle_reward: 1.0         # MC per hour for idle nodes (prevents starvation)
+  stake_requirement: 10.0  # Minimum stake to bid on jobs
+
+  # Job Payment Modifiers
+  success_bonus: 0.20      # +20% bonus for on-time completion
+  late_penalty: 0.10       # -10% penalty for late delivery
+  very_late_penalty: 0.50  # -50% penalty for very late (>2x deadline)
+  failure_penalty: 1.0     # Forfeit entire stake on failure
+
+  # Progressive Taxation (prevents wealth monopolization)
+  progressive_tax:
+    enabled: true
+    brackets:
+      - threshold: 100    # 0-100 AC
+        rate: 0.00        # 0% tax
+      - threshold: 500    # 100-500 AC
+        rate: 0.05        # 5% tax
+      - threshold: 1000   # 500-1000 AC
+        rate: 0.10        # 10% tax
+      - threshold: 2000   # 1000-2000 AC
+        rate: 0.15        # 15% tax
+      - threshold: 5000   # 2000-5000 AC
+        rate: 0.20        # 20% tax
+      - threshold: 10000  # 5000-10000 AC
+        rate: 0.25        # 25% tax
+      # Above 10000 AC
+      - threshold: null
+        rate: 0.30        # 30% tax
+
+  # Universal Basic Income (UBI)
+  ubi:
+    enabled: true
+    amount: 5.0             # AC per hour for active nodes
+    activity_window: 3600   # Must be seen in last hour
+    cooldown: 3600          # Can claim once per hour
+
+  # Economic Fairness Engine
+  fairness:
+    # Diversity Quotas (prevent monopolization)
+    diversity_quotas:
+      enabled: true
+      window_size: 100          # Track last N jobs
+      max_share: 0.30           # No node should win >30% of jobs
+      underdog_boost: 0.50      # Up to 50% boost for under-represented nodes
+
+    # Affirmative Action (help struggling nodes)
+    affirmative_action:
+      enabled: true
+      thresholds:
+        - win_rate: 0.10
+          bonus: 0.20      # +20% boost if <10% win rate
+        - win_rate: 0.20
+          bonus: 0.15      # +15% boost if <20% win rate
+        - win_rate: 0.30
+          bonus: 0.10      # +10% boost if <30% win rate
+        - win_rate: 0.40
+          bonus: 0.05      # +5% boost if <40% win rate
+
+    # Job Complexity Analysis
+    complexity:
+      enabled: true
+      multipliers:
+        shell: 1.0
+        docker_build: 2.5
+        malware_scan: 2.0
+        port_scan: 1.5
+        vuln_scan: 2.0
+        hash_crack: 3.0
+        forensics: 3.5
+        threat_intel: 1.5
+
+      # Additional factors
+      payload_size_factor: 2.0   # Up to 2x for large payloads
+      requirement_bonus: 0.10    # +10% per requirement
+      priority_multiplier: 1.5   # Up to 1.5x for high priority
+
+    # Proof of Work Verification (prevent cheating)
+    pow_verification:
+      enabled: true
+      random_verification_rate: 0.30   # Verify 30% of jobs randomly
+      high_value_threshold: 200.0      # Always verify jobs >200 AC
+      consensus_threshold: 0.66        # 66% agreement required
+
+    # Cooperative Rewards (incentivize helping)
+    cooperative_rewards:
+      enabled: true
+      verification_multipliers:
+        - verifications: 1
+          multiplier: 1.05   # +5% for participating
+        - verifications: 5
+          multiplier: 1.10   # +10% for 5+ verifications
+        - verifications: 20
+          multiplier: 1.15   # +15% for 20+ verifications
+        - verifications: 50
+          multiplier: 1.20   # +20% for 50+ verifications
+
+
+# =============================================================================
+# TRUST & REPUTATION SYSTEM
+# =============================================================================
+trust:
+  # Trust Score Range [0.0, 1.0]
+  starting_trust: 0.5       # New nodes start at neutral
+  max_trust: 1.0            # Perfect reputation
+  min_trust: 0.0            # Complete distrust
+
+  # Quarantine System
+  quarantine_threshold: 0.2        # Auto-quarantine nodes below 0.2
+  rehabilitation_threshold: 0.3    # Can return after reaching 0.3
+  rehabilitation_jobs: 10          # Must complete 10 jobs to rehabilitate
+
+  # Trust Adjustments
+  rewards:
+    success_on_time: 0.02    # +0.02 for on-time completion
+    success_late: 0.01       # +0.01 for late completion
+    verification: 0.005      # +0.005 for verifying others
+
+  penalties:
+    failure: 0.05            # -0.05 for job failure
+    timeout: 0.03            # -0.03 for timeout
+    malicious: 0.50          # -0.50 for malicious behavior
+    invalid_result: 0.10     # -0.10 for invalid job result
+
+  # Trust Decay (prevents coasting on old reputation)
+  decay:
+    enabled: true
+    rate: 0.01              # -0.01 per day of inactivity
+    min_trust: 0.1          # Decay stops at 0.1
+
+  # Gossip Protocol (share reputation across network)
+  gossip:
+    enabled: true
+    interval: 60            # Broadcast reputation every 60s
+    max_age: 3600           # Ignore updates older than 1 hour
+
+
+# =============================================================================
+# REINFORCEMENT LEARNING ENGINE
+# =============================================================================
+reinforcement_learning:
+  # RL Feature Toggle
+  enabled: true
+
+  # Model Configuration
+  model_path: "rl_trainer/models/policy_v1.zip"  # Trained PPO model
+  algorithm: "PPO"                                # Proximal Policy Optimization
+
+  # State Space (25-dimensional vector)
+  state_dim: 25
+  features:
+    agent_state:      # [0-4] System resources
+      - cpu_usage
+      - memory_usage
+      - disk_usage
+      - network_usage
+      - active_jobs
+
+    job_features:     # [5-9] Job characteristics
+      - job_type_encoded
+      - priority
+      - deadline_urgency
+      - payload_size
+      - payment_amount
+
+    historical:       # [10-14] Performance history
+      - success_rate
+      - avg_completion_time
+      - recent_failures
+      - experience_count
+      - trust_score
+
+    network_state:    # [15-17] Network context
+      - peer_count
+      - competing_bids
+      - wallet_balance
+
+    fairness:         # [18-24] Economic fairness
+      - diversity_factor
+      - tax_rate
+      - gini_coefficient
+      - ubi_eligible
+      - affirmative_bonus
+      - complexity_multiplier
+      - cooperative_multiplier
+
+  # Action Space
+  action_dim: 3
+  actions:
+    BID: 0        # Compete for job
+    FORWARD: 1    # Forward to better peer
+    DEFER: 2      # Skip job
+
+  # Decision Parameters
+  exploration_rate: 0.10    # 10% random exploration (vs exploitation)
+
+  # Online Learning (continuous improvement)
+  online_learning:
+    enabled: false           # Disabled by default (use pre-trained model)
+    learning_rate: 0.0003
+    batch_size: 64
+    update_frequency: 1000   # Update every 1000 experiences
+    buffer_size: 10000       # Experience replay buffer
+
+  # Fallback Heuristics (if model unavailable)
+  heuristic_fallback: true
+
+
+# =============================================================================
+# BIDDING & AUCTION SYSTEM
+# =============================================================================
+bidding:
+  # Auction Timing
+  bidding_window: 2.0        # Seconds to collect bids
+  grace_period: 5.0          # Seconds to resolve conflicts
+  bid_collection_buffer: 0.5 # Extra time for network delay
+
+  # Backoff Strategy (prevents simultaneous claims)
+  backoff:
+    base_delay: 0.1          # Base backoff in seconds
+    max_delay: 0.3           # Max backoff in seconds
+    # Delay = base + (1 - score) * (max - base)
+    # Higher score = faster bid
+
+  # Bid Scoring Weights (how to evaluate jobs)
+  scoring:
+    capability_weight: 0.35   # 35% - Can we do this job?
+    load_weight: 0.30         # 30% - How busy are we?
+    trust_weight: 0.15        # 15% - Reputation (reduced to prevent monopoly)
+    urgency_weight: 0.10      # 10% - How urgent is deadline?
+    priority_weight: 0.10     # 10% - Job priority
+
+    # Fairness Adjustments (REDUCED to prevent saturation)
+    idle_bonus_max: 0.05           # Up to +5% for idle agents (reduced from 15%)
+    idle_bonus_rate: 0.01          # +1% per job missed
+    coordinator_bonus_max: 0.05    # Up to +5% for starving nodes (reduced from 10%)
+    fairness_jitter: 0.02          # ±2% random jitter (reduced from 5%)
+
+    # Soft clamping to prevent score saturation
+    soft_clamp:
+      enabled: true
+      steepness: 10.0         # Sigmoid steepness parameter
+
+  # Coordinator Election (deterministic, fair)
+  coordinator:
+    algorithm: "hash_based"     # Deterministic election based on job_id
+    fairness_tracking: true     # Track starvation scores
+    rotation: true              # Rotate coordinator per job
+
+
+# =============================================================================
+# JOB EXECUTION ENGINE
+# =============================================================================
+executor:
+  # Concurrency Limits
+  max_concurrent_jobs: 3     # Max jobs running simultaneously
+  job_timeout: 300           # Default timeout in seconds (5 minutes)
+
+  # Execution Features
+  docker_enabled: true       # Enable Docker job execution
+  sandbox_enabled: true      # Sandboxed execution for security
+
+  # Heartbeat Monitoring
+  heartbeat_interval: 5      # Seconds between heartbeats during execution
+  heartbeat_timeout: 15      # Consider job failed if no heartbeat for 15s
+
+  # Job Runners (supported job types)
+  runners:
+    shell:
+      enabled: true
+      timeout: 60            # 1 minute default
+      max_output_size: 1048576  # 1 MB max output
+
+    docker:
+      enabled: true
+      timeout: 300           # 5 minutes default
+      memory_limit: "512m"   # Container memory limit
+      cpu_limit: "1.0"       # CPU cores
+      network: "bridge"      # Container network mode
+
+    docker_build:
+      enabled: true
+      timeout: 600           # 10 minutes for builds
+      no_cache: false        # Use Docker build cache
+
+    malware_scan:
+      enabled: true
+      timeout: 120           # 2 minutes
+      scanner: "clamav"      # ClamAV integration
+
+    port_scan:
+      enabled: true
+      timeout: 300           # 5 minutes
+      scanner: "nmap"        # Nmap integration
+
+    vuln_scan:
+      enabled: true
+      timeout: 600           # 10 minutes
+      scanner: "openvas"     # OpenVAS integration
+
+    hash_crack:
+      enabled: true
+      timeout: 3600          # 1 hour for cracking
+      tool: "hashcat"        # Hashcat integration
+
+    forensics:
+      enabled: true
+      timeout: 1800          # 30 minutes
+      tools: ["volatility", "autopsy"]
+
+    threat_intel:
+      enabled: true
+      timeout: 30            # 30 seconds
+      apis: ["virustotal", "abuseipdb"]
+
+  # Recovery & Backup
+  recovery:
+    enabled: true
+    backup_selection: true      # Select backup node during bidding
+    takeover_timeout: 30        # Seconds before backup takes over
+    max_retries: 2              # Max retry attempts
+
+
+# =============================================================================
+# PREDICTIVE PRE-EXECUTION (NEGATIVE LATENCY!)
+# =============================================================================
+predictive:
+  # Feature Toggle
+  enabled: true
+
+  # Pattern Detection
+  pattern_detection:
+    min_confidence: 0.75       # 75% confidence required to predict
+    min_occurrences: 3         # Pattern must occur at least 3 times
+    time_window: 3600          # Look back 1 hour for patterns
+    similarity_threshold: 0.85 # 85% similarity for pattern match
+
+  # Economic Constraints (don't waste resources)
+  economic:
+    max_speculation_ratio: 0.20   # Use max 20% of capacity for speculation
+    min_expected_value: 3.0       # Min expected profit: 3.0 AC tokens
+    cost_per_speculation: 0.5     # Estimated cost in AC
+
+  # RL-Based Speculation
+  rl_speculation:
+    enabled: true
+    model_path: "rl_trainer/models/speculation_policy.zip"
+    decision_threshold: 0.70      # 70% confidence required
+
+  # Rewards & Penalties
+  rewards:
+    correct_prediction: 20        # Huge reward for cache hit!
+    partial_match: 5              # Small reward for partial match
+
+  penalties:
+    wrong_prediction: 5           # Penalty for wasted compute
+    cache_eviction: 1             # Penalty if evicted before use
+
+  # Cache Management
+  cache:
+    ttl: 300                      # Cache results for 5 minutes
+    max_size: 100                 # Max 100 cached results
+    eviction_policy: "LRU"        # Least Recently Used
+    compression: true             # Compress cached results
+
+
+# =============================================================================
+# DASHBOARD & MONITORING
+# =============================================================================
+dashboard:
+  # WebSocket Server
+  enabled: true
+  host: "0.0.0.0"            # Listen on all interfaces
+  port: 3001                 # WebSocket port
+
+  # CORS Settings (for browser access)
+  cors_origins:
+    - "http://localhost:3000"
+    - "http://localhost:5173"
+    - "http://localhost:8080"
+
+  # Update Frequency
+  update_interval: 1.0       # Seconds between state broadcasts
+
+  # Metrics Collection
+  metrics:
+    enabled: true
+    retention_days: 30       # Keep metrics for 30 days
+    aggregation_interval: 60 # Aggregate every 60 seconds
+
+
+# =============================================================================
+# LOGGING & DEBUGGING
+# =============================================================================
+logging:
+  # Log Levels: DEBUG, INFO, WARNING, ERROR, CRITICAL
+  level: "INFO"
+
+  # Log Destinations
+  console: true
+  file: true
+  file_path: "./logs/marlos.log"
+
+  # Log Rotation
+  rotation:
+    enabled: true
+    max_size: "100MB"        # Rotate at 100 MB
+    backup_count: 10         # Keep 10 old logs
+
+  # Component-Specific Levels
+  components:
+    p2p: "INFO"
+    rl: "INFO"
+    bidding: "INFO"
+    executor: "INFO"
+    token: "INFO"
+    trust: "INFO"
+    fairness: "DEBUG"        # Debug fairness mechanisms
+    predictive: "INFO"
+
+
+# =============================================================================
+# PERFORMANCE TUNING
+# =============================================================================
+performance:
+  # Event Loop
+  event_loop: "uvloop"       # uvloop (Linux/Mac) or winloop (Windows)
+
+  # Async Workers
+  max_workers: 4             # Thread pool size for blocking operations
+
+  # Message Queuing
+  message_queue_size: 10000  # Max queued messages
+
+  # Memory Management
+  gc_interval: 300           # Run garbage collection every 5 minutes
+
+  # Optimizations
+  use_orjson: true           # Fast JSON parsing (Rust-based)
+  zmq_high_water_mark: 1000  # ZMQ socket buffer size
+
+
+# =============================================================================
+# SECURITY SETTINGS
+# =============================================================================
+security:
+  # Cryptography
+  signature_algorithm: "Ed25519"     # Digital signatures
+  encryption_algorithm: "NaCl"       # Asymmetric encryption
+
+  # Key Management
+  key_rotation_days: 90              # Rotate keys every 90 days
+  key_storage: "./data/keys"         # Key storage directory
+
+  # Anti-Spam & DoS Protection
+  rate_limiting:
+    enabled: true
+    max_requests_per_second: 100
+    ban_threshold: 500               # Ban after 500 violations
+    ban_duration: 3600               # Ban for 1 hour
+
+  # Message Validation
+  max_message_size: 10485760         # 10 MB max message size
+  validate_timestamps: true
+  max_clock_drift: 30                # 30 seconds max
+
+  # Blacklisting
+  blacklist:
+    enabled: true
+    auto_blacklist: true             # Auto-blacklist malicious nodes
+    persistence: true                # Persist blacklist to disk
+
+
+# =============================================================================
+# EXPERIMENTAL FEATURES (use with caution)
+# =============================================================================
+experimental:
+  # Quantum-Resistant Crypto (future-proofing)
+  post_quantum_crypto:
+    enabled: false
+    algorithm: "CRYSTALS-Dilithium"
+
+  # Federated Learning (share model updates without data)
+  federated_learning:
+    enabled: false
+    aggregation_interval: 3600       # Aggregate every hour
+    min_participants: 5
+
+  # Cross-Chain Token Bridge (interoperability)
+  token_bridge:
+    enabled: false
+    supported_chains: []
+
+  # AI-Powered Job Routing
+  ai_routing:
+    enabled: false
+    model: "gpt-4"
+
+
+# =============================================================================
+# BENCHMARKING & TESTING
+# =============================================================================
+benchmarking:
+  # Performance Metrics
+  metrics:
+    - "latency"                 # Job completion time
+    - "throughput"              # Jobs per second
+    - "fairness_gini"           # Gini coefficient
+    - "cache_hit_rate"          # Predictive cache hits
+    - "network_overhead"        # Message bandwidth
+    - "trust_distribution"      # Trust score distribution
+
+  # Stress Testing
+  stress_test:
+    enabled: false
+    job_rate: 10                # Jobs per second
+    duration: 300               # 5 minutes
+    ramp_up: 60                 # 1 minute ramp-up
+
+  # Graph Generation
+  graphs:
+    enabled: true
+    output_dir: "./benchmarks/graphs"
+    formats: ["png", "svg", "pdf"]

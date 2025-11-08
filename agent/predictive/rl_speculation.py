@@ -96,10 +96,16 @@ class RLSpeculationPolicy:
             should_speculate = (action == 1)
 
             # Get value estimate as confidence
-            obs_tensor = self.model.policy.obs_to_tensor(state)[0]
-            with self.model.policy.set_training_mode(False):
+            try:
+                obs_tensor = self.model.policy.obs_to_tensor(state)[0]
+                # Set training mode to False for inference
+                original_mode = self.model.policy.training
+                self.model.policy.set_training_mode(False)
                 value = self.model.policy.predict_values(obs_tensor)[0].item()
-            decision_confidence = min(abs(value) / 20.0, 1.0)  # Normalize value to 0-1
+                decision_confidence = min(abs(value) / 20.0, 1.0)  # Normalize value to 0-1
+            finally:
+                # Restore original training mode
+                self.model.policy.set_training_mode(original_mode)
 
         else:
             # Fallback heuristic
