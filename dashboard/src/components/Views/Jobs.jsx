@@ -1,271 +1,167 @@
-import { useState } from 'react';
+import { Activity, CheckCircle, XCircle, Clock, TrendingUp } from 'lucide-react';
 
-const Jobs = ({ agentState }) => {
-  const [selectedJob, setSelectedJob] = useState(null);
-  const [filter, setFilter] = useState('all'); // all, active, completed, failed
-
+export default function Jobs({ agentState }) {
   if (!agentState) {
     return (
       <div className="flex items-center justify-center h-full">
-        <div className="text-gray-400">Waiting for agent connection...</div>
+        <div className="text-gray-400">No agent data available</div>
       </div>
     );
   }
 
-  // Get job data from agentState - NO HARDCODED DATA
-  const activeJobs = agentState.active_jobs_list || [];
-  const jobHistory = agentState.job_history || [];
-
-  const allJobs = [
-    ...activeJobs.map(j => ({ ...j, status: j.status || 'active' })),
-    ...jobHistory
-  ];
-
-  const filteredJobs = filter === 'all'
-    ? allJobs
-    : filter === 'active'
-    ? activeJobs
-    : jobHistory.filter(j => j.status === filter || (filter === 'completed' && (j.status === 'success' || j.status === 'completed')) || (filter === 'failed' && (j.status === 'failed' || j.status === 'timeout')));
-
-  const getStatusClass = (status) => {
-    switch (status) {
-      case 'active':
-      case 'running':
-        return 'bg-blue-900 text-blue-200';
-      case 'completed':
-      case 'success':
-        return 'bg-green-900 text-green-200';
-      case 'failed':
-      case 'timeout':
-        return 'bg-red-900 text-red-200';
-      default:
-        return 'bg-gray-900 text-gray-200';
-    }
+  // Extract job statistics - with fallbacks
+  const jobs = agentState.jobs || {
+    active: 0,
+    completed: 0,
+    failed: 0,
+    total: 0,
+    success_rate: 0
   };
 
-  const getJobTypeIcon = (jobType) => {
-    const icons = {
-      shell: '▣',
-      docker: '◈',
-      malware_scan: '◆',
-      port_scan: '◇',
-      vuln_scan: '▤',
-      hash_crack: '◉',
-      threat_intel: '◎',
-      log_analysis: '▥',
-      forensics: '◐',
+  const recentJobs = agentState.recent_jobs || [];
+
+  // Calculate stats
+  const activeJobs = jobs.active || 0;
+  const completedJobs = jobs.completed || 0;
+  const failedJobs = jobs.failed || 0;
+  const totalJobs = jobs.total || 0;
+  const successRate = jobs.success_rate || 0;
+
+  // Status badge component
+  const StatusBadge = ({ status }) => {
+    const styles = {
+      success: 'bg-green-900/50 text-green-300 border-green-700',
+      failure: 'bg-red-900/50 text-red-300 border-red-700',
+      timeout: 'bg-yellow-900/50 text-yellow-300 border-yellow-700',
+      running: 'bg-blue-900/50 text-blue-300 border-blue-700'
     };
-    return icons[jobType] || '■';
+
+    return (
+      <span className={`px-2 py-1 text-xs rounded border ${styles[status] || styles.running}`}>
+        {status}
+      </span>
+    );
   };
 
-  const completedCount = jobHistory.filter(j => j.status === 'completed' || j.status === 'success').length;
-  const failedCount = jobHistory.filter(j => j.status === 'failed' || j.status === 'timeout').length;
+  // Format duration
+  const formatDuration = (seconds) => {
+    if (!seconds) return 'N/A';
+    if (seconds < 60) return `${seconds.toFixed(1)}s`;
+    return `${(seconds / 60).toFixed(1)}m`;
+  };
+
+  // Format timestamp
+  const formatTimestamp = (timestamp) => {
+    if (!timestamp) return 'N/A';
+    const date = new Date(timestamp * 1000);
+    return date.toLocaleTimeString();
+  };
 
   return (
     <div className="p-6 space-y-6">
-      <h2 className="text-3xl font-bold text-white">Job Management</h2>
-
-      {/* Job Stats */}
-      <div className="grid grid-cols-4 gap-4">
-        <div className="bg-black border border-gray-800 p-4 rounded">
-          <div className="text-gray-400 text-sm mb-1">Active Jobs</div>
-          <div className="text-2xl font-bold text-white">{agentState.active_jobs || 0}</div>
-        </div>
-        <div className="bg-black border border-gray-800 p-4 rounded">
-          <div className="text-gray-400 text-sm mb-1">Completed</div>
-          <div className="text-2xl font-bold text-green-400">{agentState.jobs_completed || 0}</div>
-        </div>
-        <div className="bg-black border border-gray-800 p-4 rounded">
-          <div className="text-gray-400 text-sm mb-1">Failed</div>
-          <div className="text-2xl font-bold text-red-400">{agentState.jobs_failed || 0}</div>
-        </div>
-        <div className="bg-black border border-gray-800 p-4 rounded">
-          <div className="text-gray-400 text-sm mb-1">Success Rate</div>
-          <div className="text-2xl font-bold text-white">
-            {agentState.jobs_completed > 0
-              ? ((agentState.jobs_completed / (agentState.jobs_completed + agentState.jobs_failed)) * 100).toFixed(0)
-              : 0}%
-          </div>
-        </div>
-      </div>
-
-      {/* Filter Tabs */}
-      <div className="flex gap-2">
-        <button
-          className={`px-4 py-2 rounded transition-colors ${filter === 'all' ? 'bg-white text-black' : 'bg-gray-800 text-gray-400 hover:bg-gray-700'}`}
-          onClick={() => setFilter('all')}
-        >
-          All ({allJobs.length})
-        </button>
-        <button
-          className={`px-4 py-2 rounded transition-colors ${filter === 'active' ? 'bg-white text-black' : 'bg-gray-800 text-gray-400 hover:bg-gray-700'}`}
-          onClick={() => setFilter('active')}
-        >
-          Active ({activeJobs.length})
-        </button>
-        <button
-          className={`px-4 py-2 rounded transition-colors ${filter === 'completed' ? 'bg-white text-black' : 'bg-gray-800 text-gray-400 hover:bg-gray-700'}`}
-          onClick={() => setFilter('completed')}
-        >
-          Completed ({completedCount})
-        </button>
-        <button
-          className={`px-4 py-2 rounded transition-colors ${filter === 'failed' ? 'bg-white text-black' : 'bg-gray-800 text-gray-400 hover:bg-gray-700'}`}
-          onClick={() => setFilter('failed')}
-        >
-          Failed ({failedCount})
-        </button>
-      </div>
-
-      {/* Job List */}
-      <div className="bg-black border border-gray-800 rounded p-6">
-        <div className="space-y-3 max-h-[600px] overflow-y-auto">
-          {filteredJobs.length === 0 ? (
-            <div className="text-center text-gray-500 py-8">No jobs to display</div>
-          ) : (
-            filteredJobs.map((job, index) => (
-              <div
-                key={job.job_id || index}
-                className="border border-gray-800 p-4 rounded hover:border-gray-700 cursor-pointer transition-colors"
-                onClick={() => setSelectedJob(job)}
-              >
-                <div className="flex items-start justify-between mb-2">
-                  <div className="flex items-start gap-3">
-                    <div className="text-2xl text-gray-400">{getJobTypeIcon(job.job_type)}</div>
-                    <div>
-                      <div className="text-white font-mono text-sm">{job.job_id || `Job ${index + 1}`}</div>
-                      <div className="text-gray-400 text-sm">{job.job_type}</div>
-                    </div>
-                  </div>
-                  <div className="text-right">
-                    <span className={`px-2 py-1 rounded text-xs ${getStatusClass(job.status)}`}>
-                      {job.status || 'unknown'}
-                    </span>
-                    {job.payment !== undefined && (
-                      <div className="text-white text-sm mt-1">{job.payment} AC</div>
-                    )}
-                  </div>
-                </div>
-
-                {job.priority !== undefined && (
-                  <div className="text-gray-400 text-sm">
-                    Priority: {(job.priority * 100).toFixed(0)}%
-                  </div>
-                )}
-
-                {job.status === 'active' && job.progress !== undefined && (
-                  <div className="mt-3">
-                    <div className="flex justify-between text-xs text-gray-400 mb-1">
-                      <span>Progress</span>
-                      <span>{(job.progress * 100).toFixed(0)}%</span>
-                    </div>
-                    <div className="w-full bg-gray-900 rounded-full h-2 overflow-hidden">
-                      <div
-                        className="h-full bg-blue-400 transition-all duration-500"
-                        style={{ width: `${job.progress * 100}%` }}
-                      ></div>
-                    </div>
-                  </div>
-                )}
-
-                {job.duration !== undefined && (
-                  <div className="text-gray-400 text-sm mt-2">Duration: {job.duration.toFixed(2)}s</div>
-                )}
-              </div>
-            ))
-          )}
-        </div>
-      </div>
-
-      {/* Job Details Modal */}
-      {selectedJob && (
-        <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50" onClick={() => setSelectedJob(null)}>
-          <div className="bg-black border border-gray-800 rounded-lg p-6 max-w-4xl w-full m-4 max-h-[80vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
-            <div className="flex justify-between items-center mb-4">
-              <h3 className="text-xl font-bold text-white">Job Details</h3>
-              <button className="text-gray-400 hover:text-white text-2xl" onClick={() => setSelectedJob(null)}>×</button>
+      {/* Stats Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+        {/* Active Jobs */}
+        <div className="bg-zinc-900 border border-zinc-800 rounded-lg p-6">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-gray-400 text-sm">Active Jobs</p>
+              <p className="text-3xl font-bold text-blue-400 mt-2">{activeJobs}</p>
             </div>
-            <div className="space-y-3">
-              <div className="flex justify-between">
-                <span className="text-gray-400">Job ID</span>
-                <span className="text-white font-mono">{selectedJob.job_id}</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-gray-400">Type</span>
-                <span className="text-white">{selectedJob.job_type}</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-gray-400">Status</span>
-                <span className={`px-2 py-1 rounded text-xs ${getStatusClass(selectedJob.status)}`}>
-                  {selectedJob.status}
-                </span>
-              </div>
-              {selectedJob.priority !== undefined && (
-                <div className="flex justify-between">
-                  <span className="text-gray-400">Priority</span>
-                  <span className="text-white">{(selectedJob.priority * 100).toFixed(0)}%</span>
-                </div>
-              )}
-              {selectedJob.payment !== undefined && (
-                <div className="flex justify-between">
-                  <span className="text-gray-400">Payment</span>
-                  <span className="text-white">{selectedJob.payment} AC</span>
-                </div>
-              )}
-              {selectedJob.stake !== undefined && (
-                <div className="flex justify-between">
-                  <span className="text-gray-400">Stake</span>
-                  <span className="text-white">{selectedJob.stake} AC</span>
-                </div>
-              )}
-              {selectedJob.deadline && (
-                <div className="flex justify-between">
-                  <span className="text-gray-400">Deadline</span>
-                  <span className="text-white">{new Date(selectedJob.deadline * 1000).toLocaleString()}</span>
-                </div>
-              )}
-              {selectedJob.start_time && (
-                <div className="flex justify-between">
-                  <span className="text-gray-400">Started</span>
-                  <span className="text-white">{new Date(selectedJob.start_time * 1000).toLocaleString()}</span>
-                </div>
-              )}
-              {selectedJob.duration !== undefined && (
-                <div className="flex justify-between">
-                  <span className="text-gray-400">Duration</span>
-                  <span className="text-white">{selectedJob.duration.toFixed(2)}s</span>
-                </div>
-              )}
-              {selectedJob.payload && Object.keys(selectedJob.payload).length > 0 && (
-                <div>
-                  <div className="text-gray-400 mb-2">Payload</div>
-                  <pre className="bg-gray-900 p-3 rounded text-white text-xs overflow-x-auto">
-                    {JSON.stringify(selectedJob.payload, null, 2)}
-                  </pre>
-                </div>
-              )}
-              {selectedJob.output && (
-                <div>
-                  <div className="text-gray-400 mb-2">Output</div>
-                  <pre className="bg-gray-900 p-3 rounded text-white text-xs overflow-x-auto">
-                    {typeof selectedJob.output === 'string' ? selectedJob.output : JSON.stringify(selectedJob.output, null, 2)}
-                  </pre>
-                </div>
-              )}
-              {selectedJob.error && (
-                <div>
-                  <div className="text-gray-400 mb-2">Error</div>
-                  <pre className="bg-red-900 bg-opacity-20 border border-red-800 p-3 rounded text-red-200 text-xs overflow-x-auto">
-                    {selectedJob.error}
-                  </pre>
-                </div>
-              )}
+            <div className="bg-blue-900/30 p-3 rounded-lg">
+              <Activity className="w-6 h-6 text-blue-400" />
             </div>
           </div>
         </div>
-      )}
+
+        {/* Completed Jobs */}
+        <div className="bg-zinc-900 border border-zinc-800 rounded-lg p-6">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-gray-400 text-sm">Completed</p>
+              <p className="text-3xl font-bold text-green-400 mt-2">{completedJobs}</p>
+            </div>
+            <div className="bg-green-900/30 p-3 rounded-lg">
+              <CheckCircle className="w-6 h-6 text-green-400" />
+            </div>
+          </div>
+        </div>
+
+        {/* Failed Jobs */}
+        <div className="bg-zinc-900 border border-zinc-800 rounded-lg p-6">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-gray-400 text-sm">Failed</p>
+              <p className="text-3xl font-bold text-red-400 mt-2">{failedJobs}</p>
+            </div>
+            <div className="bg-red-900/30 p-3 rounded-lg">
+              <XCircle className="w-6 h-6 text-red-400" />
+            </div>
+          </div>
+        </div>
+
+        {/* Success Rate */}
+        <div className="bg-zinc-900 border border-zinc-800 rounded-lg p-6">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-gray-400 text-sm">Success Rate</p>
+              <p className="text-3xl font-bold text-purple-400 mt-2">{successRate.toFixed(1)}%</p>
+            </div>
+            <div className="bg-purple-900/30 p-3 rounded-lg">
+              <TrendingUp className="w-6 h-6 text-purple-400" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Recent Jobs Table */}
+      <div className="bg-zinc-900 border border-zinc-800 rounded-lg">
+        <div className="p-4 border-b border-zinc-800">
+          <h3 className="text-lg font-semibold">Recent Jobs</h3>
+        </div>
+        <div className="overflow-x-auto">
+          <table className="w-full">
+            <thead className="bg-zinc-800/50">
+              <tr>
+                <th className="px-4 py-3 text-left text-xs font-medium text-gray-400 uppercase">Job ID</th>
+                <th className="px-4 py-3 text-left text-xs font-medium text-gray-400 uppercase">Status</th>
+                <th className="px-4 py-3 text-left text-xs font-medium text-gray-400 uppercase">Duration</th>
+                <th className="px-4 py-3 text-left text-xs font-medium text-gray-400 uppercase">Time</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-zinc-800">
+              {recentJobs.length === 0 ? (
+                <tr>
+                  <td colSpan="4" className="px-4 py-8 text-center text-gray-500">
+                    No jobs executed yet
+                  </td>
+                </tr>
+              ) : (
+                recentJobs.map((job, index) => (
+                  <tr key={job.job_id || index} className="hover:bg-zinc-800/50">
+                    <td className="px-4 py-3 text-sm font-mono">{job.job_id?.slice(0, 12)}...</td>
+                    <td className="px-4 py-3 text-sm">
+                      <StatusBadge status={job.status} />
+                    </td>
+                    <td className="px-4 py-3 text-sm">{formatDuration(job.duration)}</td>
+                    <td className="px-4 py-3 text-sm text-gray-400">{formatTimestamp(job.timestamp)}</td>
+                  </tr>
+                ))
+              )}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      {/* Debug Info (remove in production) */}
+      <details className="bg-zinc-900 border border-zinc-800 rounded-lg p-4">
+        <summary className="cursor-pointer text-sm text-gray-400 hover:text-white">
+          Debug: Raw Job Data
+        </summary>
+        <pre className="mt-4 text-xs text-gray-500 overflow-auto">
+          {JSON.stringify(agentState.jobs, null, 2)}
+        </pre>
+      </details>
     </div>
   );
-};
-
-export default Jobs;
+}

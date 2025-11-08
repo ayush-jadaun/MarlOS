@@ -51,11 +51,11 @@ class BidScorer:
             self.fairness_engine = None
     
     def calculate_score(self,
-                       job: dict,
-                       capabilities: list,
-                       trust_score: float,
-                       active_jobs: int,
-                       job_history: Dict[str, int]) -> float:
+                    job: dict,
+                    capabilities: list,
+                    trust_score: float,
+                    active_jobs: int,
+                    job_history: Dict[str, int]) -> float:
         """
         Calculate bid score for a job with DECENTRALIZED FAIRNESS
 
@@ -68,8 +68,7 @@ class BidScorer:
         load_score = self._score_load(active_jobs)
 
         # 3. Trust score with PROGRESSIVE SCALING (diminishing returns)
-        # sqrt gives diminishing returns: 0.5→0.71, 0.7→0.84, 0.9→0.95
-        trust = trust_score ** 0.7  # Power < 1 = diminishing returns
+        trust = trust_score ** 0.7
 
         # 4. Urgency (deadline proximity)
         urgency_score = self._score_urgency(job)
@@ -103,13 +102,12 @@ class BidScorer:
         # 2. Coordinator-based fairness bonus (prevents starvation, reduced magnitude)
         coordinator_bonus = 0.0
         if self.coordinator:
-            # Get starvation score from coordinator (0.0 = fed, 1.0 = starving)
             starvation_score = self.coordinator.fairness.get_starvation_score(self.node_id)
             # Convert to bonus: starving nodes get up to +5% boost (reduced from 10%)
             coordinator_bonus = starvation_score * self.COORDINATOR_BONUS_MAX
 
             if starvation_score > 0.5:
-                print(f"[FAIRNESS] Applying starvation bonus: +{coordinator_bonus*100:.1f}% (score: {starvation_score:.2f})")
+                print(f"[FAIRNESS] Applying starvation boost: {starvation_multiplier:.2f}x (score: {starvation_score:.2f})")
 
         # 3. Fairness Jitter - random ±2% to prevent deterministic monopoly (reduced from 5%)
         jitter = random.uniform(-self.FAIRNESS_JITTER, self.FAIRNESS_JITTER)
@@ -121,7 +119,7 @@ class BidScorer:
         # This spreads out scores near 1.0 to maintain differentiation
         final_score = self._soft_clamp(final_score)
 
-        return min(1.0, max(0.0, final_score))
+        return clamped_score
 
     def mark_won_auction(self, job_id: str = None, earnings: float = 0.0):
         """Call this when agent wins an auction"""
