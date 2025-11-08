@@ -2,6 +2,7 @@
 Token Wallet Management
 Handles token balance, transactions, staking, and ledger
 """
+import hashlib
 import time
 import json
 from typing import List, Dict, Optional
