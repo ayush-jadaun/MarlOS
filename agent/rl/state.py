@@ -39,6 +39,7 @@ class StateCalculator:
             'hash_crack': 0.7,
             'threat_intel': 0.8,
             'forensics': 0.9,
+            'led_control': 1.0,
             'other': 0.05
         }
 

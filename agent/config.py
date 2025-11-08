@@ -12,7 +12,7 @@ from typing import List
 class PredictiveConfig:
     """Predictive pre-execution configuration"""
     # Feature toggle
-    enabled: bool = True  # Enable predictive pre-execution
+    enabled: bool = False  # Enable predictive pre-execution
 
     # Pattern detection
     min_pattern_confidence: float = 0.75  # Min confidence to predict (75%)
@@ -150,6 +150,8 @@ class AgentConfig:
     executor: ExecutorConfig = None
     dashboard: DashboardConfig = None
     predictive: PredictiveConfig = None
+    mqtt_broker_host: str = "mosquitto"
+    mqtt_broker_port: int = 1883
 
     # Storage
     data_dir: str = "./data"
