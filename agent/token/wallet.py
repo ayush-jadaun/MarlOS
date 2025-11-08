@@ -4,7 +4,6 @@ Handles token balance, transactions, staking, and ledger
 """
 import time
 import json
-import hashlib # Added for signing logic
 from typing import List, Dict, Optional
 from dataclasses import dataclass, asdict
 from pathlib import Path
