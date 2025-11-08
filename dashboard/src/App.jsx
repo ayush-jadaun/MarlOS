@@ -6,10 +6,9 @@ import Overview from './components/Views/Overview';
 import Network from './components/Views/Network';
 import Jobs from './components/Views/Jobs';
 import Bidding from './components/Views/Bidding';
-import Wallet from './components/Views/Wallet';
 import Trust from './components/Views/Trust';
 import Metrics from './components/Views/Metrics';
-
+import Wallet from './components/Views/Wallet';
 function App() {
   const [activeView, setActiveView] = useState('overview');
   const [selectedAgent, setSelectedAgent] = useState(8081); // Default to first agent

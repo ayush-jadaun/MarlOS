@@ -11,11 +11,31 @@ const Bidding = ({ agentState }) => {
     );
   }
 
-  // Mock bidding data - in real implementation this would come from agentState
-  const activeAuctions = agentState.active_auctions || [];
-  const myBids = agentState.my_bids || [];
-  const wonBids = agentState.won_bids || [];
-  const lostBids = agentState.lost_bids || [];
+  // Extract bidding data from agentState
+  const biddingData = agentState.bidding || {};
+  const activeAuctions = biddingData.active_auctions || [];
+  const myBids = biddingData.my_bids || [];
+  const wonBids = biddingData.won_bids || [];
+  const lostBids = biddingData.lost_bids || [];
+  const totalWon = biddingData.total_won || 0;
+  const totalLost = biddingData.total_lost || 0;
+  const winRate = biddingData.win_rate || 0;
+
+  // Format timestamp for display
+  const formatTime = (timestamp) => {
+    if (!timestamp) return 'N/A';
+    const date = new Date(timestamp * 1000);
+    return date.toLocaleTimeString();
+  };
+
+  // Format time ago
+  const timeAgo = (timestamp) => {
+    if (!timestamp) return 'N/A';
+    const seconds = Math.floor(Date.now() / 1000 - timestamp);
+    if (seconds < 60) return `${seconds}s ago`;
+    if (seconds < 3600) return `${Math.floor(seconds / 60)}m ago`;
+    return `${Math.floor(seconds / 3600)}h ago`;
+  };
 
   return (
     <div className="p-6 space-y-6">
@@ -33,11 +53,25 @@ const Bidding = ({ agentState }) => {
         </div>
         <div className="bg-black border border-gray-800 p-4 rounded">
           <div className="text-gray-400 text-sm mb-1">Won</div>
-          <div className="text-2xl font-bold text-green-400">{wonBids.length}</div>
+          <div className="text-2xl font-bold text-green-400">{totalWon}</div>
         </div>
         <div className="bg-black border border-gray-800 p-4 rounded">
           <div className="text-gray-400 text-sm mb-1">Lost</div>
-          <div className="text-2xl font-bold text-red-400">{lostBids.length}</div>
+          <div className="text-2xl font-bold text-red-400">{totalLost}</div>
+        </div>
+      </div>
+
+      {/* Win Rate */}
+      <div className="bg-black border border-gray-800 rounded p-4">
+        <div className="flex items-center justify-between mb-2">
+          <span className="text-gray-400">Win Rate</span>
+          <span className="text-white font-bold">{winRate.toFixed(1)}%</span>
+        </div>
+        <div className="w-full bg-gray-800 rounded-full h-2">
+          <div
+            className="bg-green-500 h-2 rounded-full transition-all duration-300"
+            style={{ width: `${winRate}%` }}
+          />
         </div>
       </div>
 
@@ -82,7 +116,7 @@ const Bidding = ({ agentState }) => {
 
       {/* My Bids */}
       <div className="bg-black border border-gray-800 rounded p-6">
-        <h3 className="text-xl font-bold text-white mb-4">My Bids</h3>
+        <h3 className="text-xl font-bold text-white mb-4">My Active Bids</h3>
         <div className="space-y-3">
           {myBids.length === 0 ? (
             <div className="text-center text-gray-500 py-8">No active bids</div>
@@ -111,6 +145,74 @@ const Bidding = ({ agentState }) => {
                     </span>
                   </div>
                 )}
+              </div>
+            ))
+          )}
+        </div>
+      </div>
+
+      {/* Won Bids */}
+      <div className="bg-black border border-gray-800 rounded p-6">
+        <h3 className="text-xl font-bold text-white mb-4">
+          Won Auctions
+          <span className="ml-2 text-sm text-green-400">({totalWon})</span>
+        </h3>
+        <div className="space-y-3 max-h-96 overflow-y-auto">
+          {wonBids.length === 0 ? (
+            <div className="text-center text-gray-500 py-8">No won auctions yet</div>
+          ) : (
+            wonBids.slice().reverse().map((bid, index) => (
+              <div
+                key={bid.job_id || index}
+                className="border border-green-900 bg-green-950 bg-opacity-20 p-4 rounded"
+              >
+                <div className="flex justify-between items-start">
+                  <div>
+                    <div className="text-white font-mono text-sm">{bid.job_id}</div>
+                    <div className="text-gray-400 text-sm">{bid.job_type}</div>
+                    <div className="text-gray-500 text-xs mt-1">{timeAgo(bid.timestamp)}</div>
+                  </div>
+                  <div className="text-right">
+                    <div className="text-green-400 font-bold">+{bid.payment} AC</div>
+                    <div className="text-gray-400 text-sm">Score: {(bid.score * 100).toFixed(1)}%</div>
+                    <div className="text-gray-500 text-xs">Stake: {bid.stake} AC</div>
+                  </div>
+                </div>
+              </div>
+            ))
+          )}
+        </div>
+      </div>
+
+      {/* Lost Bids */}
+      <div className="bg-black border border-gray-800 rounded p-6">
+        <h3 className="text-xl font-bold text-white mb-4">
+          Lost Auctions
+          <span className="ml-2 text-sm text-red-400">({totalLost})</span>
+        </h3>
+        <div className="space-y-3 max-h-96 overflow-y-auto">
+          {lostBids.length === 0 ? (
+            <div className="text-center text-gray-500 py-8">No lost auctions yet</div>
+          ) : (
+            lostBids.slice().reverse().map((bid, index) => (
+              <div
+                key={bid.job_id || index}
+                className="border border-red-900 bg-red-950 bg-opacity-20 p-4 rounded"
+              >
+                <div className="flex justify-between items-start">
+                  <div>
+                    <div className="text-white font-mono text-sm">{bid.job_id}</div>
+                    <div className="text-gray-400 text-sm">{bid.job_type}</div>
+                    <div className="text-gray-500 text-xs mt-1">{timeAgo(bid.timestamp)}</div>
+                  </div>
+                  <div className="text-right">
+                    <div className="text-red-400">Lost</div>
+                    <div className="text-gray-400 text-sm">Score: {(bid.score * 100).toFixed(1)}%</div>
+                    {bid.payment && (
+                      <div className="text-gray-500 text-xs">Would've earned: {bid.payment} AC</div>
+                    )}
+                  </div>
+                </div>
               </div>
             ))
           )}
@@ -146,14 +248,19 @@ const Bidding = ({ agentState }) => {
                 <div className="mt-4">
                   <div className="text-gray-400 mb-2">All Bids:</div>
                   <div className="space-y-2">
-                    {selectedAuction.bids.map((bid, idx) => (
-                      <div key={idx} className="border border-gray-800 p-3 rounded">
-                        <div className="flex justify-between">
-                          <span className="text-white font-mono text-sm">{bid.node_id?.substring(0, 12)}</span>
-                          <span className="text-white">{(bid.score * 100).toFixed(1)}%</span>
+                    {selectedAuction.bids
+                      .sort((a, b) => b.score - a.score)
+                      .map((bid, idx) => (
+                        <div key={idx} className="border border-gray-800 p-3 rounded">
+                          <div className="flex justify-between">
+                            <span className="text-white font-mono text-sm">{bid.node_id?.substring(0, 12)}</span>
+                            <span className="text-white">{(bid.score * 100).toFixed(1)}%</span>
+                          </div>
+                          <div className="text-gray-400 text-xs mt-1">
+                            Stake: {bid.stake_amount} AC
+                          </div>
                         </div>
-                      </div>
-                    ))}
+                      ))}
                   </div>
                 </div>
               )}

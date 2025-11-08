@@ -235,13 +235,20 @@ class ReputationSystem:
     
     def get_reputation_stats(self) -> dict:
         """Get reputation statistics"""
+        # Count success and failure events
+        success_count = sum(1 for e in self.reputation_history if e.event_type in ['success', 'late_success'])
+        failure_count = sum(1 for e in self.reputation_history if e.event_type in ['failure', 'timeout'])
+        
         return {
             'my_trust': self.my_trust_score,
             'am_i_quarantined': self.am_i_quarantined(),
             'total_peers': len(self.peer_trust_scores),
             'trusted_peers': len(self.get_trusted_peers()),
             'quarantined_peers': len(self.quarantined_nodes),
-            'reputation_events': len(self.reputation_history)
+            'reputation_events': len(self.reputation_history),
+            'success_count': success_count,
+            'failure_count': failure_count,
+            'total_events': len(self.reputation_history)
         }
     
     # ==================== STORAGE ====================
