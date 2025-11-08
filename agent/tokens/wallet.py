@@ -5,6 +5,7 @@ Handles token balance, transactions, staking, and ledger
 import hashlib
 import time
 import json
+import hashlib
 from typing import List, Dict, Optional
 from dataclasses import dataclass, asdict
 from pathlib import Path
@@ -15,7 +16,7 @@ from ..schema.schema import Transaction
 
 class Wallet:
     """
-    Token wallet for managing MarlCredits (AC)
+    Token wallet for managing MarlCredits (MC)
     """
 
     def __init__(self, node_id: str, starting_balance: float = 100.0, data_dir: str = "./data", signing_key=None):
