@@ -50,11 +50,11 @@ class BidScorer:
             self.fairness_engine = None
     
     def calculate_score(self,
-                       job: dict,
-                       capabilities: list,
-                       trust_score: float,
-                       active_jobs: int,
-                       job_history: Dict[str, int]) -> float:
+                    job: dict,
+                    capabilities: list,
+                    trust_score: float,
+                    active_jobs: int,
+                    job_history: Dict[str, int]) -> float:
         """
         Calculate bid score for a job with DECENTRALIZED FAIRNESS
 
@@ -67,8 +67,7 @@ class BidScorer:
         load_score = self._score_load(active_jobs)
 
         # 3. Trust score with PROGRESSIVE SCALING (diminishing returns)
-        # sqrt gives diminishing returns: 0.5→0.71, 0.7→0.84, 0.9→0.95
-        trust = trust_score ** 0.7  # Power < 1 = diminishing returns
+        trust = trust_score ** 0.7
 
         # 4. Urgency (deadline proximity)
         urgency_score = self._score_urgency(job)
@@ -85,37 +84,60 @@ class BidScorer:
             priority * self.PRIORITY_WEIGHT
         )
 
-        # DECENTRALIZED FAIRNESS MECHANISMS:
+        # DEBUG: Log base score components
+        print(f"[SCORE DEBUG] {self.node_id} - Job {job.get('job_id', 'unknown')}")
+        print(f"  Base Score: {base_score:.4f}")
+        print(f"    - Capability: {capability_score:.3f} × {self.CAPABILITY_WEIGHT} = {capability_score * self.CAPABILITY_WEIGHT:.3f}")
+        print(f"    - Load:       {load_score:.3f} × {self.LOAD_WEIGHT} = {load_score * self.LOAD_WEIGHT:.3f}")
+        print(f"    - Trust:      {trust:.3f} × {self.TRUST_WEIGHT} = {trust * self.TRUST_WEIGHT:.3f}")
+        print(f"    - Urgency:    {urgency_score:.3f} × {self.URGENCY_WEIGHT} = {urgency_score * self.URGENCY_WEIGHT:.3f}")
+        print(f"    - Priority:   {priority:.3f} × {self.PRIORITY_WEIGHT} = {priority * self.PRIORITY_WEIGHT:.3f}")
 
-        # 1. Idle Bonus - reward agents who haven't won recently
-        idle_bonus = min(self.IDLE_BONUS_MAX, self.jobs_since_last_win * 0.03)
+        # DECENTRALIZED FAIRNESS MECHANISMS (MULTIPLICATIVE):
 
-        # 2. Coordinator-based fairness bonus (prevents starvation)
-        coordinator_bonus = 0.0
+        # 1. Idle Multiplier
+        idle_multiplier = 1.0 + min(0.10, self.jobs_since_last_win * 0.02)
+
+        # 2. Coordinator-based fairness multiplier
+        starvation_multiplier = 1.0
         if self.coordinator:
-            # Get starvation score from coordinator (0.0 = fed, 1.0 = starving)
             starvation_score = self.coordinator.fairness.get_starvation_score(self.node_id)
-            # Convert to bonus: starving nodes get up to +10% boost
-            coordinator_bonus = starvation_score * 0.10
+            starvation_multiplier = 1.0 + (starvation_score * 0.15)
 
             if starvation_score > 0.5:
-                print(f"[FAIRNESS] Applying starvation bonus: +{coordinator_bonus*100:.1f}% (score: {starvation_score:.2f})")
+                print(f"[FAIRNESS] Applying starvation boost: {starvation_multiplier:.2f}x (score: {starvation_score:.2f})")
 
-        # 3. Fairness Jitter - random ±5% to prevent deterministic monopoly
-        jitter = random.uniform(-self.FAIRNESS_JITTER, self.FAIRNESS_JITTER)
+        # 3. Fairness Jitter
+        jitter_multiplier = 1.0 + random.uniform(-0.03, 0.03)
 
         # Final score with fairness
-        final_score = base_score + idle_bonus + coordinator_bonus + jitter
+        final_score = base_score * idle_multiplier * starvation_multiplier * jitter_multiplier
+
+        # DEBUG: Log fairness adjustments
+        print(f"  Fairness Multipliers:")
+        print(f"    - Idle:       {idle_multiplier:.4f}x (jobs since win: {self.jobs_since_last_win})")
+        print(f"    - Starvation: {starvation_multiplier:.4f}x")
+        print(f"    - Jitter:     {jitter_multiplier:.4f}x")
+        print(f"  Score after fairness: {final_score:.4f}")
 
         # INNOVATION: Apply economic fairness mechanisms
         if self.fairness_engine:
+            pre_engine_score = final_score
             final_score = self.fairness_engine.calculate_fair_bid_score(
                 base_score=final_score,
                 node_id=self.node_id,
                 trust_score=trust_score
             )
+            print(f"  Score after fairness engine: {final_score:.4f} (change: {final_score - pre_engine_score:+.4f})")
 
-        return min(1.0, max(0.0, final_score))
+        clamped_score = min(1.0, max(0.0, final_score))
+        if clamped_score != final_score:
+            print(f"  ⚠️  Score clamped: {final_score:.4f} → {clamped_score:.4f}")
+        
+        print(f"  ✅ Final Score: {clamped_score:.4f}")
+        print()
+
+        return clamped_score
 
     def mark_won_auction(self, job_id: str = None, earnings: float = 0.0):
         """Call this when agent wins an auction"""

@@ -125,8 +125,6 @@ prof/
 # =========================
 # Distribution / Docker / CI
 # =========================
-Dockerfile*
-docker-compose*.yml
 *.tar.gz
 *.whl
 

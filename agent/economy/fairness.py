@@ -375,7 +375,7 @@ class JobComplexityAnalyzer:
         size_multiplier = 1.0 + min(1.0, payload_size / 1000.0)  # Up to 2x for large payloads
 
         # Factor 3: Number of requirements
-        requirements = job.get('requirements', [])
+        requirements = job.get('requirements') or []
         req_multiplier = 1.0 + (len(requirements) * 0.1)  # +10% per requirement
 
         # Factor 4: Priority (higher priority = more valuable)
