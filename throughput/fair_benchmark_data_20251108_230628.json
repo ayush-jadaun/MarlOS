@@ -1,0 +1,122 @@
+{
+  "timestamp": "2025-11-08T23:06:28.078887",
+  "scenarios": {
+    "normal_operation": {
+      "centralized": {
+        "avg_scheduling_time": 0.0019081680000817868,
+        "p95_scheduling_time": 0.003328250001686683,
+        "avg_execution_time": 2.9635432940000466,
+        "total_time": 148.2725731000064,
+        "throughput": 0.3372167822721749,
+        "gini_coefficient": 0.0,
+        "load_variance": 0.0,
+        "max_load": 5.0,
+        "min_load": 5.0,
+        "coordinator_failures": 6.0,
+        "failed_jobs": 0.0,
+        "single_point_failure": 1.0,
+        "architecture": "centralized",
+        "total_jobs": 50.0,
+        "successful_jobs": 50.0,
+        "scenario_duration": 148.27428880000298
+      },
+      "marlos": {
+        "avg_scheduling_time": 0.9271883159997378,
+        "p95_scheduling_time": 1.0303089350025403,
+        "avg_execution_time": 2.8664672079997398,
+        "total_time": 189.6827761999739,
+        "throughput": 0.26359799767632713,
+        "gini_coefficient": 0.0,
+        "load_variance": 0.0,
+        "max_load": 5.0,
+        "min_load": 5.0,
+        "coordinator_distribution_std": 26.203816515919968,
+        "fairness_adjustments": 8.0,
+        "failed_jobs": 0.0,
+        "single_point_failure": 0.0,
+        "architecture": "decentralized_marlos",
+        "total_jobs": 50.0,
+        "successful_jobs": 50.0,
+        "scenario_duration": 189.68813220000084
+      }
+    },
+    "coordinator_failure": {
+      "centralized": {
+        "avg_scheduling_time": 0.0017523233327665366,
+        "p95_scheduling_time": 0.002745744999083397,
+        "avg_execution_time": 1.5829580966663344,
+        "total_time": 47.541312599973025,
+        "throughput": 0.6310301159000188,
+        "gini_coefficient": 0.0,
+        "load_variance": 0.0,
+        "max_load": 3.0,
+        "min_load": 3.0,
+        "coordinator_failures": 4.0,
+        "failed_jobs": 0.0,
+        "single_point_failure": 1.0,
+        "architecture": "centralized",
+        "total_jobs": 30.0,
+        "successful_jobs": 30.0,
+        "scenario_duration": 49.54292460000215,
+        "downtime_seconds": 2.0
+      },
+      "marlos": {
+        "avg_scheduling_time": 1.0226432866669104,
+        "p95_scheduling_time": 1.0317125900015527,
+        "avg_execution_time": 1.5639742399998795,
+        "total_time": 77.5985258000037,
+        "throughput": 0.3866052826482764,
+        "gini_coefficient": 0.05999999999999983,
+        "load_variance": 0.2,
+        "max_load": 4.0,
+        "min_load": 2.0,
+        "coordinator_distribution_std": 10.409610943738484,
+        "fairness_adjustments": 6.0,
+        "failed_jobs": 0.0,
+        "single_point_failure": 0.0,
+        "architecture": "decentralized_marlos",
+        "total_jobs": 30.0,
+        "successful_jobs": 30.0,
+        "scenario_duration": 77.60211189999973,
+        "downtime_seconds": 0.0
+      }
+    },
+    "fairness": {
+      "centralized": {
+        "avg_scheduling_time": 0.0018521279997366945,
+        "p95_scheduling_time": 0.0031298349982535,
+        "avg_execution_time": 1.2689473089996317,
+        "total_time": 127.07994369993685,
+        "throughput": 0.786906234677925,
+        "gini_coefficient": 0.0,
+        "load_variance": 0.0,
+        "max_load": 10.0,
+        "min_load": 10.0,
+        "coordinator_failures": 7.0,
+        "failed_jobs": 0.0,
+        "single_point_failure": 1.0,
+        "architecture": "centralized",
+        "total_jobs": 100.0,
+        "successful_jobs": 100.0
+      },
+      "marlos": {
+        "avg_scheduling_time": 0.4570599679999214,
+        "p95_scheduling_time": 1.0174779450017013,
+        "avg_execution_time": 1.277161380999969,
+        "total_time": 173.42213489998903,
+        "throughput": 0.5766276609249972,
+        "gini_coefficient": 0.1399999999999999,
+        "load_variance": 6.2,
+        "max_load": 13.0,
+        "min_load": 6.0,
+        "coordinator_distribution_std": 52.401908362196124,
+        "fairness_adjustments": 17.0,
+        "failed_jobs": 0.0,
+        "single_point_failure": 0.0,
+        "architecture": "decentralized_marlos",
+        "total_jobs": 100.0,
+        "successful_jobs": 100.0
+      }
+    }
+  }
+}

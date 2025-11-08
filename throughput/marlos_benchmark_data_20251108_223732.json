@@ -1,0 +1,49 @@
+{
+  "timestamp": "2025-11-08T22:37:32.702454",
+  "configuration": {
+    "num_jobs": 200,
+    "num_nodes": 10
+  },
+  "centralized": {
+    "avg_scheduling_time": 0.0016368715001590316,
+    "p95_scheduling_time": 0.0031028700013848716,
+    "p99_scheduling_time": 0.003349922998386317,
+    "total_comm_overhead": 0.290482999971573,
+    "avg_comm_overhead": 0.001452414999857865,
+    "throughput": 610.9215047747145,
+    "gini_coefficient": 0.0,
+    "load_variance": 0.0,
+    "max_load": 20.0,
+    "min_load": 20.0,
+    "coordinator_failures": 24.0,
+    "single_point_failure": 1.0,
+    "architecture": "centralized",
+    "total_jobs": 200.0,
+    "total_duration": 0.32827520000137156,
+    "jobs_per_second": 609.244926205709
+  },
+  "marlos": {
+    "avg_scheduling_time": 0.23210231499988368,
+    "p95_scheduling_time": 1.0182605100013462,
+    "p99_scheduling_time": 1.1120307980010327,
+    "total_comm_overhead": 0.14174849996925332,
+    "avg_comm_overhead": 0.0007087424998462665,
+    "throughput": 4.308444747741965,
+    "gini_coefficient": 0.2749999999999999,
+    "load_variance": 103.2,
+    "max_load": 31.0,
+    "min_load": 5.0,
+    "coordinator_distribution_std": 51.0,
+    "fairness_adjustments": 20.0,
+    "single_point_failure": 0.0,
+    "architecture": "decentralized_marlos",
+    "total_jobs": 200.0,
+    "total_duration": 46.421453500002826,
+    "jobs_per_second": 4.308352817948448
+  },
+  "improvements": {
+    "throughput_percent": -99.29283730850574,
+    "fairness_percent": -274999.9999999999,
+    "latency_percent": -14079.629554142375
+  }
+}
