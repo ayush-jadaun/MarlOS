@@ -32,8 +32,8 @@ class PeerDiscovery:
         
         # Bootstrap nodes (hardcoded fallbacks)
         self.bootstrap_nodes = [
-            'aetheros-bootstrap-1.example.com:5555',
-            'aetheros-bootstrap-2.example.com:5555'
+            'marlos-bootstrap-1.example.com:5555',
+            'marlos-bootstrap-2.example.com:5555'
         ]
         
         self.running = False

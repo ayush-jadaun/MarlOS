@@ -45,7 +45,7 @@ class RLConfig:
     # Learning
     online_learning: bool = False
     exploration_rate: float = 0.1
-    enabled: bool = False 
+    enabled: bool = True
 
 
 @dataclass

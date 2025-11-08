@@ -13,8 +13,8 @@ from .config import AgentConfig, load_config
 from .crypto.signing import SigningKey, sign_message, verify_message
 from .p2p.node import P2PNode
 from .p2p.protocol import MessageType, JobBroadcastMessage
-from .token.wallet import Wallet
-from .token.economy import TokenEconomy
+from .tokens.wallet import Wallet
+from .tokens.economy import TokenEconomy
 from .trust.reputation import ReputationSystem
 from .trust.watchdog import TrustWatchdog
 from .rl.policy import RLPolicy, Action
@@ -34,6 +34,7 @@ from .dashboard.server import DashboardServer
 from .bidding.router import JobRouter
 from .rl.online_learner import OnlineLearner
 from .p2p.coordinator import CoordinatorElection
+from .predictive.integration import PredictiveExtension
 
 
 class MarlOSAgent:
@@ -111,8 +112,10 @@ class MarlOSAgent:
         )
         # Connect online learner to RL policy
         self.rl_policy.online_learner = self.online_learner
-        
-        
+
+        # Predictive Pre-Execution System (RL-powered speculation)
+        self.predictive = PredictiveExtension(self)
+
         # State
         self.running = False
         self.jobs_completed = 0
@@ -270,7 +273,7 @@ class MarlOSAgent:
                 print(f"[LEDGER] Syncing transaction: {from_node} → {to_node} ({amount} AC)")
 
                 # Create ledger entry
-                from .token.ledger import LedgerEntry
+                from .tokens.ledger import LedgerEntry
 
                 entry = LedgerEntry(
                     entry_id=message.get('message_id', f"tx-{job_id}"),
@@ -332,6 +335,9 @@ class MarlOSAgent:
         await self.recovery.start()
 
         await self.online_learner.start()
+
+        # Start predictive system (if enabled in config)
+        await self.predictive.start()
     
         print(f"\n✅ Agent {self.node_name} is ONLINE")
         
@@ -360,7 +366,8 @@ class MarlOSAgent:
         await self.watchdog.stop()
         await self.recovery.stop()
         await self.dashboard.stop()
-        
+        await self.predictive.stop()
+
         print("✅ Agent stopped cleanly")
     
     async def _handle_new_job(self, job_message: dict):
@@ -391,7 +398,10 @@ class MarlOSAgent:
         if self.reputation.am_i_quarantined():
             print(f"   🚫 Cannot bid - currently quarantined")
             return
-        
+
+        # Observe job for pattern learning (predictive system)
+        self.predictive.observe_job_submission(job_message)
+
         # Calculate base score
         score = self.scorer.calculate_score(
             job=job_message,
@@ -531,12 +541,31 @@ class MarlOSAgent:
     async def _execute_job(self, job: dict, stake_amount: float):
         """Execute a job we won"""
         job_id = job['job_id']
-        
+
         print(f"\n▶️  Executing job {job_id}")
-        
-        # Execute
+
+        # Check if we have a pre-executed result in cache (NEGATIVE LATENCY!)
+        cached_result = self.predictive.check_cache(job)
+        if cached_result:
+            print(f"   ⚡ CACHE HIT! Using pre-executed result (NEGATIVE LATENCY)")
+            # Create JobResult from cached data
+            from .executor.engine import JobResult, JobStatus
+            result = JobResult(
+                job_id=job_id,
+                status=JobStatus.SUCCESS,
+                output=cached_result.get('output', ''),
+                error=None,
+                start_time=time.time(),
+                end_time=time.time(),
+                duration=0.0  # Instant!
+            )
+            # Handle the cached result
+            await self._handle_job_result(result)
+            return
+
+        # Execute normally if not cached
         result = await self.executor.execute_job(job)
-        
+
         # Result already handled by callback
     
     async def _handle_job_result(self, result: JobResult):
@@ -647,12 +676,25 @@ class MarlOSAgent:
                 'balance': self.wallet.balance,
                 'staked': self.wallet.staked
             }
-            
+
+            # Add predictive stats if enabled
+            predictive_stats = self.predictive.get_stats()
+            if predictive_stats.get('enabled'):
+                cache_stats = predictive_stats.get('cache', {})
+                speculation_stats = predictive_stats.get('speculation', {})
+                stats['cache_hit_rate'] = cache_stats.get('hit_rate', 0)
+                stats['speculations'] = speculation_stats.get('speculations_attempted', 0)
+
             print(f"\n📊 Stats: {stats['peers']} peers | "
                   f"{stats['active_jobs']} active | "
                   f"{stats['completed']} completed | "
                   f"Trust: {stats['trust']:.3f} | "
                   f"Balance: {stats['balance']:.2f} AC")
+
+            # Print predictive stats if enabled
+            if predictive_stats.get('enabled'):
+                print(f"   🔮 Predictive: Cache Hit Rate {stats.get('cache_hit_rate', 0):.1f}% | "
+                      f"Speculations: {stats.get('speculations', 0)}")
     
     async def _idle_reward_task(self):
         """Give idle rewards for being online"""
@@ -698,7 +740,8 @@ class MarlOSAgent:
             'quarantined': self.reputation.am_i_quarantined(),
             'reputation_stats': self.reputation.get_reputation_stats(),
             'watchdog_stats': self.watchdog.get_watchdog_stats(),
-            'fairness_stats': fairness_stats  # Add fairness statistics
+            'fairness_stats': fairness_stats,  # Add fairness statistics
+            'predictive_stats': self.predictive.get_stats()  # Add predictive system stats
         }
 
 
