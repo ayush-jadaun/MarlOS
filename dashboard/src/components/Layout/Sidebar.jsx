@@ -12,7 +12,7 @@ const Sidebar = ({ activeView, setActiveView, connected }) => {
   return (
     <div className="w-64 h-screen bg-black border-r border-gray-800 flex flex-col">
       <div className="p-6 border-b border-gray-800">
-        <h1 className="text-2xl font-bold text-white mb-4">SwarmOPS</h1>
+        <h1 className="text-2xl font-bold text-white mb-4">MarlOS</h1>
         <div className="flex items-center gap-2">
           <span className={`w-2 h-2 rounded-full ${connected ? 'bg-green-400' : 'bg-red-400'} animate-pulse`}></span>
           <span className="text-sm text-gray-400">{connected ? 'Connected' : 'Disconnected'}</span>
