@@ -1,0 +1,109 @@
+{
+  "node_id": "TEST_NODE",
+  "exported_at": 1762563871.071261,
+  "entries": [
+    {
+      "entry_id": "t3",
+      "timestamp": 1762563873.0210743,
+      "from_node": "Ext",
+      "to_node": "TEST_NODE",
+      "amount": -10.0,
+      "tx_type": "SLASH",
+      "reason": "penalty",
+      "job_id": null,
+      "balance_after": 65.0,
+      "signature": "s3"
+    },
+    {
+      "entry_id": "tx_C",
+      "timestamp": 1762563873.002971,
+      "from_node": "Ext",
+      "to_node": "TEST_NODE",
+      "amount": 10.0,
+      "tx_type": "TRANSFER",
+      "reason": "reward",
+      "job_id": "JOB_A",
+      "balance_after": 40.0,
+      "signature": "sC"
+    },
+    {
+      "entry_id": "t2",
+      "timestamp": 1762563872.0210743,
+      "from_node": "TEST_NODE",
+      "to_node": "Ext",
+      "amount": -25.0,
+      "tx_type": "WITHDRAW",
+      "reason": "cost",
+      "job_id": null,
+      "balance_after": 75.0,
+      "signature": "s2"
+    },
+    {
+      "entry_id": "tx_B",
+      "timestamp": 1762563871.9889116,
+      "from_node": "TEST_NODE",
+      "to_node": "Ext",
+      "amount": -20.0,
+      "tx_type": "WITHDRAW",
+      "reason": "pay",
+      "job_id": "JOB_B",
+      "balance_after": 30.0,
+      "signature": "sB"
+    },
+    {
+      "entry_id": "exp_1",
+      "timestamp": 1762563871.0583344,
+      "from_node": "A",
+      "to_node": "TEST_NODE",
+      "amount": 10.0,
+      "tx_type": "DEPOSIT",
+      "reason": "fund",
+      "job_id": null,
+      "balance_after": 10.0,
+      "signature": "s1"
+    },
+    {
+      "entry_id": "t1",
+      "timestamp": 1762563871.0210743,
+      "from_node": "Ext",
+      "to_node": "TEST_NODE",
+      "amount": 100.0,
+      "tx_type": "DEPOSIT",
+      "reason": "fund",
+      "job_id": null,
+      "balance_after": 100.0,
+      "signature": "s1"
+    },
+    {
+      "entry_id": "tx_A",
+      "timestamp": 1762563870.9766467,
+      "from_node": "Ext",
+      "to_node": "TEST_NODE",
+      "amount": 50.0,
+      "tx_type": "DEPOSIT",
+      "reason": "fund",
+      "job_id": "JOB_A",
+      "balance_after": 50.0,
+      "signature": "sA"
+    },
+    {
+      "entry_id": "tx_001",
+      "timestamp": 1762563870.9608245,
+      "from_node": "SOURCE_A",
+      "to_node": "TEST_NODE",
+      "amount": 100.0,
+      "tx_type": "DEPOSIT",
+      "reason": "Initial funding",
+      "job_id": null,
+      "balance_after": 100.0,
+      "signature": "sig_1"
+    }
+  ],
+  "statistics": {
+    "total_entries": 8,
+    "total_earned": 260.0,
+    "total_spent": 55.0,
+    "current_balance": 65.0,
+    "net_profit": 205.0
+  }
+}
