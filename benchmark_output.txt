@@ -1,0 +1,2787 @@
+
+
+================================================================================
+ 
+                     MARLOS: REAL DECENTRALIZED OS BENCHMARK                    
+                          Using Actual MarlOS Components                        
+ 
+================================================================================
+
+================================================================================
+BENCHMARK: 200 jobs on 10 nodes
+================================================================================
+
+[1/2] Testing Centralized OS...
+  Progress: 50/200 jobs
+  Progress: 100/200 jobs
+  Progress: 150/200 jobs
+  Progress: 200/200 jobs
+  OK Completed in 0.328s
+  OK Throughput: 609.24 jobs/sec
+
+[2/2] Testing Real MarlOS (Decentralized)...
+
+[MarlOS] Initializing 10 real MarlOS nodes...
+[SCORER] Fairness engine enabled for marlos_node_0
+[STATE] Fairness-aware state calculator enabled for marlos_node_0
+[SCORER] Fairness engine enabled for marlos_node_1
+[STATE] Fairness-aware state calculator enabled for marlos_node_1
+[SCORER] Fairness engine enabled for marlos_node_2
+[STATE] Fairness-aware state calculator enabled for marlos_node_2
+[SCORER] Fairness engine enabled for marlos_node_3
+[STATE] Fairness-aware state calculator enabled for marlos_node_3
+[SCORER] Fairness engine enabled for marlos_node_4
+[STATE] Fairness-aware state calculator enabled for marlos_node_4
+[SCORER] Fairness engine enabled for marlos_node_5
+[STATE] Fairness-aware state calculator enabled for marlos_node_5
+[SCORER] Fairness engine enabled for marlos_node_6
+[STATE] Fairness-aware state calculator enabled for marlos_node_6
+[SCORER] Fairness engine enabled for marlos_node_7
+[STATE] Fairness-aware state calculator enabled for marlos_node_7
+[SCORER] Fairness engine enabled for marlos_node_8
+[STATE] Fairness-aware state calculator enabled for marlos_node_8
+[SCORER] Fairness engine enabled for marlos_node_9
+[STATE] Fairness-aware state calculator enabled for marlos_node_9
+[MarlOS] OK Initialized 10 nodes with real components
+[COORDINATOR] Elected marlos_node_5 for job_0
+             Candidates: 10 idle nodes
+             Workload: 0 active jobs, 0 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+⚠️  [FAIRNESS] Node marlos_node_5 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_0 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_1 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_3 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_4 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_6 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_7 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_8 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_9 is starving! Never executed a job
+[COORDINATOR] Elected marlos_node_0 for job_1
+             Candidates: 9 idle nodes
+             Workload: 0 active jobs, 0 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+⚠️  [FAIRNESS] Node marlos_node_0 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_1 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_2 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_3 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_4 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_5 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_6 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_7 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_9 is starving! Never executed a job
+[COORDINATOR] Elected marlos_node_8 for job_2
+             Candidates: 8 idle nodes
+             Workload: 0 active jobs, 0 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+⚠️  [FAIRNESS] Node marlos_node_8 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_0 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_1 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_2 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_3 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_4 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_5 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_6 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_7 is starving! Never executed a job
+[COORDINATOR] Elected marlos_node_9 for job_3
+             Candidates: 7 idle nodes
+             Workload: 0 active jobs, 0 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+⚠️  [FAIRNESS] Node marlos_node_9 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_0 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_1 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_2 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_3 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_4 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_5 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_6 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_8 is starving! Never executed a job
+[COORDINATOR] Elected marlos_node_7 for job_4
+             Candidates: 6 idle nodes
+             Workload: 0 active jobs, 0 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+⚠️  [FAIRNESS] Node marlos_node_7 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_0 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_1 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_2 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_4 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_5 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_6 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_8 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_9 is starving! Never executed a job
+[COORDINATOR] Elected marlos_node_1 for job_5
+             Candidates: 5 idle nodes
+             Workload: 0 active jobs, 0 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+⚠️  [FAIRNESS] Node marlos_node_1 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_0 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_2 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_3 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_5 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_6 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_7 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_8 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_9 is starving! Never executed a job
+[COORDINATOR] Elected marlos_node_2 for job_6
+             Candidates: 4 idle nodes
+             Workload: 0 active jobs, 0 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+⚠️  [FAIRNESS] Node marlos_node_2 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_0 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_1 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_3 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_4 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_6 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_7 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_8 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_9 is starving! Never executed a job
+[COORDINATOR] Elected marlos_node_6 for job_7
+             Candidates: 3 idle nodes
+             Workload: 0 active jobs, 0 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+⚠️  [FAIRNESS] Node marlos_node_0 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_1 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_2 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_3 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_4 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_5 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_7 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_8 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_9 is starving! Never executed a job
+[COORDINATOR] Elected marlos_node_4 for job_8
+             Candidates: 2 idle nodes
+             Workload: 0 active jobs, 0 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+⚠️  [FAIRNESS] Node marlos_node_4 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_0 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_2 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_3 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_5 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_6 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_7 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_8 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_9 is starving! Never executed a job
+[COORDINATOR] Elected marlos_node_3 for job_9
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 0 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+⚠️  [FAIRNESS] Node marlos_node_3 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_1 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_2 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_4 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_5 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_6 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_7 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_8 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_9 is starving! Never executed a job
+[COORDINATOR] Elected marlos_node_2 for job_10
+             Candidates: 10 idle nodes
+             Workload: 0 active jobs, 1 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+⚠️  [FAIRNESS] Node marlos_node_0 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_1 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_3 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_4 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_6 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_7 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_8 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_9 is starving! Never executed a job
+[COORDINATOR] Elected marlos_node_3 for job_11
+             Candidates: 9 idle nodes
+             Workload: 0 active jobs, 1 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+⚠️  [FAIRNESS] Node marlos_node_3 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_2 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_4 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_5 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_6 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_7 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_8 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_9 is starving! Never executed a job
+[COORDINATOR] Elected marlos_node_6 for job_12
+             Candidates: 8 idle nodes
+             Workload: 0 active jobs, 1 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+⚠️  [FAIRNESS] Node marlos_node_0 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_1 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_2 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_3 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_5 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_7 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_8 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_9 is starving! Never executed a job
+[COORDINATOR] Elected marlos_node_1 for job_13
+             Candidates: 7 idle nodes
+             Workload: 0 active jobs, 1 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+⚠️  [FAIRNESS] Node marlos_node_1 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_0 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_2 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_3 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_5 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_6 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_8 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_9 is starving! Never executed a job
+[COORDINATOR] Elected marlos_node_0 for job_14
+             Candidates: 6 idle nodes
+             Workload: 0 active jobs, 1 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+⚠️  [FAIRNESS] Node marlos_node_0 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_1 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_2 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_3 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_4 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_5 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_6 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_7 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_9 is starving! Never executed a job
+[COORDINATOR] Elected marlos_node_9 for job_15
+             Candidates: 5 idle nodes
+             Workload: 0 active jobs, 1 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+⚠️  [FAIRNESS] Node marlos_node_9 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_0 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_1 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_2 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_3 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_4 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_6 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_8 is starving! Never executed a job
+[COORDINATOR] Elected marlos_node_7 for job_16
+             Candidates: 4 idle nodes
+             Workload: 0 active jobs, 1 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+⚠️  [FAIRNESS] Node marlos_node_7 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_0 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_1 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_2 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_4 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_5 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_6 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_8 is starving! Never executed a job
+[COORDINATOR] Elected marlos_node_5 for job_17
+             Candidates: 3 idle nodes
+             Workload: 0 active jobs, 1 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+⚠️  [FAIRNESS] Node marlos_node_5 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_0 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_1 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_4 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_6 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_7 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_8 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_9 is starving! Never executed a job
+[COORDINATOR] Elected marlos_node_8 for job_18
+             Candidates: 2 idle nodes
+             Workload: 0 active jobs, 1 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+⚠️  [FAIRNESS] Node marlos_node_8 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_1 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_2 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_3 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_4 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_5 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_6 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_7 is starving! Never executed a job
+[COORDINATOR] Elected marlos_node_4 for job_19
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 1 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+⚠️  [FAIRNESS] Node marlos_node_4 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_0 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_2 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_3 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_5 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_6 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_7 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_8 is starving! Never executed a job
+[COORDINATOR] Elected marlos_node_6 for job_20
+             Candidates: 10 idle nodes
+             Workload: 0 active jobs, 2 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+⚠️  [FAIRNESS] Node marlos_node_0 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_2 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_3 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_5 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_7 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_8 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_9 is starving! Never executed a job
+[COORDINATOR] Elected marlos_node_0 for job_21
+             Candidates: 9 idle nodes
+             Workload: 0 active jobs, 2 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+⚠️  [FAIRNESS] Node marlos_node_0 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_1 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_2 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_3 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_4 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_5 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_7 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_9 is starving! Never executed a job
+[COORDINATOR] Elected marlos_node_9 for job_22
+             Candidates: 8 idle nodes
+             Workload: 0 active jobs, 2 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+⚠️  [FAIRNESS] Node marlos_node_9 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_0 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_1 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_2 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_3 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_6 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_8 is starving! Never executed a job
+[COORDINATOR] Elected marlos_node_7 for job_23
+             Candidates: 7 idle nodes
+             Workload: 0 active jobs, 2 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+⚠️  [FAIRNESS] Node marlos_node_7 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_0 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_1 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_2 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_4 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_6 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_8 is starving! Never executed a job
+[COORDINATOR] Elected marlos_node_2 for job_24
+             Candidates: 6 idle nodes
+             Workload: 0 active jobs, 2 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+⚠️  [FAIRNESS] Node marlos_node_0 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_1 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_3 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_4 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_6 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_8 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_9 is starving! Never executed a job
+[COORDINATOR] Elected marlos_node_1 for job_25
+             Candidates: 5 idle nodes
+             Workload: 0 active jobs, 2 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+⚠️  [FAIRNESS] Node marlos_node_1 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_2 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_3 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_5 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_6 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_8 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_9 is starving! Never executed a job
+[COORDINATOR] Elected marlos_node_5 for job_26
+             Candidates: 4 idle nodes
+             Workload: 0 active jobs, 2 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+⚠️  [FAIRNESS] Node marlos_node_5 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_0 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_1 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_4 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_6 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_7 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_9 is starving! Never executed a job
+[COORDINATOR] Elected marlos_node_8 for job_27
+             Candidates: 3 idle nodes
+             Workload: 0 active jobs, 2 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+⚠️  [FAIRNESS] Node marlos_node_8 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_1 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_2 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_4 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_5 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_6 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_7 is starving! Never executed a job
+[COORDINATOR] Elected marlos_node_4 for job_28
+             Candidates: 2 idle nodes
+             Workload: 0 active jobs, 2 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+⚠️  [FAIRNESS] Node marlos_node_4 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_0 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_2 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_3 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_5 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_7 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_8 is starving! Never executed a job
+[COORDINATOR] Elected marlos_node_3 for job_29
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 2 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+⚠️  [FAIRNESS] Node marlos_node_3 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_2 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_4 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_6 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_7 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_8 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_9 is starving! Never executed a job
+[COORDINATOR] Node marlos_node_1 not healthy (last seen 30.8s ago)
+[COORDINATOR] Node marlos_node_2 not healthy (last seen 30.8s ago)
+[COORDINATOR] Node marlos_node_3 not healthy (last seen 30.8s ago)
+[COORDINATOR] Node marlos_node_4 not healthy (last seen 30.8s ago)
+[COORDINATOR] Node marlos_node_5 not healthy (last seen 30.8s ago)
+[COORDINATOR] Node marlos_node_6 not healthy (last seen 30.8s ago)
+[COORDINATOR] Node marlos_node_7 not healthy (last seen 30.8s ago)
+[COORDINATOR] Node marlos_node_8 not healthy (last seen 30.8s ago)
+[COORDINATOR] Node marlos_node_9 not healthy (last seen 30.8s ago)
+[COORDINATOR] Elected marlos_node_0 for job_30
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 3 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+⚠️  [FAIRNESS] Node marlos_node_0 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_1 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_2 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_3 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_5 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_7 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_9 is starving! Never executed a job
+[COORDINATOR] Elected marlos_node_0 for job_31
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 4 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+⚠️  [FAIRNESS] Node marlos_node_0 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_1 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_2 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_3 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_5 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_7 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_9 is starving! Never executed a job
+[COORDINATOR] Elected marlos_node_0 for job_32
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 5 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+⚠️  [FAIRNESS] Node marlos_node_0 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_1 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_3 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_5 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_7 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_9 is starving! Never executed a job
+[COORDINATOR] Elected marlos_node_0 for job_33
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 6 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+⚠️  [FAIRNESS] Node marlos_node_0 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_1 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_3 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_5 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_9 is starving! Never executed a job
+[COORDINATOR] Elected marlos_node_0 for job_34
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 7 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+⚠️  [FAIRNESS] Node marlos_node_0 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_1 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_3 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_5 is starving! Never executed a job
+[COORDINATOR] Node marlos_node_1 not healthy (last seen 35.9s ago)
+[COORDINATOR] Node marlos_node_2 not healthy (last seen 35.9s ago)
+[COORDINATOR] Node marlos_node_3 not healthy (last seen 35.9s ago)
+[COORDINATOR] Node marlos_node_4 not healthy (last seen 35.9s ago)
+[COORDINATOR] Node marlos_node_5 not healthy (last seen 35.9s ago)
+[COORDINATOR] Node marlos_node_6 not healthy (last seen 35.9s ago)
+[COORDINATOR] Node marlos_node_7 not healthy (last seen 35.9s ago)
+[COORDINATOR] Node marlos_node_8 not healthy (last seen 35.9s ago)
+[COORDINATOR] Node marlos_node_9 not healthy (last seen 35.9s ago)
+[COORDINATOR] Elected marlos_node_0 for job_35
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 8 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+⚠️  [FAIRNESS] Node marlos_node_0 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_3 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_5 is starving! Never executed a job
+[COORDINATOR] Elected marlos_node_0 for job_36
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 9 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+⚠️  [FAIRNESS] Node marlos_node_3 is starving! Never executed a job
+⚠️  [FAIRNESS] Node marlos_node_5 is starving! Never executed a job
+[COORDINATOR] Elected marlos_node_0 for job_37
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 10 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.026 bonus (starvation score: 0.51)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+⚠️  [FAIRNESS] Node marlos_node_5 is starving! Never executed a job
+[COORDINATOR] Elected marlos_node_0 for job_38
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 11 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.026 bonus (starvation score: 0.53)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+⚠️  [FAIRNESS] Node marlos_node_5 is starving! Never executed a job
+[COORDINATOR] Elected marlos_node_0 for job_39
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 12 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.027 bonus (starvation score: 0.54)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+⚠️  [FAIRNESS] Node marlos_node_5 is starving! Never executed a job
+[COORDINATOR] Node marlos_node_1 not healthy (last seen 41.0s ago)
+[COORDINATOR] Node marlos_node_2 not healthy (last seen 41.0s ago)
+[COORDINATOR] Node marlos_node_3 not healthy (last seen 41.0s ago)
+[COORDINATOR] Node marlos_node_4 not healthy (last seen 41.0s ago)
+[COORDINATOR] Node marlos_node_5 not healthy (last seen 41.0s ago)
+[COORDINATOR] Node marlos_node_6 not healthy (last seen 41.0s ago)
+[COORDINATOR] Node marlos_node_7 not healthy (last seen 41.0s ago)
+[COORDINATOR] Node marlos_node_8 not healthy (last seen 41.0s ago)
+[COORDINATOR] Node marlos_node_9 not healthy (last seen 41.0s ago)
+[COORDINATOR] Elected marlos_node_0 for job_40
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 13 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.025 bonus (starvation score: 0.50)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.028 bonus (starvation score: 0.56)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[COORDINATOR] Elected marlos_node_0 for job_41
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 14 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.026 bonus (starvation score: 0.52)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.029 bonus (starvation score: 0.57)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[COORDINATOR] Elected marlos_node_0 for job_42
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 15 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.027 bonus (starvation score: 0.53)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.029 bonus (starvation score: 0.59)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[COORDINATOR] Elected marlos_node_0 for job_43
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 16 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.027 bonus (starvation score: 0.54)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.030 bonus (starvation score: 0.60)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[COORDINATOR] Elected marlos_node_0 for job_44
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 17 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.028 bonus (starvation score: 0.55)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.030 bonus (starvation score: 0.61)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[COORDINATOR] Elected marlos_node_0 for job_45
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 18 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.028 bonus (starvation score: 0.56)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.031 bonus (starvation score: 0.62)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[COORDINATOR] Elected marlos_node_0 for job_46
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 19 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.028 bonus (starvation score: 0.57)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.031 bonus (starvation score: 0.62)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[COORDINATOR] Elected marlos_node_0 for job_47
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 20 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.029 bonus (starvation score: 0.58)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.031 bonus (starvation score: 0.63)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[COORDINATOR] Elected marlos_node_0 for job_48
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 21 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.029 bonus (starvation score: 0.58)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.032 bonus (starvation score: 0.63)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[COORDINATOR] Node marlos_node_1 not healthy (last seen 46.2s ago)
+[COORDINATOR] Node marlos_node_2 not healthy (last seen 46.2s ago)
+[COORDINATOR] Node marlos_node_3 not healthy (last seen 46.2s ago)
+[COORDINATOR] Node marlos_node_4 not healthy (last seen 46.2s ago)
+[COORDINATOR] Node marlos_node_5 not healthy (last seen 46.2s ago)
+[COORDINATOR] Node marlos_node_6 not healthy (last seen 46.2s ago)
+[COORDINATOR] Node marlos_node_7 not healthy (last seen 46.2s ago)
+[COORDINATOR] Node marlos_node_8 not healthy (last seen 46.2s ago)
+[COORDINATOR] Node marlos_node_9 not healthy (last seen 46.2s ago)
+[COORDINATOR] Elected marlos_node_0 for job_49
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 22 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.029 bonus (starvation score: 0.58)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.032 bonus (starvation score: 0.64)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+  Progress: 50/200 jobs
+[COORDINATOR] Elected marlos_node_0 for job_50
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 23 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.029 bonus (starvation score: 0.58)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.032 bonus (starvation score: 0.64)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[COORDINATOR] Elected marlos_node_0 for job_51
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 24 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.029 bonus (starvation score: 0.58)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.032 bonus (starvation score: 0.64)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[COORDINATOR] Elected marlos_node_0 for job_52
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 25 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.029 bonus (starvation score: 0.58)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.032 bonus (starvation score: 0.64)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[COORDINATOR] Elected marlos_node_0 for job_53
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 26 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.029 bonus (starvation score: 0.58)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.032 bonus (starvation score: 0.64)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[COORDINATOR] Elected marlos_node_0 for job_54
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 27 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.029 bonus (starvation score: 0.58)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.032 bonus (starvation score: 0.64)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[COORDINATOR] Elected marlos_node_0 for job_55
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 28 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.029 bonus (starvation score: 0.58)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.032 bonus (starvation score: 0.64)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[COORDINATOR] Elected marlos_node_0 for job_56
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 29 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.029 bonus (starvation score: 0.58)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.032 bonus (starvation score: 0.64)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[COORDINATOR] Elected marlos_node_0 for job_57
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 30 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.029 bonus (starvation score: 0.58)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.032 bonus (starvation score: 0.64)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[COORDINATOR] Elected marlos_node_0 for job_58
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 31 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.029 bonus (starvation score: 0.58)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.032 bonus (starvation score: 0.64)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[COORDINATOR] Elected marlos_node_0 for job_59
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 32 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.029 bonus (starvation score: 0.58)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.032 bonus (starvation score: 0.64)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[COORDINATOR] Elected marlos_node_0 for job_60
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 33 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.029 bonus (starvation score: 0.58)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.032 bonus (starvation score: 0.64)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[COORDINATOR] Elected marlos_node_0 for job_61
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 34 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.029 bonus (starvation score: 0.58)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.032 bonus (starvation score: 0.64)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[COORDINATOR] Elected marlos_node_0 for job_62
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 35 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.029 bonus (starvation score: 0.58)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.032 bonus (starvation score: 0.64)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[COORDINATOR] Elected marlos_node_0 for job_63
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 36 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.029 bonus (starvation score: 0.58)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.032 bonus (starvation score: 0.64)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[COORDINATOR] Elected marlos_node_0 for job_64
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 37 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.029 bonus (starvation score: 0.58)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.032 bonus (starvation score: 0.64)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[COORDINATOR] Elected marlos_node_0 for job_65
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 38 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.029 bonus (starvation score: 0.58)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.032 bonus (starvation score: 0.64)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[COORDINATOR] Elected marlos_node_0 for job_66
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 39 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.029 bonus (starvation score: 0.58)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.032 bonus (starvation score: 0.64)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[COORDINATOR] Elected marlos_node_0 for job_67
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 40 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.029 bonus (starvation score: 0.58)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.032 bonus (starvation score: 0.64)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[COORDINATOR] Elected marlos_node_0 for job_68
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 41 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.029 bonus (starvation score: 0.58)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.032 bonus (starvation score: 0.64)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[COORDINATOR] Elected marlos_node_0 for job_69
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 42 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.029 bonus (starvation score: 0.58)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.032 bonus (starvation score: 0.64)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[COORDINATOR] Elected marlos_node_0 for job_70
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 43 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.029 bonus (starvation score: 0.58)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.032 bonus (starvation score: 0.64)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[COORDINATOR] Elected marlos_node_0 for job_71
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 44 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.029 bonus (starvation score: 0.58)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.032 bonus (starvation score: 0.64)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[COORDINATOR] Elected marlos_node_0 for job_72
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 45 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.029 bonus (starvation score: 0.58)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.032 bonus (starvation score: 0.64)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[COORDINATOR] Elected marlos_node_0 for job_73
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 46 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.029 bonus (starvation score: 0.58)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.032 bonus (starvation score: 0.64)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[COORDINATOR] Elected marlos_node_0 for job_74
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 47 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.029 bonus (starvation score: 0.58)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.032 bonus (starvation score: 0.64)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[COORDINATOR] Elected marlos_node_0 for job_75
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 48 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.029 bonus (starvation score: 0.58)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.032 bonus (starvation score: 0.64)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[COORDINATOR] Elected marlos_node_0 for job_76
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 49 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.029 bonus (starvation score: 0.58)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.032 bonus (starvation score: 0.64)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[COORDINATOR] Elected marlos_node_0 for job_77
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 50 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.029 bonus (starvation score: 0.58)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.032 bonus (starvation score: 0.64)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[COORDINATOR] Elected marlos_node_0 for job_78
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 51 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.029 bonus (starvation score: 0.58)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.032 bonus (starvation score: 0.64)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[COORDINATOR] Elected marlos_node_0 for job_79
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 52 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.029 bonus (starvation score: 0.58)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.032 bonus (starvation score: 0.64)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[COORDINATOR] Elected marlos_node_0 for job_80
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 53 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.029 bonus (starvation score: 0.58)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.032 bonus (starvation score: 0.64)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[COORDINATOR] Elected marlos_node_0 for job_81
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 54 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.029 bonus (starvation score: 0.58)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.032 bonus (starvation score: 0.64)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[COORDINATOR] Elected marlos_node_0 for job_82
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 55 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.029 bonus (starvation score: 0.58)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.032 bonus (starvation score: 0.64)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[COORDINATOR] Elected marlos_node_0 for job_83
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 56 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.029 bonus (starvation score: 0.58)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.032 bonus (starvation score: 0.64)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[COORDINATOR] Elected marlos_node_0 for job_84
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 57 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.029 bonus (starvation score: 0.58)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.032 bonus (starvation score: 0.64)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[COORDINATOR] Elected marlos_node_0 for job_85
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 58 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.029 bonus (starvation score: 0.58)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.032 bonus (starvation score: 0.64)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[COORDINATOR] Elected marlos_node_0 for job_86
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 59 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.029 bonus (starvation score: 0.58)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.032 bonus (starvation score: 0.64)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[COORDINATOR] Elected marlos_node_0 for job_87
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 60 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.029 bonus (starvation score: 0.58)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.032 bonus (starvation score: 0.64)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[COORDINATOR] Elected marlos_node_0 for job_88
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 61 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.029 bonus (starvation score: 0.58)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.032 bonus (starvation score: 0.64)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[COORDINATOR] Elected marlos_node_0 for job_89
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 62 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.029 bonus (starvation score: 0.58)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.032 bonus (starvation score: 0.64)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[COORDINATOR] Elected marlos_node_0 for job_90
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 63 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.029 bonus (starvation score: 0.58)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.032 bonus (starvation score: 0.64)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[COORDINATOR] Elected marlos_node_0 for job_91
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 64 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.029 bonus (starvation score: 0.58)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.032 bonus (starvation score: 0.64)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[COORDINATOR] Elected marlos_node_0 for job_92
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 65 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.029 bonus (starvation score: 0.58)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.032 bonus (starvation score: 0.64)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[COORDINATOR] Elected marlos_node_0 for job_93
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 66 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.029 bonus (starvation score: 0.58)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.032 bonus (starvation score: 0.64)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[COORDINATOR] Elected marlos_node_0 for job_94
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 67 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.029 bonus (starvation score: 0.58)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.032 bonus (starvation score: 0.64)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[COORDINATOR] Elected marlos_node_0 for job_95
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 68 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.029 bonus (starvation score: 0.58)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.032 bonus (starvation score: 0.64)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[COORDINATOR] Elected marlos_node_0 for job_96
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 69 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.029 bonus (starvation score: 0.58)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.032 bonus (starvation score: 0.64)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[COORDINATOR] Elected marlos_node_0 for job_97
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 70 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.029 bonus (starvation score: 0.58)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.032 bonus (starvation score: 0.64)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[COORDINATOR] Elected marlos_node_0 for job_98
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 71 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.029 bonus (starvation score: 0.58)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.032 bonus (starvation score: 0.64)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[COORDINATOR] Elected marlos_node_0 for job_99
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 72 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.029 bonus (starvation score: 0.58)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.032 bonus (starvation score: 0.64)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+  Progress: 100/200 jobs
+[COORDINATOR] Elected marlos_node_0 for job_100
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 73 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.029 bonus (starvation score: 0.58)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.032 bonus (starvation score: 0.64)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[COORDINATOR] Elected marlos_node_0 for job_101
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 74 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.029 bonus (starvation score: 0.58)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.032 bonus (starvation score: 0.64)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[COORDINATOR] Elected marlos_node_0 for job_102
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 75 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.029 bonus (starvation score: 0.58)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.032 bonus (starvation score: 0.64)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[COORDINATOR] Elected marlos_node_0 for job_103
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 76 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.029 bonus (starvation score: 0.58)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.032 bonus (starvation score: 0.64)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[COORDINATOR] Elected marlos_node_0 for job_104
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 77 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.029 bonus (starvation score: 0.58)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.032 bonus (starvation score: 0.64)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[COORDINATOR] Elected marlos_node_0 for job_105
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 78 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.029 bonus (starvation score: 0.58)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.032 bonus (starvation score: 0.64)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[COORDINATOR] Elected marlos_node_0 for job_106
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 79 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.029 bonus (starvation score: 0.58)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.032 bonus (starvation score: 0.64)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[COORDINATOR] Elected marlos_node_0 for job_107
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 80 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.029 bonus (starvation score: 0.58)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.032 bonus (starvation score: 0.64)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[COORDINATOR] Elected marlos_node_0 for job_108
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 81 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.029 bonus (starvation score: 0.58)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.032 bonus (starvation score: 0.64)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[COORDINATOR] Elected marlos_node_0 for job_109
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 82 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.029 bonus (starvation score: 0.58)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.032 bonus (starvation score: 0.64)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[COORDINATOR] Elected marlos_node_0 for job_110
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 83 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.029 bonus (starvation score: 0.58)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.032 bonus (starvation score: 0.64)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[COORDINATOR] Elected marlos_node_0 for job_111
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 84 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.029 bonus (starvation score: 0.58)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.032 bonus (starvation score: 0.64)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[COORDINATOR] Elected marlos_node_0 for job_112
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 85 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.029 bonus (starvation score: 0.58)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.032 bonus (starvation score: 0.64)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[COORDINATOR] Elected marlos_node_0 for job_113
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 86 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.029 bonus (starvation score: 0.58)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.032 bonus (starvation score: 0.64)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[COORDINATOR] Elected marlos_node_0 for job_114
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 87 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.029 bonus (starvation score: 0.58)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.032 bonus (starvation score: 0.64)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[COORDINATOR] Elected marlos_node_0 for job_115
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 88 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.029 bonus (starvation score: 0.58)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.032 bonus (starvation score: 0.64)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[COORDINATOR] Elected marlos_node_0 for job_116
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 89 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.029 bonus (starvation score: 0.58)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.032 bonus (starvation score: 0.64)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[COORDINATOR] Elected marlos_node_0 for job_117
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 90 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.029 bonus (starvation score: 0.58)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.032 bonus (starvation score: 0.64)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[COORDINATOR] Elected marlos_node_0 for job_118
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 91 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.029 bonus (starvation score: 0.58)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.032 bonus (starvation score: 0.64)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[COORDINATOR] Elected marlos_node_0 for job_119
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 92 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.029 bonus (starvation score: 0.58)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.032 bonus (starvation score: 0.64)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[COORDINATOR] Elected marlos_node_0 for job_120
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 93 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.029 bonus (starvation score: 0.58)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.032 bonus (starvation score: 0.64)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[COORDINATOR] Elected marlos_node_0 for job_121
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 94 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.029 bonus (starvation score: 0.58)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.032 bonus (starvation score: 0.64)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[COORDINATOR] Elected marlos_node_0 for job_122
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 95 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.029 bonus (starvation score: 0.58)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.032 bonus (starvation score: 0.64)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[COORDINATOR] Elected marlos_node_0 for job_123
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 96 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.029 bonus (starvation score: 0.58)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.032 bonus (starvation score: 0.64)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[COORDINATOR] Elected marlos_node_0 for job_124
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 97 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.029 bonus (starvation score: 0.58)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.032 bonus (starvation score: 0.64)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[COORDINATOR] Elected marlos_node_0 for job_125
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 98 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.029 bonus (starvation score: 0.58)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.032 bonus (starvation score: 0.64)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[COORDINATOR] Elected marlos_node_0 for job_126
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 99 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.029 bonus (starvation score: 0.58)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.032 bonus (starvation score: 0.64)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[COORDINATOR] Elected marlos_node_0 for job_127
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 100 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.029 bonus (starvation score: 0.58)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.032 bonus (starvation score: 0.64)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[COORDINATOR] Elected marlos_node_0 for job_128
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 101 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.029 bonus (starvation score: 0.58)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.032 bonus (starvation score: 0.64)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[COORDINATOR] Elected marlos_node_0 for job_129
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 102 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.029 bonus (starvation score: 0.58)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.032 bonus (starvation score: 0.64)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[COORDINATOR] Elected marlos_node_0 for job_130
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 103 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.029 bonus (starvation score: 0.58)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.032 bonus (starvation score: 0.64)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[COORDINATOR] Elected marlos_node_0 for job_131
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 104 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.029 bonus (starvation score: 0.58)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.032 bonus (starvation score: 0.64)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[COORDINATOR] Elected marlos_node_0 for job_132
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 105 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.029 bonus (starvation score: 0.58)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.032 bonus (starvation score: 0.64)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[COORDINATOR] Elected marlos_node_0 for job_133
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 106 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.029 bonus (starvation score: 0.58)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.032 bonus (starvation score: 0.64)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[COORDINATOR] Elected marlos_node_0 for job_134
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 107 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.029 bonus (starvation score: 0.58)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.032 bonus (starvation score: 0.64)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[COORDINATOR] Elected marlos_node_0 for job_135
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 108 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.029 bonus (starvation score: 0.58)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.032 bonus (starvation score: 0.64)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[COORDINATOR] Elected marlos_node_0 for job_136
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 109 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.029 bonus (starvation score: 0.58)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.032 bonus (starvation score: 0.64)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[COORDINATOR] Elected marlos_node_0 for job_137
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 110 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.029 bonus (starvation score: 0.58)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.032 bonus (starvation score: 0.64)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[COORDINATOR] Elected marlos_node_0 for job_138
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 111 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.029 bonus (starvation score: 0.58)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.032 bonus (starvation score: 0.64)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[COORDINATOR] Elected marlos_node_0 for job_139
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 112 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.029 bonus (starvation score: 0.58)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.032 bonus (starvation score: 0.64)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[COORDINATOR] Elected marlos_node_0 for job_140
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 113 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.029 bonus (starvation score: 0.58)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.032 bonus (starvation score: 0.64)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[COORDINATOR] Elected marlos_node_0 for job_141
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 114 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.029 bonus (starvation score: 0.58)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.032 bonus (starvation score: 0.64)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[COORDINATOR] Elected marlos_node_0 for job_142
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 115 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.029 bonus (starvation score: 0.58)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.032 bonus (starvation score: 0.64)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[COORDINATOR] Elected marlos_node_0 for job_143
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 116 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.029 bonus (starvation score: 0.58)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.032 bonus (starvation score: 0.64)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[COORDINATOR] Elected marlos_node_0 for job_144
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 117 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.029 bonus (starvation score: 0.58)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.032 bonus (starvation score: 0.64)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[COORDINATOR] Elected marlos_node_0 for job_145
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 118 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.029 bonus (starvation score: 0.58)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.032 bonus (starvation score: 0.64)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[COORDINATOR] Elected marlos_node_0 for job_146
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 119 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.029 bonus (starvation score: 0.58)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.032 bonus (starvation score: 0.64)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[COORDINATOR] Elected marlos_node_0 for job_147
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 120 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.029 bonus (starvation score: 0.58)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.032 bonus (starvation score: 0.64)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[COORDINATOR] Elected marlos_node_0 for job_148
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 121 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.029 bonus (starvation score: 0.58)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.032 bonus (starvation score: 0.64)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[COORDINATOR] Elected marlos_node_0 for job_149
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 122 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.029 bonus (starvation score: 0.58)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.032 bonus (starvation score: 0.64)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+  Progress: 150/200 jobs
+[COORDINATOR] Elected marlos_node_0 for job_150
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 123 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.029 bonus (starvation score: 0.58)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.032 bonus (starvation score: 0.64)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[COORDINATOR] Elected marlos_node_0 for job_151
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 124 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.029 bonus (starvation score: 0.58)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.032 bonus (starvation score: 0.64)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[COORDINATOR] Elected marlos_node_0 for job_152
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 125 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.029 bonus (starvation score: 0.58)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.032 bonus (starvation score: 0.64)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[COORDINATOR] Elected marlos_node_0 for job_153
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 126 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.029 bonus (starvation score: 0.58)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.032 bonus (starvation score: 0.64)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[COORDINATOR] Elected marlos_node_0 for job_154
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 127 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.029 bonus (starvation score: 0.58)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.032 bonus (starvation score: 0.64)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[COORDINATOR] Elected marlos_node_0 for job_155
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 128 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.029 bonus (starvation score: 0.58)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.032 bonus (starvation score: 0.64)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[COORDINATOR] Elected marlos_node_0 for job_156
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 129 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.029 bonus (starvation score: 0.58)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.032 bonus (starvation score: 0.64)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[COORDINATOR] Elected marlos_node_0 for job_157
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 130 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.029 bonus (starvation score: 0.58)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.032 bonus (starvation score: 0.64)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[COORDINATOR] Elected marlos_node_0 for job_158
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 131 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.029 bonus (starvation score: 0.58)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.032 bonus (starvation score: 0.64)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[COORDINATOR] Elected marlos_node_0 for job_159
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 132 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.029 bonus (starvation score: 0.58)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.032 bonus (starvation score: 0.64)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[COORDINATOR] Elected marlos_node_0 for job_160
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 133 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.029 bonus (starvation score: 0.58)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.032 bonus (starvation score: 0.64)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[COORDINATOR] Elected marlos_node_0 for job_161
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 134 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.029 bonus (starvation score: 0.58)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.032 bonus (starvation score: 0.64)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[COORDINATOR] Elected marlos_node_0 for job_162
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 135 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.029 bonus (starvation score: 0.58)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.032 bonus (starvation score: 0.64)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[COORDINATOR] Elected marlos_node_0 for job_163
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 136 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.029 bonus (starvation score: 0.58)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.032 bonus (starvation score: 0.64)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[COORDINATOR] Elected marlos_node_0 for job_164
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 137 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.029 bonus (starvation score: 0.58)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.032 bonus (starvation score: 0.64)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[COORDINATOR] Elected marlos_node_0 for job_165
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 138 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.029 bonus (starvation score: 0.58)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.032 bonus (starvation score: 0.64)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[COORDINATOR] Elected marlos_node_0 for job_166
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 139 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.029 bonus (starvation score: 0.58)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.032 bonus (starvation score: 0.64)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[COORDINATOR] Elected marlos_node_0 for job_167
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 140 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.029 bonus (starvation score: 0.58)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.032 bonus (starvation score: 0.64)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[COORDINATOR] Elected marlos_node_0 for job_168
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 141 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.029 bonus (starvation score: 0.58)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.032 bonus (starvation score: 0.64)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[COORDINATOR] Elected marlos_node_0 for job_169
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 142 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.029 bonus (starvation score: 0.58)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.032 bonus (starvation score: 0.64)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[COORDINATOR] Elected marlos_node_0 for job_170
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 143 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.029 bonus (starvation score: 0.58)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.032 bonus (starvation score: 0.64)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[COORDINATOR] Elected marlos_node_0 for job_171
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 144 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.029 bonus (starvation score: 0.58)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.032 bonus (starvation score: 0.64)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[COORDINATOR] Elected marlos_node_0 for job_172
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 145 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.029 bonus (starvation score: 0.58)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.032 bonus (starvation score: 0.64)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[COORDINATOR] Elected marlos_node_0 for job_173
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 146 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.029 bonus (starvation score: 0.58)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.032 bonus (starvation score: 0.64)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[COORDINATOR] Elected marlos_node_0 for job_174
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 147 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.029 bonus (starvation score: 0.58)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.032 bonus (starvation score: 0.64)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[COORDINATOR] Elected marlos_node_0 for job_175
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 148 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.029 bonus (starvation score: 0.58)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.032 bonus (starvation score: 0.64)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[COORDINATOR] Elected marlos_node_0 for job_176
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 149 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.029 bonus (starvation score: 0.58)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.032 bonus (starvation score: 0.64)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[COORDINATOR] Elected marlos_node_0 for job_177
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 150 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.029 bonus (starvation score: 0.58)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.032 bonus (starvation score: 0.64)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[COORDINATOR] Elected marlos_node_0 for job_178
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 151 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.029 bonus (starvation score: 0.58)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.032 bonus (starvation score: 0.64)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[COORDINATOR] Elected marlos_node_0 for job_179
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 152 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.029 bonus (starvation score: 0.58)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.032 bonus (starvation score: 0.64)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[COORDINATOR] Elected marlos_node_0 for job_180
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 153 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.029 bonus (starvation score: 0.58)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.032 bonus (starvation score: 0.64)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[COORDINATOR] Elected marlos_node_0 for job_181
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 154 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.029 bonus (starvation score: 0.58)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.032 bonus (starvation score: 0.64)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[COORDINATOR] Elected marlos_node_0 for job_182
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 155 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.029 bonus (starvation score: 0.58)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.032 bonus (starvation score: 0.64)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[COORDINATOR] Elected marlos_node_0 for job_183
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 156 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.029 bonus (starvation score: 0.58)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.032 bonus (starvation score: 0.64)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[COORDINATOR] Elected marlos_node_0 for job_184
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 157 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.029 bonus (starvation score: 0.58)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.032 bonus (starvation score: 0.64)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[COORDINATOR] Elected marlos_node_0 for job_185
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 158 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.029 bonus (starvation score: 0.58)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.032 bonus (starvation score: 0.64)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[COORDINATOR] Elected marlos_node_0 for job_186
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 159 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.029 bonus (starvation score: 0.58)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.032 bonus (starvation score: 0.64)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[COORDINATOR] Elected marlos_node_0 for job_187
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 160 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.029 bonus (starvation score: 0.59)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.032 bonus (starvation score: 0.64)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[COORDINATOR] Elected marlos_node_0 for job_188
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 161 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.029 bonus (starvation score: 0.59)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.032 bonus (starvation score: 0.64)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[COORDINATOR] Elected marlos_node_0 for job_189
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 162 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.029 bonus (starvation score: 0.59)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.032 bonus (starvation score: 0.64)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[COORDINATOR] Elected marlos_node_0 for job_190
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 163 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.029 bonus (starvation score: 0.59)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.032 bonus (starvation score: 0.64)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[COORDINATOR] Elected marlos_node_0 for job_191
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 164 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.029 bonus (starvation score: 0.59)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.032 bonus (starvation score: 0.64)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[COORDINATOR] Elected marlos_node_0 for job_192
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 165 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.029 bonus (starvation score: 0.59)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.032 bonus (starvation score: 0.64)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[COORDINATOR] Elected marlos_node_0 for job_193
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 166 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.029 bonus (starvation score: 0.59)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.032 bonus (starvation score: 0.64)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[COORDINATOR] Elected marlos_node_0 for job_194
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 167 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.029 bonus (starvation score: 0.59)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.032 bonus (starvation score: 0.64)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[COORDINATOR] Elected marlos_node_0 for job_195
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 168 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.029 bonus (starvation score: 0.59)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.032 bonus (starvation score: 0.64)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[COORDINATOR] Elected marlos_node_0 for job_196
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 169 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.029 bonus (starvation score: 0.59)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.032 bonus (starvation score: 0.64)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[COORDINATOR] Elected marlos_node_0 for job_197
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 170 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.029 bonus (starvation score: 0.59)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.032 bonus (starvation score: 0.64)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[COORDINATOR] Elected marlos_node_0 for job_198
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 171 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.029 bonus (starvation score: 0.59)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.032 bonus (starvation score: 0.64)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[COORDINATOR] Elected marlos_node_0 for job_199
+             Candidates: 1 idle nodes
+             Workload: 0 active jobs, 172 coordinator roles
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.029 bonus (starvation score: 0.59)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.032 bonus (starvation score: 0.64)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+[FAIRNESS] Applying starvation boost: +0.050 bonus (starvation score: 1.00)
+  Progress: 200/200 jobs
+  OK Completed in 46.421s
+  OK Throughput: 4.31 jobs/sec
+
+================================================================================
+RESULTS
+================================================================================
+
+Throughput: -99.29% (MarlOS vs Centralized)
+Fairness:   -275000.00% better (lower Gini)
+Latency:    -14079.63% improvement
+
+================================================================================
+Generating Visualizations...
+================================================================================
+OK Saved: benchmark_performance_20251108_223729.png
+OK Saved: benchmark_metrics_20251108_223729.png
+
+================================================================================
+Generating Report...
+================================================================================
+OK Saved: marlos_benchmark_report_20251108_223732.txt
+OK Saved: marlos_benchmark_data_20251108_223732.json
+
+================================================================================
+✅ BENCHMARK COMPLETE
+================================================================================
+
+Generated Files:
+  Visualizations:
+     - benchmark_performance_20251108_223729.png
+     - benchmark_metrics_20251108_223729.png
+  Report:  marlos_benchmark_report_20251108_223732.txt
+  Data:    marlos_benchmark_data_20251108_223732.json
+
+================================================================================
+KEY RESULTS
+================================================================================
+
+>> MarlOS is -99.3% FASTER than Centralized OS
+>> MarlOS is -275000.0% MORE FAIR
+>> MarlOS has NO single point of failure
+
+================================================================================
+
