@@ -14,7 +14,7 @@ from ..schema.schema import Transaction
 
 class Wallet:
     """
-    Token wallet for managing AetherCredits (AC)
+    Token wallet for managing MarlCredits (MC)
     """
 
     def __init__(self, node_id: str, starting_balance: float = 100.0, data_dir: str = "./data", signing_key=None):
