@@ -1,0 +1,42 @@
+# Core
+aiohttp
+websockets
+pyyaml
+
+# P2P & Networking
+pyzmq
+msgpack
+
+# Cryptography
+cryptography
+pynacl
+
+# Token & Storage
+sqlalchemy
+aiosqlite
+
+# RL (PyTorch will be installed separately as CPU-only in Dockerfile)
+stable-baselines3
+gymnasium
+numpy
+# torch - installed separately
+
+# Job Execution
+docker
+psutil
+
+# Security Tools (Optional)
+scapy
+# yara-python  # Uncomment if needed
+
+# Utilities
+python-dotenv
+colorama
+rich
+tqdm
+click
+
+tensorboard
+
+
+orjson

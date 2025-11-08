@@ -1,0 +1,84 @@
+version: '3.8'
+
+services:
+  agent-1:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.agent.optimized
+    container_name: marlos-agent-1
+    environment:
+      - NODE_ID=agent-1
+      - PUB_PORT=5555
+      - SUB_PORT=5556
+      - DASHBOARD_PORT=3001
+      - BOOTSTRAP_PEERS=tcp://marlos-agent-2:5555,tcp://marlos-agent-3:5555
+      - PYTHONUNBUFFERED=1
+    ports:
+      - "5555:5555"
+      - "5556:5556"
+      - "8081:3001"  # Dashboard on unique host port
+    volumes:
+      - ./agent:/app/agent  # Mount code for hot-reload
+      - ./cli:/app/cli
+      - ./rl_trainer:/app/rl_trainer
+      - ./data/agent-1:/app/data
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - marlos-net
+
+  agent-2:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.agent.optimized
+    container_name: marlos-agent-2
+    environment:
+      - NODE_ID=agent-2
+      - PUB_PORT=5555
+      - SUB_PORT=5556
+      - DASHBOARD_PORT=3001
+      - BOOTSTRAP_PEERS=tcp://marlos-agent-1:5555,tcp://marlos-agent-3:5555
+      - PYTHONUNBUFFERED=1
+    ports:
+      - "5565:5555"  # External port different, internal same
+      - "5566:5556"
+      - "8082:3001"  # Dashboard on unique host port
+    volumes:
+      - ./agent:/app/agent  # Mount code for hot-reload
+      - ./cli:/app/cli
+      - ./rl_trainer:/app/rl_trainer
+      - ./data/agent-2:/app/data
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - marlos-net
+
+  agent-3:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.agent.optimized
+    container_name: marlos-agent-3
+    environment:
+      - NODE_ID=agent-3
+      - PUB_PORT=5555
+      - SUB_PORT=5556
+      - DASHBOARD_PORT=3001
+      - BOOTSTRAP_PEERS=tcp://marlos-agent-1:5555,tcp://marlos-agent-2:5555
+      - PYTHONUNBUFFERED=1
+    ports:
+      - "5575:5555"  # External port different, internal same
+      - "5576:5556"
+      - "8083:3001"  # Dashboard on unique host port
+    volumes:
+      - ./agent:/app/agent  # Mount code for hot-reload
+      - ./cli:/app/cli
+      - ./rl_trainer:/app/rl_trainer
+      - ./data/agent-3:/app/data
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - marlos-net
+
+networks:
+  marlos-net:
+    driver: bridge
+    driver_opts:
+      com.docker.network.bridge.name: marlos-br0
+      com.docker.network.bridge.enable_icc: "true"  # Enable inter-container communication
