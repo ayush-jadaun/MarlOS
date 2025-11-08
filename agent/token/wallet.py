@@ -88,7 +88,7 @@ class Wallet:
 
         self._save_wallet()
 
-        print(f"💰 [WALLET] +{amount:.2f} AC ({reason}) → Balance: {self.balance:.2f} AC")
+        print(f" [WALLET] +{amount:.2f} AC ({reason}) → Balance: {self.balance:.2f} AC")
         return tx
     
     def withdraw(self, amount: float, reason: str, job_id: str = None, to_node: str = None) -> Optional[Transaction]:

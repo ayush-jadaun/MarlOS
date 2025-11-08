@@ -87,7 +87,7 @@ class RLPolicy:
             # Explore: random action
             action = Action(np.random.randint(0, 3))
             confidence = 0.33
-            print(f"[RL] 🎲 Exploring: {action.name}")
+            print(f"[RL] Exploring: {action.name}")
         else:
             # Exploit: use model
             if self.model is not None and self.config.enabled:

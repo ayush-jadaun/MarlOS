@@ -258,7 +258,7 @@ def status(port, json_output):
 
                     # Wallet info
                     wallet = state.get('wallet', {})
-                    table = Table(title="💰 Wallet", box=box.ROUNDED)
+                    table = Table(title=" Wallet", box=box.ROUNDED)
                     table.add_column("Property", style="cyan")
                     table.add_column("Value", style="green")
 
@@ -419,7 +419,7 @@ def wallet(port):
 
                 wallet = state.get('wallet', {})
 
-                console.print("\n[bold cyan]💰 Wallet Information[/bold cyan]\n")
+                console.print("\n[bold cyan] Wallet Information[/bold cyan]\n")
 
                 table = Table(box=box.ROUNDED)
                 table.add_column("Property", style="cyan")

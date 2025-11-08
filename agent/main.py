@@ -599,7 +599,7 @@ class MarlOSAgent:
                 reason=reason
             )
             
-            print(f"   💰 Earned {payment_amount:.2f} AC")
+            print(f"    Earned {payment_amount:.2f} AC")
             print(f"   ⭐ Trust: {self.reputation.get_my_trust_score():.3f}")
 
 
