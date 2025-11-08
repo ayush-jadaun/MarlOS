@@ -2,29 +2,16 @@
 Token Wallet Management
 Handles token balance, transactions, staking, and ledger
 """
+import hashlib
 import time
 import json
 from typing import List, Dict, Optional
 from dataclasses import dataclass, asdict
 from pathlib import Path
 from .ledger import TransactionLedger, LedgerEntry
+from ..schema.schema import Transaction
 
-@dataclass
-class Transaction:
-    """Token transaction record"""
-    tx_id: str
-    timestamp: float
-    tx_type: str  # DEPOSIT, WITHDRAW, STAKE, UNSTAKE, SLASH
-    amount: float
-    balance_after: float
-    reason: str
-    job_id: Optional[str] = None
-    from_node: Optional[str] = None
-    to_node: Optional[str] = None
-    
-    def to_dict(self) -> dict:
-        return asdict(self)
-
+# Assuming LedgerEntry is available here or correctly imported via 'from .ledger import ...'
 
 class Wallet:
     """
@@ -47,7 +34,18 @@ class Wallet:
 
         # Load existing wallet if exists
         self._load_wallet()
-    
+
+    def _get_signature(self, tx: Transaction) -> str:
+        """Helper to sign a transaction, mirroring the deposit logic."""
+        if self.signing_key:
+            # Hash the core transaction data for signing
+            tx_data = f"{tx.tx_id}:{tx.timestamp}:{tx.amount}:{tx.balance_after}".encode()
+            # Assuming self.signing_key has a .sign() method that takes a hash digest
+            signature = self.signing_key.sign(hashlib.sha256(tx_data).digest()).hex()
+            return signature
+        else:
+            return "unsigned"
+
     def deposit(self, amount: float, reason: str, job_id: str = None, from_node: str = None) -> Transaction:
         """Deposit tokens (earn) - WITH LEDGER"""
         if amount <= 0:
@@ -56,6 +54,7 @@ class Wallet:
         self.balance += amount
         self.lifetime_earned += amount
 
+        # 1. Create Transaction (for JSON history)
         tx = Transaction(
             tx_id=self._generate_tx_id(),
             timestamp=time.time(),
@@ -69,16 +68,8 @@ class Wallet:
 
         self.transactions.append(tx)
 
-        # Add to ledger
-        from .ledger import LedgerEntry
-
-        # Sign transaction
-        if self.signing_key:
-            import hashlib
-            tx_data = f"{tx.tx_id}:{tx.timestamp}:{tx.amount}:{tx.balance_after}".encode()
-            signature = self.signing_key.sign(hashlib.sha256(tx_data).digest()).hex()
-        else:
-            signature = "unsigned"  # No signing key provided
+        # 2. Add to Ledger (for audited history)
+        signature = self._get_signature(tx)
 
         ledger_entry = LedgerEntry(
             entry_id=tx.tx_id,
@@ -102,7 +93,7 @@ class Wallet:
     
     def withdraw(self, amount: float, reason: str, job_id: str = None, to_node: str = None) -> Optional[Transaction]:
         """
-        Withdraw tokens (spend)
+        Withdraw tokens (spend) - WITH LEDGER
         Returns None if insufficient funds
         """
         if amount <= 0:
@@ -115,11 +106,12 @@ class Wallet:
         self.balance -= amount
         self.lifetime_spent += amount
         
+        # 1. Create Transaction (for JSON history)
         tx = Transaction(
             tx_id=self._generate_tx_id(),
             timestamp=time.time(),
             tx_type="WITHDRAW",
-            amount=-amount,
+            amount=-amount, # Amount is negative for debits
             balance_after=self.balance,
             reason=reason,
             job_id=job_id,
@@ -127,14 +119,32 @@ class Wallet:
         )
         
         self.transactions.append(tx)
+
+        # 2. Add to Ledger (for audited history)
+        signature = self._get_signature(tx)
+
+        ledger_entry = LedgerEntry(
+            entry_id=tx.tx_id,
+            timestamp=tx.timestamp,
+            from_node=self.node_id, # Source is this node
+            to_node=to_node,
+            amount=-amount,         # Ledger entry must also reflect the debit
+            tx_type="WITHDRAW",
+            reason=reason,
+            job_id=job_id,
+            balance_after=self.balance,
+            signature=signature
+        )
+        self.ledger.add_entry(ledger_entry)
+        
         self._save_wallet()
         
-        print(f"��� [WALLET] -{amount:.2f} AC ({reason}) → Balance: {self.balance:.2f} AC")
+        print(f"💸 [WALLET] -{amount:.2f} AC ({reason}) → Balance: {self.balance:.2f} AC")
         return tx
     
     def stake(self, amount: float, job_id: str) -> bool:
         """
-        Stake tokens as collateral for a job
+        Stake tokens as collateral for a job - WITH LEDGER
         Returns False if insufficient funds
         """
         if amount <= 0:
@@ -147,6 +157,7 @@ class Wallet:
         self.balance -= amount
         self.staked += amount
         
+        # 1. Create Transaction (for JSON history)
         tx = Transaction(
             tx_id=self._generate_tx_id(),
             timestamp=time.time(),
@@ -158,16 +169,34 @@ class Wallet:
         )
         
         self.transactions.append(tx)
+
+        # 2. Add to Ledger (for audited history)
+        signature = self._get_signature(tx)
+
+        ledger_entry = LedgerEntry(
+            entry_id=tx.tx_id,
+            timestamp=tx.timestamp,
+            from_node=self.node_id,
+            to_node=self.node_id,       # Staked funds remain internal/associated with this node
+            amount=-amount,             # Debit from available balance
+            tx_type="STAKE",
+            reason=f"Staked for job {job_id}",
+            job_id=job_id,
+            balance_after=self.balance,
+            signature=signature
+        )
+        self.ledger.add_entry(ledger_entry)
+        
         self._save_wallet()
         
-        print(f"��� [WALLET] Staked {amount:.2f} AC for job {job_id} → Available: {self.balance:.2f} AC, Staked: {self.staked:.2f} AC")
+        print(f"🔒 [WALLET] Staked {amount:.2f} AC for job {job_id} → Available: {self.balance:.2f} AC, Staked: {self.staked:.2f} AC")
         return True
     
     def unstake(self, amount: float, job_id: str, success: bool) -> Transaction:
         """
-        Release staked tokens
-        If success=True, tokens returned to balance
-        If success=False, tokens are slashed (lost)
+        Release staked tokens - WITH LEDGER
+        If success=True, tokens returned to balance (UNSTAKE).
+        If success=False, tokens are slashed (SLASH).
         """
         if amount <= 0:
             raise ValueError("Unstake amount must be positive")
@@ -178,32 +207,58 @@ class Wallet:
         self.staked -= amount
         
         if success:
-            # Return stake to balance
+            # Return stake to balance (Credit)
             self.balance += amount
             tx_type = "UNSTAKE"
             reason = f"Stake returned for job {job_id}"
-            print(f"��� [WALLET] Stake returned: +{amount:.2f} AC → Balance: {self.balance:.2f} AC")
+            tx_amount = amount
+            print(f"🔓 [WALLET] Stake returned: +{amount:.2f} AC → Balance: {self.balance:.2f} AC")
         else:
-            # Slash stake (lost forever)
+            # Slash stake (Debit/Loss - no change to self.balance as it was never available)
             tx_type = "SLASH"
             reason = f"Stake slashed for job {job_id}"
-            print(f"��� [WALLET] Stake slashed: -{amount:.2f} AC")
+            tx_amount = -amount # Amount is negative for the loss
+            print(f"🔪 [WALLET] Stake slashed: -{amount:.2f} AC")
         
+        # 1. Create Transaction (for JSON history)
         tx = Transaction(
             tx_id=self._generate_tx_id(),
             timestamp=time.time(),
             tx_type=tx_type,
-            amount=amount if success else -amount,
+            amount=tx_amount,
             balance_after=self.balance,
             reason=reason,
             job_id=job_id
         )
         
         self.transactions.append(tx)
+
+        # 2. Add to Ledger (for audited history)
+        signature = self._get_signature(tx)
+
+        # For SLASH, the balance_after already reflects the new balance, 
+        # but the ledger entry must record the permanent loss.
+        ledger_entry = LedgerEntry(
+            entry_id=tx.tx_id,
+            timestamp=tx.timestamp,
+            from_node=self.node_id,
+            to_node=self.node_id,
+            amount=tx_amount,
+            tx_type=tx_type,
+            reason=reason,
+            job_id=job_id,
+            balance_after=self.balance,
+            signature=signature
+        )
+        self.ledger.add_entry(ledger_entry)
+        
         self._save_wallet()
         
         return tx
     
+    # Remaining methods (can_afford, get_total_value, get_transaction_history, 
+    # get_stats, _generate_tx_id, _save_wallet, _load_wallet) are unchanged.
+
     def can_afford(self, amount: float) -> bool:
         """Check if wallet has sufficient balance"""
         return self.balance >= amount
@@ -266,6 +321,6 @@ class Wallet:
                     for tx_data in wallet_data.get('transactions', [])
                 ]
                 
-                print(f"��� [WALLET] Loaded existing wallet: {self.balance:.2f} AC")
+                print(f"✔️ [WALLET] Loaded existing wallet: {self.balance:.2f} AC")
             except Exception as e:
                 print(f"⚠️  [WALLET] Error loading wallet: {e}, starting fresh")
