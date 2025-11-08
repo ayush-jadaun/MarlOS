@@ -148,7 +148,7 @@ class TokenEconomy:
         Add tokens back to reward pool (from slashed stakes, network fees)
         """
         self.reward_pool += amount
-        print(f"💰 [ECONOMY] Reward pool replenished: +{amount:.2f} AC → Pool: {self.reward_pool:.2f} AC")
+        print(f" [ECONOMY] Reward pool replenished: +{amount:.2f} AC → Pool: {self.reward_pool:.2f} AC")
     
     def get_pool_status(self) -> dict:
         """Get reward pool status"""

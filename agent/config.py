@@ -9,16 +9,43 @@ from typing import List
 
 
 @dataclass
+class PredictiveConfig:
+    """Predictive pre-execution configuration"""
+    # Feature toggle
+    enabled: bool = True  # Enable predictive pre-execution
+
+    # Pattern detection
+    min_pattern_confidence: float = 0.75  # Min confidence to predict (75%)
+    min_occurrences: int = 3  # Min times pattern must occur
+
+    # Economic constraints
+    max_speculation_ratio: float = 0.2  # Max 20% of capacity on speculation
+    min_expected_value: float = 3.0  # Min expected profit in AC tokens
+
+    # Rewards/penalties
+    correct_prediction_reward: int = 20  # Huge reward for cache hit!
+    wrong_prediction_penalty: int = 5  # Penalty for wasted compute
+
+    # Cache settings
+    cache_ttl: int = 300  # Cache results for 5 minutes
+    max_cache_size: int = 100  # Max cached results
+
+    # RL Speculation
+    rl_speculation_enabled: bool = True  # Use RL for speculation decisions
+    rl_model_path: str = "rl_trainer/models/speculation_policy.zip"
+
+
+@dataclass
 class RLConfig:
     """Reinforcement learning configuration"""
     model_path: str = "rl_trainer/models/policy_v1.zip"
-    state_dim: int = 25  
+    state_dim: int = 35  # Extended for prediction features
     action_dim: int = 3  # BID, FORWARD, DEFER
 
     # Learning
     online_learning: bool = False
     exploration_rate: float = 0.1
-    enabled: bool = False 
+    enabled: bool = True
 
 
 @dataclass
@@ -114,7 +141,7 @@ class AgentConfig:
     """Main agent configuration"""
     node_id: str = None
     node_name: str = None
-    
+
     # Sub-configs
     network: NetworkConfig = None
     token: TokenConfig = None
@@ -122,7 +149,8 @@ class AgentConfig:
     rl: RLConfig = None
     executor: ExecutorConfig = None
     dashboard: DashboardConfig = None
-    
+    predictive: PredictiveConfig = None
+
     # Storage
     data_dir: str = "./data"
     
@@ -146,6 +174,8 @@ class AgentConfig:
             self.executor = ExecutorConfig()
         if self.dashboard is None:
             self.dashboard = DashboardConfig()
+        if self.predictive is None:
+            self.predictive = PredictiveConfig()
         
         # Create data directory
         os.makedirs(self.data_dir, exist_ok=True)

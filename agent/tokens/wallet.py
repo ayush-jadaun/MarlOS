@@ -15,7 +15,7 @@ from ..schema.schema import Transaction
 
 class Wallet:
     """
-    Token wallet for managing AetherCredits (AC)
+    Token wallet for managing MarlCredits (AC)
     """
 
     def __init__(self, node_id: str, starting_balance: float = 100.0, data_dir: str = "./data", signing_key=None):
@@ -88,7 +88,7 @@ class Wallet:
 
         self._save_wallet()
 
-        print(f"💰 [WALLET] +{amount:.2f} AC ({reason}) → Balance: {self.balance:.2f} AC")
+        print(f" [WALLET] +{amount:.2f} AC ({reason}) → Balance: {self.balance:.2f} AC")
         return tx
     
     def withdraw(self, amount: float, reason: str, job_id: str = None, to_node: str = None) -> Optional[Transaction]:
