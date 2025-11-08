@@ -377,6 +377,9 @@ executor:
     max_retries: 2              # Max retry attempts
 
 
+mqtt_broker_host: str = "mosquitto"
+mqtt_broker_port: int = 1883
+
 # =============================================================================
 # PREDICTIVE PRE-EXECUTION (NEGATIVE LATENCY!)
 # =============================================================================

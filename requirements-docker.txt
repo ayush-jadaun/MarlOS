@@ -40,3 +40,5 @@ tensorboard
 
 
 orjson
+
+paho-mqtt

@@ -25,6 +25,10 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
     networks:
       - marlos-net
+    # --- FIX: Wait for mosquitto to start first ---
+    depends_on:
+      mosquitto:
+        condition: service_started
 
   agent-2:
     build:
@@ -38,6 +42,7 @@ services:
       - DASHBOARD_PORT=3001
       - BOOTSTRAP_PEERS=tcp://marlos-agent-1:5555,tcp://marlos-agent-3:5555
       - PYTHONUNBUFFERED=1
+      - ENABLE_HARDWARE_RUNNER=true
     ports:
       - "5565:5555"  # External port different, internal same
       - "5566:5556"
@@ -50,6 +55,10 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
     networks:
       - marlos-net
+    # --- FIX: Wait for mosquitto to start first ---
+    depends_on:
+      mosquitto:
+        condition: service_started
 
   agent-3:
     build:
@@ -75,6 +84,30 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
     networks:
       - marlos-net
+    # --- FIX: Wait for mosquitto to start first ---
+    depends_on:
+      mosquitto:
+        condition: service_started
+
+  mosquitto:
+    image: eclipse-mosquitto:latest
+    container_name: mosquitto
+    ports:
+      - "1883:1883"
+      - "9001:9001"
+    volumes:
+      # --- ADD THIS LINE ---
+      - ./config/mosquitto.conf:/mosquitto/config/mosquitto.conf
+      - mosquitto_data:/mosquitto/data
+      - mosquitto_log:/mosquitto/log
+    networks:
+      - marlos-net
+    healthcheck:
+      test: ["CMD", "mosquitto_pub", "-h", "localhost", "-t", "health/check", "-m", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 5s
 
 networks:
   marlos-net:
@@ -82,3 +115,7 @@ networks:
     driver_opts:
       com.docker.network.bridge.name: marlos-br0
       com.docker.network.bridge.enable_icc: "true"  # Enable inter-container communication
+
+volumes:
+  mosquitto_data:
+  mosquitto_log:

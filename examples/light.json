@@ -1,0 +1,9 @@
+{
+  "job_type": "led_control",
+  "priority": 0.5,
+  "payment": 50.0,
+  "requirements": ["led_control"],
+  "payload": {
+    "command": "OFF"
+  }
+}
