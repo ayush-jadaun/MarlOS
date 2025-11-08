@@ -1,0 +1,52 @@
+# Multi-stage build for smaller image size
+FROM python:3.11-slim as builder
+
+WORKDIR /build
+
+# Install only build dependencies needed for compilation
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy requirements and install Python packages
+COPY requirements-docker.txt .
+
+# Install CPU-only PyTorch first (much smaller than CUDA version)
+# CPU torch: ~200MB vs CUDA torch: ~2-4GB
+RUN pip install --no-cache-dir --user \
+    torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu
+
+# Install other dependencies
+RUN pip install --no-cache-dir --user -r requirements-docker.txt
+
+
+# Final stage - slim runtime image
+FROM python:3.11-slim
+
+WORKDIR /app
+
+# Install only essential runtime dependencies
+# Remove clamav (5-10GB) and other heavy packages if not critical
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    nmap \
+    git \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy Python packages from builder
+COPY --from=builder /root/.local /root/.local
+
+# Make sure scripts in .local are usable
+ENV PATH=/root/.local/bin:$PATH
+
+# Copy application code
+COPY agent/ ./agent/
+COPY cli/ ./cli/
+
+# Create data directory
+RUN mkdir -p /app/data
+
+# Expose ports
+EXPOSE 5555 5556 3001
+
+# Run agent
+CMD ["python", "-m", "agent.main"]

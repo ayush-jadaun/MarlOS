@@ -6,7 +6,7 @@ import time
 import json
 from pathlib import Path
 from typing import Dict, List, Optional
-from ..schema import ReputationEvent
+from ..schema.schema import ReputationEvent
 from ..config import TrustConfig
 
 # Import trust decay

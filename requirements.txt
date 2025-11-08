@@ -31,3 +31,5 @@ orjson
 pytest_asyncio
 
 aiohttp
+
+click
