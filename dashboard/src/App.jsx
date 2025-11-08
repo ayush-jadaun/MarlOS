@@ -12,7 +12,7 @@ import Metrics from './components/Views/Metrics';
 
 function App() {
   const [activeView, setActiveView] = useState('overview');
-  const [selectedAgent, setSelectedAgent] = useState(3001); // Default to first agent
+  const [selectedAgent, setSelectedAgent] = useState(8081); // Default to first agent
   const { agentsState, connections, connectedCount, totalAgents, error } = useMultiAgentWebSocket();
 
   // Get the currently selected agent's state
@@ -51,7 +51,7 @@ function App() {
           <div className="flex items-center gap-4">
             <span className="text-sm text-gray-400">Select Agent:</span>
             <div className="flex gap-2">
-              {[3001, 3002, 3003].map((port, index) => {
+              {[8081, 8082, 8083].map((port, index) => {
                 const isConnected = connections[port];
                 const isSelected = selectedAgent === port;
                 const state = agentsState[port];
