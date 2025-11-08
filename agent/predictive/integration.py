@@ -44,6 +44,7 @@ class PredictiveExtension:
         )
 
         self.speculation_engine = SpeculationEngine(
+            agent=self.agent,
             config=self.config,
             executor=agent.executor,
             cache=self.cache,

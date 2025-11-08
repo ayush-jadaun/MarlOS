@@ -540,34 +540,67 @@ class MarlOSAgent:
     
     async def _execute_job(self, job: dict, stake_amount: float):
         """Execute a job we won"""
-        job_id = job['job_id']
+        job_id = job['job_id'] # This is the REAL job_id
 
         print(f"\n▶️  Executing job {job_id}")
 
-        # Check if we have a pre-executed result in cache (NEGATIVE LATENCY!)
+        # Check cache for pre-executed result
         cached_result = self.predictive.check_cache(job)
+
         if cached_result:
-            print(f"   ⚡ CACHE HIT! Using pre-executed result (NEGATIVE LATENCY)")
-            # Create JobResult from cached data
-            from .executor.engine import JobResult, JobStatus
+            print(f"*** [CACHE] CACHE HIT! Using pre-executed result for job {job_id} ***")
+
+            fingerprint = job.get('fingerprint')
+            if fingerprint:
+                self.predictive.speculation_engine.report_cache_hit(fingerprint)
+
+            # --- THIS IS THE FIX ---
+            # We must create a NEW JobResult object using the REAL job_id.
+            # Do NOT use the cached_result object directly, as it has the
+            # speculative job's ID and a FAILURE status.
+
+            # We use the *output* from the cache, but the *identity* of the real job.
+
+            # Handle both JobResult objects and dicts from cache
+            final_output = {}
+            final_error = None
+            final_status = JobStatus.SUCCESS # Default to success for a cache hit
+
+            if isinstance(cached_result, JobResult):
+                # If the cached result was a FAILURE (e.g., 'No command'),
+                # we must re-run the job. We can't use a failed cached result.
+                if cached_result.status == JobStatus.FAILURE:
+                    print(f"⚠️  [CACHE] Cached result was a FAILURE. Re-executing job {job_id} normally.")
+                    await self.executor.execute_job(job) # This will call _handle_job_result on its own
+                    return
+
+                final_output = cached_result.output
+                final_error = cached_result.error
+                final_status = cached_result.status # Use the cached status (should be SUCCESS)
+
+            elif isinstance(cached_result, dict):
+                final_output = cached_result.get('output', {})
+                final_error = cached_result.get('error')
+                final_status = cached_result.get('status', JobStatus.SUCCESS)
+
+            # Create the final result with the REAL job_id
             result = JobResult(
-                job_id=job_id,
-                status=JobStatus.SUCCESS,
-                output=cached_result.get('output', ''),
-                error=None,
-                start_time=time.time(),
+                job_id=job_id,  # Use the REAL job_id
+                status=final_status,
+                output=final_output,
+                error=final_error,
+                start_time=time.time(), # Mark as instant
                 end_time=time.time(),
-                duration=0.0  # Instant!
+                duration=0.0 
             )
-            # Handle the cached result
+
+            # Handle this new, correct result
             await self._handle_job_result(result)
             return
 
-        # Execute normally if not cached
-        result = await self.executor.execute_job(job)
+        # Not in cache - execute normally
+        await self.executor.execute_job(job)
 
-        # Result already handled by callback
-    
     async def _handle_job_result(self, result: JobResult):
         """Handle job completion result"""
         job_id = result.job_id
@@ -606,12 +639,14 @@ class MarlOSAgent:
                 deadline=deadline,
                 success=True
             )
-
             # Release stake
             self.wallet.unstake(stake, job_id, success=True)
             
-            # Deposit payment
-            self.wallet.deposit(payment_amount, reason, job_id=job_id)
+            if payment_amount >0:
+                self.wallet.deposit(payment_amount,reason,job_id=job_id)
+                print(f"   Earned {payment_amount:.2f} MC")
+            else:
+                print(f"    Speculative job success, no payment")
             
             # Update reputation
             on_time = result.end_time < deadline
@@ -628,7 +663,6 @@ class MarlOSAgent:
                 reason=reason
             )
             
-            print(f"    Earned {payment_amount:.2f} AC")
             print(f"   ⭐ Trust: {self.reputation.get_my_trust_score():.3f}")
 
 

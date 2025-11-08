@@ -28,6 +28,8 @@ class PeerDiscovery:
         
         # Multicast config
         self.multicast_group = '239.255.255.250'
+        
+        
         self.multicast_port = 5353
         
         # Bootstrap nodes (hardcoded fallbacks)
