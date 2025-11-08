@@ -106,8 +106,9 @@ class BidScorer:
             # Convert to bonus: starving nodes get up to +5% boost (reduced from 10%)
             coordinator_bonus = starvation_score * self.COORDINATOR_BONUS_MAX
 
+            # FIXED: Remove reference to non-existent starvation_multiplier
             if starvation_score > 0.5:
-                print(f"[FAIRNESS] Applying starvation boost: {starvation_multiplier:.2f}x (score: {starvation_score:.2f})")
+                print(f"[FAIRNESS] Applying starvation boost: +{coordinator_bonus:.3f} bonus (starvation score: {starvation_score:.2f})")
 
         # 3. Fairness Jitter - random ±2% to prevent deterministic monopoly (reduced from 5%)
         jitter = random.uniform(-self.FAIRNESS_JITTER, self.FAIRNESS_JITTER)
@@ -117,7 +118,7 @@ class BidScorer:
 
         # Apply sigmoid-like soft clamping to prevent hard ceiling saturation
         # This spreads out scores near 1.0 to maintain differentiation
-        final_score = self._soft_clamp(final_score)
+        clamped_score = self._soft_clamp(final_score)
 
         return clamped_score
 
