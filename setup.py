@@ -5,7 +5,23 @@ Setup configuration for pip installation
 """
 
 from setuptools import setup, find_packages
+from setuptools.command.install import install
 from pathlib import Path
+import subprocess
+import sys
+
+
+class PostInstallCommand(install):
+    """Post-installation script to check PATH setup"""
+    def run(self):
+        install.run(self)
+        # Run the post-install check
+        try:
+            subprocess.run([sys.executable, "scripts/post_install.py"], check=False)
+        except Exception:
+            # Don't fail installation if post-install check fails
+            pass
+
 
 # Read long description from README
 this_directory = Path(__file__).parent
@@ -73,5 +89,10 @@ setup(
         'Bug Reports': 'https://github.com/ayush-jadaun/MarlOS/issues',
         'Source': 'https://github.com/ayush-jadaun/MarlOS',
         'Documentation': 'https://github.com/ayush-jadaun/MarlOS/blob/main/README.md',
+    },
+
+    # Custom install command
+    cmdclass={
+        'install': PostInstallCommand,
     },
 )

@@ -99,6 +99,36 @@ marl --help          # See all commands
 
 **See complete guide:** [pip Installation Guide](https://github.com/ayush-jadaun/MarlOS/blob/main/docs/PIP_INSTALL.md) 📦
 
+> **⚠️ "marl: command not found" error?**
+> This happens when Python's Scripts directory isn't in your PATH. See our **[Complete PATH Setup Guide](https://github.com/ayush-jadaun/MarlOS/blob/main/docs/PATH_SETUP_QUICK_REFERENCE.md)** for detailed OS-specific instructions.
+>
+> **Quick fixes:**
+> - **Windows**: Run our [automated installer](https://github.com/ayush-jadaun/MarlOS/blob/main/scripts/install_windows.ps1) or add to PATH manually
+> - **Linux/Mac**: Add `export PATH="$HOME/.local/bin:$PATH"` to `~/.bashrc` or `~/.zshrc`
+> - **Or use**: `python -m cli.main` (works without PATH changes)
+> - **Best solution**: Install with `pipx` instead of `pip` - it handles PATH automatically!
+
+### 🎁 Installing for Friends?
+
+**Share this easy guide:** [INSTALL_FOR_FRIENDS.md](https://github.com/ayush-jadaun/MarlOS/blob/main/INSTALL_FOR_FRIENDS.md)
+
+**Automated Windows installer** (downloads & sets up PATH automatically):
+```powershell
+# Download and run the installer
+irm https://raw.githubusercontent.com/ayush-jadaun/MarlOS/main/scripts/install_windows.ps1 | iex
+```
+
+Or download manually:
+```powershell
+# PowerShell (recommended)
+Invoke-WebRequest -Uri "https://raw.githubusercontent.com/ayush-jadaun/MarlOS/main/scripts/install_windows.ps1" -OutFile "install_marlos.ps1"
+powershell -ExecutionPolicy Bypass -File install_marlos.ps1
+
+# Or batch file
+Invoke-WebRequest -Uri "https://raw.githubusercontent.com/ayush-jadaun/MarlOS/main/scripts/install_windows.bat" -OutFile "install_marlos.bat"
+install_marlos.bat
+```
+
 ---
 
 ### 🚀 One-Line Interactive Installation (Full Setup)
