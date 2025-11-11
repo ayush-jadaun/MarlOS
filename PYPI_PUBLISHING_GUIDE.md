@@ -120,14 +120,14 @@ python -m build
 This creates:
 ```
 dist/
-├── marlos-1.0.0-py3-none-any.whl    # Wheel (binary)
-└── marlos-1.0.0.tar.gz               # Source distribution
+├── marlos-1.0.3-py3-none-any.whl    # Wheel (binary)
+└── marlos-1.0.3.tar.gz               # Source distribution
 ```
 
 ### 4.3 Verify Package Contents
 
 ```bash
-tar -tzf dist/marlos-1.0.0.tar.gz | head -20
+tar -tzf dist/marlos-1.0.3.tar.gz | head -20
 ```
 
 Should include:
@@ -152,13 +152,13 @@ twine upload --repository testpypi dist/*
 You'll see:
 ```
 Uploading distributions to https://test.pypi.org/legacy/
-Uploading marlos-1.0.0-py3-none-any.whl
+Uploading marlos-1.0.3-py3-none-any.whl
 100% ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Uploading marlos-1.0.0.tar.gz
+Uploading marlos-1.0.3.tar.gz
 100% ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 View at:
-https://test.pypi.org/project/marlos/1.0.0/
+https://test.pypi.org/project/marlos/1.0.3/
 ```
 
 ### 5.2 Test Installation from TestPyPI
@@ -210,13 +210,13 @@ twine upload dist/*
 You'll see:
 ```
 Uploading distributions to https://upload.pypi.org/legacy/
-Uploading marlos-1.0.0-py3-none-any.whl
+Uploading marlos-1.0.3-py3-none-any.whl
 100% ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Uploading marlos-1.0.0.tar.gz
+Uploading marlos-1.0.3.tar.gz
 100% ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 View at:
-https://pypi.org/project/marlos/1.0.0/
+https://pypi.org/project/marlos/1.0.3/
 ```
 
 ### 6.3 Verify on PyPI
@@ -225,7 +225,7 @@ Visit: https://pypi.org/project/marlos/
 
 You should see:
 - Package name: **marlos**
-- Version: **1.0.0**
+- Version: **1.0.3**
 - Your README rendered
 - Installation instructions
 - Project links
@@ -427,7 +427,7 @@ Autonomous distributed OS with RL-based job scheduling.
 5. **Monitor package for unauthorized changes**
 6. **Sign releases with GPG** (optional):
    ```bash
-   gpg --detach-sign -a dist/marlos-1.0.0.tar.gz
+   gpg --detach-sign -a dist/marlos-1.0.3.tar.gz
    ```
 
 ---

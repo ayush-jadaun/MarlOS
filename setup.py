@@ -34,7 +34,7 @@ with open('requirements.txt', 'r') as f:
 
 setup(
     name='marlos',
-    version='1.0.2',
+    version='1.0.3',
     description='Autonomous Distributed Computing Operating System with Reinforcement Learning',
     long_description=long_description,
     long_description_content_type='text/markdown',

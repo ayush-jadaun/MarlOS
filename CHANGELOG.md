@@ -5,7 +5,7 @@ All notable changes to MarlOS will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.0.2] - 2025-01-11
+## [1.0.3] - 2025-01-11
 
 ### Fixed
 - Fixed `marl install` command crashing when MarlOS is installed via pip
@@ -28,12 +28,31 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Added `get_source_root()` to find source directory for development
   - CLI now provides appropriate guidance based on installation type
 
+- **Source Code Management** ⭐ NEW
+  - Added `check_source_required()` to detect if source code is available
+  - Added `clone_repository()` for interactive repository cloning
+  - CLI now offers to clone repository automatically when needed
+  - Smart detection of existing repositories with update option
+  - Automatic editable installation after cloning
+
+- **Agent Running Detection** ⭐ NEW
+  - Added `check_agent_running()` to detect if MarlOS agent is active
+  - Added `prompt_start_agent()` with helpful start instructions
+  - All commands now check if agent is running before execution
+  - Clear error messages when agent is not running
+  - Offers to start agent interactively when needed
+
 ### Changed
 - Updated `marl install` to show success message for pip installations instead of crashing
 - Updated all start commands to detect and handle pip installations properly
 - Updated configuration and documentation menus to work with both installation types
 - CLI now guides users to clone source code when needed for running nodes
 - Improved error messages throughout with actionable next steps
+- **All commands now check prerequisites before execution** ⭐
+  - `marl start` checks for source code, offers to clone
+  - `marl execute`, `marl status`, `marl peers`, `marl wallet`, `marl watch`, `marl submit` check if agent is running
+  - Interactive menu shows source code status
+  - Clear, helpful messages when requirements not met
 
 ### Documentation
 - Updated README.md with prominent PATH setup warning

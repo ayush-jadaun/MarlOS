@@ -75,7 +75,7 @@ def print_banner():
 ║   ╚═╝     ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝ ╚═════╝ ╚══════╝      ║
 ║                                                               ║
 ║        Autonomous Distributed Computing OS                   ║
-║        v1.0.2 | Team async_await                             ║
+║        v1.0.3 | Team async_await                             ║
 ║                                                               ║
 ╚═══════════════════════════════════════════════════════════════╝
 [/bold cyan]
@@ -85,30 +85,168 @@ def print_banner():
 
 def check_installation():
     """Check if MarlOS is properly installed"""
-    # If installed via pip, always return True
-    if is_pip_installed():
-        return True, True
+    # Check if pip installed
+    pip_installed = is_pip_installed()
 
-    # For source installations, check for required files
+    # Check if source code is available
     source_root = get_source_root()
-    if source_root is None:
-        return False, False
+    has_source = source_root is not None and (source_root / "agent" / "main.py").exists()
 
-    required_files = [
-        source_root / "agent" / "main.py",
-        source_root / "requirements.txt",
-    ]
+    # For source installations, check venv
+    venv_configured = False
+    if has_source:
+        venv_python = source_root / "venv" / "bin" / "python"
+        if os.name == 'nt':  # Windows
+            venv_python = source_root / "venv" / "Scripts" / "python.exe"
+        venv_configured = venv_python.exists()
 
-    installed = all(f.exists() for f in required_files)
+    return pip_installed or has_source, has_source
 
-    # Check if venv exists and has packages
-    venv_python = source_root / "venv" / "bin" / "python"
-    if os.name == 'nt':  # Windows
-        venv_python = source_root / "venv" / "Scripts" / "python.exe"
 
-    venv_configured = venv_python.exists()
+def check_source_required():
+    """Check if source code is required and prompt user to install if not present"""
+    source_root = get_source_root()
 
-    return installed, venv_configured
+    if source_root is None or not (source_root / "agent" / "main.py").exists():
+        console.print("\n[bold red]⚠️  MarlOS Source Code Required[/bold red]\n")
+        console.print("To start MarlOS nodes, you need the full source code.\n")
+
+        if is_pip_installed():
+            console.print("[green]✓[/green] MarlOS CLI is installed via pip")
+            console.print("[red]✗[/red] But agent source code is not available\n")
+
+        console.print("[bold yellow]How to Install Source Code:[/bold yellow]\n")
+        console.print("Option 1 - Clone from GitHub (Recommended):")
+        console.print("  [cyan]git clone https://github.com/ayush-jadaun/MarlOS.git[/cyan]")
+        console.print("  [cyan]cd MarlOS[/cyan]")
+        console.print("  [cyan]pip install -e .[/cyan]\n")
+
+        console.print("Option 2 - Download ZIP:")
+        console.print("  1. Visit: [cyan]https://github.com/ayush-jadaun/MarlOS[/cyan]")
+        console.print("  2. Click 'Code' → 'Download ZIP'")
+        console.print("  3. Extract and run: [cyan]pip install -e .[/cyan]\n")
+
+        if Confirm.ask("Do you want me to clone the repository now?", default=True):
+            clone_repository()
+            return True
+
+        return False
+
+    return True
+
+
+def clone_repository():
+    """Clone MarlOS repository interactively"""
+    console.print("\n[bold cyan]📦 Cloning MarlOS Repository[/bold cyan]\n")
+
+    # Check if git is installed
+    try:
+        subprocess.run(["git", "--version"], capture_output=True, check=True)
+    except (subprocess.CalledProcessError, FileNotFoundError):
+        console.print("[red]✗[/red] Git is not installed!")
+        console.print("\nInstall Git first:")
+        console.print("  [cyan]https://git-scm.com/downloads[/cyan]\n")
+        return False
+
+    # Ask where to clone
+    default_path = Path.home() / "MarlOS"
+    clone_path = Prompt.ask(
+        "Where to clone MarlOS?",
+        default=str(default_path)
+    )
+
+    clone_path = Path(clone_path)
+
+    # Check if directory exists
+    if clone_path.exists():
+        if (clone_path / ".git").exists():
+            console.print(f"\n[yellow]MarlOS already cloned at {clone_path}[/yellow]\n")
+            if Confirm.ask("Pull latest changes?", default=True):
+                try:
+                    with console.status("[bold green]Pulling latest changes..."):
+                        result = subprocess.run(
+                            ["git", "pull"],
+                            cwd=clone_path,
+                            capture_output=True,
+                            text=True,
+                            check=True
+                        )
+                    console.print("[green]✓[/green] Updated successfully!\n")
+                    return True
+                except subprocess.CalledProcessError as e:
+                    console.print(f"[red]✗[/red] Failed to pull: {e.stderr}\n")
+                    return False
+        else:
+            console.print(f"[red]✗[/red] Directory exists but is not a git repo\n")
+            return False
+
+    # Clone repository
+    try:
+        with console.status(f"[bold green]Cloning to {clone_path}..."):
+            result = subprocess.run(
+                ["git", "clone", "https://github.com/ayush-jadaun/MarlOS.git", str(clone_path)],
+                capture_output=True,
+                text=True,
+                check=True
+            )
+
+        console.print(f"[green]✓[/green] Cloned successfully to {clone_path}\n")
+
+        # Ask to install in editable mode
+        if Confirm.ask("Install in editable mode (pip install -e .)?", default=True):
+            with console.status("[bold green]Installing in editable mode..."):
+                result = subprocess.run(
+                    [sys.executable, "-m", "pip", "install", "-e", str(clone_path)],
+                    capture_output=True,
+                    text=True
+                )
+
+            if result.returncode == 0:
+                console.print("[green]✓[/green] Installed in editable mode!\n")
+                console.print("[bold green]You're all set! Source code is ready.[/bold green]\n")
+                return True
+            else:
+                console.print(f"[yellow]⚠[/yellow] Install failed, but code is cloned.\n")
+                console.print(f"You can manually install with:")
+                console.print(f"  [cyan]cd {clone_path}[/cyan]")
+                console.print(f"  [cyan]pip install -e .[/cyan]\n")
+                return True
+
+        return True
+
+    except subprocess.CalledProcessError as e:
+        console.print(f"[red]✗[/red] Clone failed: {e.stderr}\n")
+        return False
+
+
+def check_agent_running(port=3001):
+    """Check if MarlOS agent is running on specified port"""
+    try:
+        import socket
+        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        sock.settimeout(1)
+        result = sock.connect_ex(('localhost', port))
+        sock.close()
+        return result == 0
+    except:
+        return False
+
+
+def prompt_start_agent():
+    """Prompt user to start agent if not running"""
+    console.print("\n[bold yellow]⚠️  MarlOS Agent Not Running[/bold yellow]\n")
+    console.print("The MarlOS agent must be running to use this command.\n")
+    console.print("[bold]How to Start MarlOS:[/bold]\n")
+    console.print("Option 1 - Interactive:")
+    console.print("  [cyan]marl start[/cyan]\n")
+    console.print("Option 2 - Direct:")
+    console.print("  [cyan]cd ~/MarlOS[/cyan]  # or your MarlOS directory")
+    console.print("  [cyan]python -m agent.main[/cyan]\n")
+    console.print("Option 3 - Docker:")
+    console.print("  [cyan]cd ~/MarlOS[/cyan]")
+    console.print("  [cyan]docker-compose up -d[/cyan]\n")
+
+    return Confirm.ask("Do you want to start MarlOS now?", default=True)
 
 
 def run_installation_wizard():
@@ -202,20 +340,18 @@ def show_main_menu():
         print_banner()
 
         # Check installation status
-        installed, configured = check_installation()
+        installed, has_source = check_installation()
 
         if not installed:
             console.print("[red]⚠ MarlOS not properly installed[/red]\n")
-            if is_pip_installed():
-                console.print("MarlOS is installed but agent source not found.\n")
-                console.print("To run MarlOS, you need the source code:")
-                console.print("  [cyan]git clone https://github.com/ayush-jadaun/MarlOS.git[/cyan]")
-                console.print("  [cyan]cd MarlOS[/cyan]")
-                console.print("  [cyan]./start-node.sh[/cyan]  # or use marl start\n")
-            else:
-                console.print("Please install MarlOS first:")
-                console.print("  [cyan]pip install git+https://github.com/ayush-jadaun/MarlOS.git[/cyan]\n")
+            console.print("Please install MarlOS first:")
+            console.print("  [cyan]pip install git+https://github.com/ayush-jadaun/MarlOS.git[/cyan]\n")
             return
+
+        # Show source code status
+        if not has_source:
+            console.print("[yellow]ℹ️  Note: MarlOS CLI is installed but source code is not available.[/yellow]")
+            console.print("   [dim]You can use CLI commands, but to start nodes you'll need the source.[/dim]\n")
 
         # Create menu
         table = Table(show_header=False, box=box.ROUNDED, border_style="cyan")
@@ -275,6 +411,14 @@ def show_main_menu():
 def start_marlos_interactive():
     """Interactive mode selection for starting MarlOS"""
     console.clear()
+
+    # Check if source code is available
+    if not check_source_required():
+        console.print("\n[yellow]Cannot start MarlOS without source code.[/yellow]")
+        console.print("Please run the steps above to get the source code first.\n")
+        input("Press Enter to continue...")
+        return
+
     console.print(Panel.fit(
         "[bold cyan]Start MarlOS[/bold cyan]\n\n"
         "Choose how you want to run MarlOS:",
@@ -534,15 +678,22 @@ def quick_execute():
     """Quick execute a shell command"""
     console.print("\n[bold cyan]⚡ Quick Execute[/bold cyan]\n")
 
+    port = int(Prompt.ask("Dashboard port", default="3001"))
+
+    # Check if agent is running
+    if not check_agent_running(port):
+        if prompt_start_agent():
+            start_marlos_interactive()
+        return
+
     command = Prompt.ask("Enter command to execute")
-    port = Prompt.ask("Dashboard port", default="3001")
 
     console.print(f"\n[cyan]Submitting:[/cyan] {command}\n")
 
     try:
         from cli.marlOS import execute as execute_cmd
         ctx = click.Context(execute_cmd)
-        ctx.invoke(execute_cmd, command=command, port=int(port), payment=10.0, priority=0.5, wait=False)
+        ctx.invoke(execute_cmd, command=command, port=port, payment=10.0, priority=0.5, wait=False)
     except Exception as e:
         console.print(f"[red]Error:[/red] {e}")
 
@@ -551,12 +702,19 @@ def check_status():
     """Check MarlOS status"""
     console.print("\n[bold cyan]📊 MarlOS Status[/bold cyan]\n")
 
-    port = Prompt.ask("Dashboard port", default="3001")
+    port = int(Prompt.ask("Dashboard port", default="3001"))
+
+    # Check if agent is running
+    if not check_agent_running(port):
+        console.print(f"[red]✗[/red] No MarlOS agent running on port {port}\n")
+        if prompt_start_agent():
+            start_marlos_interactive()
+        return
 
     try:
         from cli.marlOS import status as status_cmd
         ctx = click.Context(status_cmd)
-        ctx.invoke(status_cmd, port=int(port), json_output=False)
+        ctx.invoke(status_cmd, port=port, json_output=False)
     except Exception as e:
         console.print(f"[red]Error:[/red] {e}")
 
@@ -565,12 +723,19 @@ def list_peers():
     """List connected peers"""
     console.print("\n[bold cyan]👥 Connected Peers[/bold cyan]\n")
 
-    port = Prompt.ask("Dashboard port", default="3001")
+    port = int(Prompt.ask("Dashboard port", default="3001"))
+
+    # Check if agent is running
+    if not check_agent_running(port):
+        console.print(f"[red]✗[/red] No MarlOS agent running on port {port}\n")
+        if prompt_start_agent():
+            start_marlos_interactive()
+        return
 
     try:
         from cli.marlOS import peers as peers_cmd
         ctx = click.Context(peers_cmd)
-        ctx.invoke(peers_cmd, port=int(port))
+        ctx.invoke(peers_cmd, port=port)
     except Exception as e:
         console.print(f"[red]Error:[/red] {e}")
 
@@ -579,12 +744,19 @@ def view_wallet():
     """View wallet balance"""
     console.print("\n[bold cyan]💰 Wallet Status[/bold cyan]\n")
 
-    port = Prompt.ask("Dashboard port", default="3001")
+    port = int(Prompt.ask("Dashboard port", default="3001"))
+
+    # Check if agent is running
+    if not check_agent_running(port):
+        console.print(f"[red]✗[/red] No MarlOS agent running on port {port}\n")
+        if prompt_start_agent():
+            start_marlos_interactive()
+        return
 
     try:
         from cli.marlOS import wallet as wallet_cmd
         ctx = click.Context(wallet_cmd)
-        ctx.invoke(wallet_cmd, port=int(port))
+        ctx.invoke(wallet_cmd, port=port)
     except Exception as e:
         console.print(f"[red]Error:[/red] {e}")
 
@@ -593,12 +765,19 @@ def live_monitor():
     """Live monitoring dashboard"""
     console.print("\n[bold cyan]📺 Live Monitor[/bold cyan]\n")
 
-    port = Prompt.ask("Dashboard port", default="3001")
+    port = int(Prompt.ask("Dashboard port", default="3001"))
+
+    # Check if agent is running
+    if not check_agent_running(port):
+        console.print(f"[red]✗[/red] No MarlOS agent running on port {port}\n")
+        if prompt_start_agent():
+            start_marlos_interactive()
+        return
 
     try:
         from cli.marlOS import watch as watch_cmd
         ctx = click.Context(watch_cmd)
-        ctx.invoke(watch_cmd, port=int(port), interval=2)
+        ctx.invoke(watch_cmd, port=port, interval=2)
     except Exception as e:
         console.print(f"[red]Error:[/red] {e}")
 
@@ -643,13 +822,21 @@ def submit_job():
     """Submit a job from file"""
     console.print("\n[bold cyan]📤 Submit Job[/bold cyan]\n")
 
+    port = int(Prompt.ask("Dashboard port", default="3001"))
+
+    # Check if agent is running
+    if not check_agent_running(port):
+        console.print(f"[red]✗[/red] No MarlOS agent running on port {port}\n")
+        if prompt_start_agent():
+            start_marlos_interactive()
+        return
+
     job_file = Prompt.ask("Job file path", default="job.json")
-    port = Prompt.ask("Dashboard port", default="3001")
 
     try:
         from cli.marlOS import submit as submit_cmd
         ctx = click.Context(submit_cmd)
-        ctx.invoke(submit_cmd, job_file=job_file, port=int(port), method='ws', wait=False)
+        ctx.invoke(submit_cmd, job_file=job_file, port=port, method='ws', wait=False)
     except Exception as e:
         console.print(f"[red]Error:[/red] {e}")
 
@@ -750,7 +937,7 @@ def show_documentation():
 # Click CLI group
 @click.group(invoke_without_command=True)
 @click.pass_context
-@click.version_option(version="1.0.2", prog_name="MarlOS")
+@click.version_option(version="1.0.3", prog_name="MarlOS")
 def cli(ctx):
     """
     🌌 MarlOS - Autonomous Distributed Computing Operating System
@@ -784,6 +971,13 @@ def install():
 @click.option('--wait', '-w', is_flag=True, help='Wait for completion')
 def execute(command, port, payment, priority, wait):
     """Quick execute a shell command"""
+    # Check if agent is running
+    if not check_agent_running(port):
+        console.print(f"\n[red]✗[/red] No MarlOS agent running on port {port}\n")
+        console.print("Start MarlOS first:")
+        console.print("  [cyan]marl start[/cyan]\n")
+        return
+
     from cli.marlOS import execute as execute_impl, submit_via_websocket
     import asyncio
     import uuid
@@ -808,6 +1002,13 @@ def execute(command, port, payment, priority, wait):
 @click.option('--json-output', '-j', is_flag=True, help='JSON output')
 def status(port, json_output):
     """Check swarm status"""
+    # Check if agent is running
+    if not check_agent_running(port):
+        console.print(f"\n[red]✗[/red] No MarlOS agent running on port {port}\n")
+        console.print("Start MarlOS first:")
+        console.print("  [cyan]marl start[/cyan]\n")
+        return
+
     from cli.marlOS import status as status_impl
     ctx = click.Context(status_impl)
     ctx.invoke(status_impl, port=port, json_output=json_output)
@@ -817,6 +1018,13 @@ def status(port, json_output):
 @click.option('--port', '-p', default=3001, help='Dashboard port')
 def peers(port):
     """List connected peers"""
+    # Check if agent is running
+    if not check_agent_running(port):
+        console.print(f"\n[red]✗[/red] No MarlOS agent running on port {port}\n")
+        console.print("Start MarlOS first:")
+        console.print("  [cyan]marl start[/cyan]\n")
+        return
+
     from cli.marlOS import peers as peers_impl
     ctx = click.Context(peers_impl)
     ctx.invoke(peers_impl, port=port)
@@ -826,6 +1034,13 @@ def peers(port):
 @click.option('--port', '-p', default=3001, help='Dashboard port')
 def wallet(port):
     """Show wallet balance"""
+    # Check if agent is running
+    if not check_agent_running(port):
+        console.print(f"\n[red]✗[/red] No MarlOS agent running on port {port}\n")
+        console.print("Start MarlOS first:")
+        console.print("  [cyan]marl start[/cyan]\n")
+        return
+
     from cli.marlOS import wallet as wallet_impl
     ctx = click.Context(wallet_impl)
     ctx.invoke(wallet_impl, port=port)
@@ -836,6 +1051,13 @@ def wallet(port):
 @click.option('--interval', '-i', default=2, help='Update interval (seconds)')
 def watch(port, interval):
     """Real-time monitoring"""
+    # Check if agent is running
+    if not check_agent_running(port):
+        console.print(f"\n[red]✗[/red] No MarlOS agent running on port {port}\n")
+        console.print("Start MarlOS first:")
+        console.print("  [cyan]marl start[/cyan]\n")
+        return
+
     from cli.marlOS import watch as watch_impl
     ctx = click.Context(watch_impl)
     ctx.invoke(watch_impl, port=port, interval=interval)
@@ -847,6 +1069,13 @@ def watch(port, interval):
 @click.option('--wait', '-w', is_flag=True, help='Wait for completion')
 def submit(job_file, port, wait):
     """Submit a job from file"""
+    # Check if agent is running
+    if not check_agent_running(port):
+        console.print(f"\n[red]✗[/red] No MarlOS agent running on port {port}\n")
+        console.print("Start MarlOS first:")
+        console.print("  [cyan]marl start[/cyan]\n")
+        return
+
     from cli.marlOS import submit as submit_impl
     ctx = click.Context(submit_impl)
     ctx.invoke(submit_impl, job_file=job_file, port=port, method='ws', wait=wait)
@@ -868,6 +1097,11 @@ def create(name, command, payment, priority, output):
 @cli.command()
 def start():
     """Start MarlOS (interactive mode selection)"""
+    # Check if source code is available
+    if not check_source_required():
+        console.print("\n[yellow]Cannot start MarlOS without source code.[/yellow]\n")
+        return
+
     print_banner()
     start_marlos_interactive()
 
@@ -875,7 +1109,7 @@ def start():
 @cli.command()
 def version():
     """Show version information"""
-    console.print("\n[bold cyan]🌌 MarlOS v1.0.2[/bold cyan]")
+    console.print("\n[bold cyan]🌌 MarlOS v1.0.3[/bold cyan]")
     console.print("[cyan]Autonomous Distributed Computing Operating System[/cyan]")
     console.print("\n[dim]Built by Team async_await[/dim]\n")
 
