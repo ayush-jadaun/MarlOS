@@ -427,13 +427,270 @@ sudo systemctl daemon-reload
 
 ### "marl: command not found"
 
-**Solution 1:** Ensure pip bin directory is in PATH:
+This is the most common issue! When you install a Python package with pip, it places executable scripts in a specific directory. If that directory isn't in your system's PATH, the `marl` command won't be found.
+
+**Quick Test:**
 ```bash
-export PATH="$HOME/.local/bin:$PATH"
-# Add to ~/.bashrc to persist
+# Try to find where marl was installed
+pip show -f marlos | grep marl
+# or
+which marl  # Linux/Mac
+where marl  # Windows
 ```
 
-**Solution 2:** Use python -m:
+---
+
+### 📍 Adding Python Scripts to PATH - Complete Guide
+
+#### Why This Happens
+- **pip doesn't modify your PATH** - it only installs to a directory
+- **Python installer's job** - the "Add to PATH" checkbox during Python installation
+- Different operating systems have different default script directories
+
+---
+
+#### 🪟 Windows - Detailed Instructions
+
+**Option 1: Reinstall Python with PATH (Recommended)**
+
+1. Download Python from https://python.org
+2. Run installer
+3. ✅ **CHECK** "Add Python to PATH" (very important!)
+4. Click "Install Now"
+5. Restart terminal/PowerShell
+6. Reinstall marlos: `pip install marlos`
+
+**Option 2: Manually Add to PATH**
+
+1. **Find your Python Scripts directory:**
+   ```powershell
+   # Run this in PowerShell
+   python -c "import sys; print(sys.prefix + '\\Scripts')"
+   # Example output: C:\Users\YourName\AppData\Local\Programs\Python\Python311\Scripts
+   ```
+
+2. **Add to PATH via GUI:**
+   - Press `Windows + R`, type `sysdm.cpl`, press Enter
+   - Go to "Advanced" tab → "Environment Variables"
+   - Under "User variables", find and select "Path"
+   - Click "Edit" → "New"
+   - Paste your Scripts directory path
+   - Click "OK" on all windows
+   - **Restart your terminal/PowerShell**
+
+3. **Or add via PowerShell (run as Administrator):**
+   ```powershell
+   # Replace with your actual path from step 1
+   $scriptsPath = "C:\Users\YourName\AppData\Local\Programs\Python\Python311\Scripts"
+   [Environment]::SetEnvironmentVariable("Path", $env:Path + ";$scriptsPath", "User")
+   ```
+
+4. **Verify:**
+   ```powershell
+   # Close and reopen PowerShell/CMD
+   marl --help
+   ```
+
+**Option 3: Use `python -m` (no PATH changes needed)**
+```bash
+python -m cli.main
+python -m cli.main status
+python -m cli.main execute "echo test"
+```
+
+---
+
+#### 🐧 Linux - Detailed Instructions
+
+**Option 1: Add ~/.local/bin to PATH (Recommended)**
+
+When you run `pip install --user marlos`, scripts go to `~/.local/bin`
+
+1. **Edit your shell config file:**
+   ```bash
+   # For bash users
+   nano ~/.bashrc
+
+   # For zsh users (macOS default on newer versions)
+   nano ~/.zshrc
+
+   # For fish users
+   nano ~/.config/fish/config.fish
+   ```
+
+2. **Add this line at the end:**
+   ```bash
+   # For bash/zsh
+   export PATH="$HOME/.local/bin:$PATH"
+
+   # For fish
+   set -gx PATH $HOME/.local/bin $PATH
+   ```
+
+3. **Reload your shell config:**
+   ```bash
+   # For bash
+   source ~/.bashrc
+
+   # For zsh
+   source ~/.zshrc
+
+   # For fish
+   source ~/.config/fish/config.fish
+
+   # Or just close and reopen your terminal
+   ```
+
+4. **Verify:**
+   ```bash
+   which marl
+   # Should show: /home/yourname/.local/bin/marl
+
+   marl --help
+   ```
+
+**Option 2: System-wide Installation (requires sudo)**
+```bash
+# Install globally (not recommended, but works)
+sudo pip install marlos
+
+# Scripts go to /usr/local/bin (usually already in PATH)
+which marl  # Should show: /usr/local/bin/marl
+```
+
+**Option 3: Use pipx (Recommended for CLI tools)**
+```bash
+# Install pipx
+python3 -m pip install --user pipx
+python3 -m pipx ensurepath  # Automatically adds to PATH!
+
+# Install marlos with pipx
+pipx install marlos
+# or from git
+pipx install git+https://github.com/ayush-jadaun/MarlOS.git
+
+marl --help  # Should work immediately
+```
+
+---
+
+#### 🍎 macOS - Detailed Instructions
+
+**Option 1: Add to PATH (Recommended)**
+
+1. **Check your shell:**
+   ```bash
+   echo $SHELL
+   # Output: /bin/bash or /bin/zsh
+   ```
+
+2. **Edit config file:**
+   ```bash
+   # For bash
+   nano ~/.bash_profile
+
+   # For zsh (default on macOS Catalina+)
+   nano ~/.zshrc
+   ```
+
+3. **Add this line:**
+   ```bash
+   export PATH="$HOME/Library/Python/3.11/bin:$PATH"
+   # Note: Change 3.11 to your Python version
+   ```
+
+4. **Find your exact Python version:**
+   ```bash
+   python3 --version
+   # Python 3.11.5 → use 3.11
+   ```
+
+5. **Reload shell:**
+   ```bash
+   source ~/.zshrc  # or ~/.bash_profile
+   ```
+
+6. **Verify:**
+   ```bash
+   which marl
+   marl --help
+   ```
+
+**Option 2: Use Homebrew Python**
+```bash
+# Install Python via Homebrew
+brew install python3
+
+# Homebrew Python automatically sets up PATH
+pip3 install marlos
+
+marl --help  # Should work
+```
+
+**Option 3: Use pipx**
+```bash
+brew install pipx
+pipx ensurepath  # Adds to PATH automatically
+pipx install marlos
+
+marl --help
+```
+
+---
+
+#### ✅ Verification Checklist
+
+After adding to PATH, verify everything works:
+
+```bash
+# 1. Check if marl is found
+which marl       # Linux/Mac
+where marl       # Windows
+
+# 2. Check version
+marl version
+
+# 3. Run help
+marl --help
+
+# 4. Quick test
+marl execute "echo Hello MarlOS"
+```
+
+---
+
+#### 🔧 Alternative: Use pipx (Best for CLI Tools)
+
+pipx is designed specifically for installing Python CLI applications and automatically handles PATH:
+
+```bash
+# Install pipx
+pip install pipx
+
+# Let pipx set up PATH (one-time)
+pipx ensurepath
+
+# Close and reopen terminal
+
+# Install marlos
+pipx install marlos
+# or from GitHub
+pipx install git+https://github.com/ayush-jadaun/MarlOS.git
+
+# Done! No PATH issues ever again
+marl --help
+```
+
+**Why pipx is better for CLI tools:**
+- ✅ Automatically adds to PATH
+- ✅ Isolated environments (no dependency conflicts)
+- ✅ Easy upgrades: `pipx upgrade marlos`
+- ✅ Easy uninstall: `pipx uninstall marlos`
+- ✅ List all installed tools: `pipx list`
+
+---
+
+**Solution 2:** Use python -m (no PATH changes needed):
 ```bash
 python -m cli.main
 ```
