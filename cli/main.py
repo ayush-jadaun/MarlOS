@@ -27,6 +27,40 @@ console = Console()
 MARLOS_ROOT = Path(__file__).parent.parent.absolute()
 
 
+def is_pip_installed():
+    """Check if MarlOS is installed via pip (not running from source)"""
+    try:
+        import pkg_resources
+        # If we can get package info, it's pip installed
+        dist = pkg_resources.get_distribution('marlos')
+        return True
+    except:
+        return False
+
+
+def get_source_root():
+    """Get the source root directory (for git clone installations)"""
+    # Try to find the actual source directory
+    current = Path.cwd()
+
+    # Check if we're in a MarlOS source directory
+    if (current / "agent" / "main.py").exists():
+        return current
+
+    # Check common locations
+    common_locations = [
+        Path.home() / "MarlOS",
+        Path.home() / "Documents" / "MarlOS",
+        Path("/opt/MarlOS") if os.name != 'nt' else Path("C:/MarlOS"),
+    ]
+
+    for location in common_locations:
+        if location.exists() and (location / "agent" / "main.py").exists():
+            return location
+
+    return None
+
+
 def print_banner():
     """Print MarlOS banner"""
     banner = """
@@ -41,7 +75,7 @@ def print_banner():
 ║   ╚═╝     ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝ ╚═════╝ ╚══════╝      ║
 ║                                                               ║
 ║        Autonomous Distributed Computing OS                   ║
-║        v1.0.0 | Team async_await                             ║
+║        v1.0.2 | Team async_await                             ║
 ║                                                               ║
 ╚═══════════════════════════════════════════════════════════════╝
 [/bold cyan]
@@ -51,17 +85,26 @@ def print_banner():
 
 def check_installation():
     """Check if MarlOS is properly installed"""
+    # If installed via pip, always return True
+    if is_pip_installed():
+        return True, True
+
+    # For source installations, check for required files
+    source_root = get_source_root()
+    if source_root is None:
+        return False, False
+
     required_files = [
-        MARLOS_ROOT / "agent" / "main.py",
-        MARLOS_ROOT / "requirements.txt",
+        source_root / "agent" / "main.py",
+        source_root / "requirements.txt",
     ]
 
     installed = all(f.exists() for f in required_files)
 
     # Check if venv exists and has packages
-    venv_python = MARLOS_ROOT / "venv" / "bin" / "python"
+    venv_python = source_root / "venv" / "bin" / "python"
     if os.name == 'nt':  # Windows
-        venv_python = MARLOS_ROOT / "venv" / "Scripts" / "python.exe"
+        venv_python = source_root / "venv" / "Scripts" / "python.exe"
 
     venv_configured = venv_python.exists()
 
@@ -72,17 +115,45 @@ def run_installation_wizard():
     """Run the full installation wizard"""
     console.print("\n[bold yellow]📦 MarlOS Installation Wizard[/bold yellow]\n")
 
-    # Check if already in MarlOS directory
-    if not (MARLOS_ROOT / "agent").exists():
-        console.print("[red]Error:[/red] MarlOS installation not found.")
-        console.print("\nPlease run the installer first:")
-        console.print("[cyan]curl -sSL https://raw.githubusercontent.com/ayush-jadaun/MarlOS/main/install-marlos.sh | bash[/cyan]")
+    # Check if installed via pip
+    if is_pip_installed():
+        console.print("[green]✓[/green] MarlOS is already installed via pip!\n")
+        console.print("Package location:", MARLOS_ROOT)
+        console.print("\n[bold cyan]You're ready to use MarlOS![/bold cyan]\n")
+        console.print("Available commands:")
+        console.print("  [cyan]marl[/cyan]              # Interactive menu")
+        console.print("  [cyan]marl start[/cyan]        # Start MarlOS")
+        console.print("  [cyan]marl execute 'cmd'[/cyan] # Run a command")
+        console.print("  [cyan]marl status[/cyan]       # Check status")
+        console.print("  [cyan]marl --help[/cyan]       # Show all commands\n")
+
+        # Check if they want to clone source for development
+        if Confirm.ask("Do you want to clone the source code for development?", default=False):
+            console.print("\nTo get the full source code:")
+            console.print("  [cyan]git clone https://github.com/ayush-jadaun/MarlOS.git[/cyan]")
+            console.print("  [cyan]cd MarlOS[/cyan]")
+            console.print("  [cyan]pip install -e .[/cyan]  # Install in editable mode\n")
+
+        return True
+
+    # Running from source - continue with normal installation
+    source_root = get_source_root()
+
+    if source_root is None:
+        console.print("[red]Error:[/red] MarlOS source directory not found.")
+        console.print("\nYou have two options:\n")
+        console.print("1. [bold]For normal use[/bold] (recommended):")
+        console.print("   [cyan]pip install git+https://github.com/ayush-jadaun/MarlOS.git[/cyan]\n")
+        console.print("2. [bold]For development[/bold]:")
+        console.print("   [cyan]git clone https://github.com/ayush-jadaun/MarlOS.git[/cyan]")
+        console.print("   [cyan]cd MarlOS[/cyan]")
+        console.print("   [cyan]pip install -e .[/cyan]\n")
         return False
 
-    console.print(f"[green]✓[/green] MarlOS found at: {MARLOS_ROOT}\n")
+    console.print(f"[green]✓[/green] MarlOS source found at: {source_root}\n")
 
     # Check virtual environment
-    venv_dir = MARLOS_ROOT / "venv"
+    venv_dir = source_root / "venv"
     if not venv_dir.exists():
         if Confirm.ask("Virtual environment not found. Create it now?"):
             with console.status("[bold green]Creating virtual environment..."):
@@ -98,7 +169,11 @@ def run_installation_wizard():
         venv_pip = venv_dir / "Scripts" / "pip.exe"
 
     if Confirm.ask("Install/update Python dependencies?"):
-        requirements_file = MARLOS_ROOT / "requirements.txt"
+        requirements_file = source_root / "requirements.txt"
+        if not requirements_file.exists():
+            console.print(f"[red]✗[/red] requirements.txt not found at {requirements_file}")
+            return False
+
         with Progress(
             SpinnerColumn(),
             TextColumn("[progress.description]{task.description}"),
@@ -131,7 +206,15 @@ def show_main_menu():
 
         if not installed:
             console.print("[red]⚠ MarlOS not properly installed[/red]\n")
-            console.print("Please run: [cyan]marl install[/cyan]\n")
+            if is_pip_installed():
+                console.print("MarlOS is installed but agent source not found.\n")
+                console.print("To run MarlOS, you need the source code:")
+                console.print("  [cyan]git clone https://github.com/ayush-jadaun/MarlOS.git[/cyan]")
+                console.print("  [cyan]cd MarlOS[/cyan]")
+                console.print("  [cyan]./start-node.sh[/cyan]  # or use marl start\n")
+            else:
+                console.print("Please install MarlOS first:")
+                console.print("  [cyan]pip install git+https://github.com/ayush-jadaun/MarlOS.git[/cyan]\n")
             return
 
         # Create menu
@@ -231,7 +314,21 @@ def start_docker_mode():
     """Start MarlOS in Docker mode"""
     console.print("\n[bold cyan]Starting MarlOS with Docker Compose...[/bold cyan]\n")
 
-    docker_compose = MARLOS_ROOT / "docker-compose.yml"
+    # Check if source available
+    if is_pip_installed():
+        source_root = get_source_root()
+        if source_root is None:
+            console.print("[yellow]Source code not found.[/yellow]\n")
+            console.print("Clone the repository first:")
+            console.print("  [cyan]git clone https://github.com/ayush-jadaun/MarlOS.git[/cyan]")
+            console.print("  [cyan]cd MarlOS[/cyan]")
+            console.print("  [cyan]docker-compose up -d[/cyan]\n")
+            return
+        root_dir = source_root
+    else:
+        root_dir = MARLOS_ROOT
+
+    docker_compose = root_dir / "docker-compose.yml"
     if not docker_compose.exists():
         console.print("[red]Error:[/red] docker-compose.yml not found")
         return
@@ -248,7 +345,7 @@ def start_docker_mode():
         with console.status("[bold green]Starting Docker containers..."):
             result = subprocess.run(
                 ["docker-compose", "up", "-d"],
-                cwd=MARLOS_ROOT,
+                cwd=root_dir,
                 capture_output=True,
                 text=True
             )
@@ -268,8 +365,26 @@ def start_native_mode():
     """Start MarlOS in native mode"""
     console.print("\n[bold cyan]Configure Native Node[/bold cyan]\n")
 
+    # If pip installed, need source code
+    if is_pip_installed():
+        source_root = get_source_root()
+        if source_root is None:
+            console.print("[yellow]MarlOS is installed via pip, but source code not found.[/yellow]\n")
+            console.print("To run a native node, you need the source code:\n")
+            console.print("1. Clone the repository:")
+            console.print("   [cyan]git clone https://github.com/ayush-jadaun/MarlOS.git[/cyan]")
+            console.print("   [cyan]cd MarlOS[/cyan]\n")
+            console.print("2. Run the node:")
+            console.print("   [cyan]python -m agent.main[/cyan]\n")
+            console.print("Or use the CLI directly:")
+            console.print("   [cyan]marl execute 'echo test' --port 3001[/cyan]\n")
+            return
+        root_dir = source_root
+    else:
+        root_dir = MARLOS_ROOT
+
     # Check for existing launch scripts
-    launch_scripts = list(MARLOS_ROOT.glob("start-*.sh"))
+    launch_scripts = list(root_dir.glob("start-*.sh"))
 
     if launch_scripts:
         console.print(f"[green]Found {len(launch_scripts)} launch script(s):[/green]\n")
@@ -307,7 +422,7 @@ def start_native_mode():
         bootstrap_peers = ",".join([f"tcp://{ip}:5555" for ip in ips])
 
     # Create launch script
-    script_path = MARLOS_ROOT / f"start-{node_id}.sh"
+    script_path = root_dir / f"start-{node_id}.sh"
     with open(script_path, 'w') as f:
         f.write(f"""#!/bin/bash
 export NODE_ID="{node_id}"
@@ -317,7 +432,7 @@ export SUB_PORT=5556
 export DASHBOARD_PORT=3001
 export ENABLE_DOCKER=false
 
-cd {MARLOS_ROOT}
+cd {root_dir}
 source venv/bin/activate
 python -m agent.main
 """)
@@ -336,6 +451,18 @@ def start_dev_mode():
     """Start in development mode"""
     console.print("\n[bold cyan]Starting Development Mode...[/bold cyan]\n")
 
+    # Check if source available
+    if is_pip_installed():
+        source_root = get_source_root()
+        if source_root is None:
+            console.print("[yellow]Source code not found.[/yellow]\n")
+            console.print("Clone the repository first:")
+            console.print("  [cyan]git clone https://github.com/ayush-jadaun/MarlOS.git[/cyan]\n")
+            return
+        root_dir = source_root
+    else:
+        root_dir = MARLOS_ROOT
+
     env = os.environ.copy()
     env.update({
         "NODE_ID": "dev-node",
@@ -345,13 +472,17 @@ def start_dev_mode():
     })
 
     try:
-        venv_python = MARLOS_ROOT / "venv" / "bin" / "python"
+        venv_python = root_dir / "venv" / "bin" / "python"
         if os.name == 'nt':
-            venv_python = MARLOS_ROOT / "venv" / "Scripts" / "python.exe"
+            venv_python = root_dir / "venv" / "Scripts" / "python.exe"
+
+        # If venv doesn't exist, use system python
+        if not venv_python.exists():
+            venv_python = sys.executable
 
         subprocess.run(
             [str(venv_python), "-m", "agent.main"],
-            cwd=MARLOS_ROOT,
+            cwd=root_dir,
             env=env,
             check=True
         )
@@ -527,6 +658,18 @@ def configuration_menu():
     """Configuration menu"""
     console.print("\n[bold cyan]⚙️  Configuration[/bold cyan]\n")
 
+    # Get correct root directory
+    if is_pip_installed():
+        source_root = get_source_root()
+        if source_root is None:
+            console.print("[yellow]Configuration requires source code.[/yellow]\n")
+            console.print("Clone the repository:")
+            console.print("  [cyan]git clone https://github.com/ayush-jadaun/MarlOS.git[/cyan]\n")
+            return
+        root_dir = source_root
+    else:
+        root_dir = MARLOS_ROOT
+
     console.print("Configuration options:")
     console.print("  1. Edit launch script")
     console.print("  2. View current config")
@@ -537,7 +680,7 @@ def configuration_menu():
     choice = Prompt.ask("Select option", choices=["0", "1", "2", "3"])
 
     if choice == "1":
-        launch_scripts = list(MARLOS_ROOT.glob("start-*.sh"))
+        launch_scripts = list(root_dir.glob("start-*.sh"))
         if launch_scripts:
             console.print("\nLaunch scripts:")
             for i, script in enumerate(launch_scripts, 1):
@@ -562,7 +705,7 @@ def configuration_menu():
         console.print(table)
 
     elif choice == "3":
-        installer = MARLOS_ROOT / "install-marlos.sh"
+        installer = root_dir / "install-marlos.sh"
         if installer.exists():
             subprocess.run([str(installer)])
         else:
@@ -572,6 +715,13 @@ def configuration_menu():
 def show_documentation():
     """Show documentation links"""
     console.print("\n[bold cyan]📖 Documentation[/bold cyan]\n")
+
+    # Get correct root directory
+    if is_pip_installed():
+        source_root = get_source_root()
+        root_dir = source_root if source_root else MARLOS_ROOT
+    else:
+        root_dir = MARLOS_ROOT
 
     docs = [
         ("Quick Start", "QUICKSTART.md"),
@@ -587,7 +737,7 @@ def show_documentation():
     table.add_column("Path", style="dim")
 
     for name, path in docs:
-        full_path = MARLOS_ROOT / path
+        full_path = root_dir / path
         status = "[green]✓[/green]" if full_path.exists() else "[red]✗[/red]"
         table.add_row(f"{status} {name}", path)
 
@@ -600,7 +750,7 @@ def show_documentation():
 # Click CLI group
 @click.group(invoke_without_command=True)
 @click.pass_context
-@click.version_option(version="1.0.0", prog_name="MarlOS")
+@click.version_option(version="1.0.2", prog_name="MarlOS")
 def cli(ctx):
     """
     🌌 MarlOS - Autonomous Distributed Computing Operating System
@@ -725,7 +875,7 @@ def start():
 @cli.command()
 def version():
     """Show version information"""
-    console.print("\n[bold cyan]🌌 MarlOS v1.0.0[/bold cyan]")
+    console.print("\n[bold cyan]🌌 MarlOS v1.0.2[/bold cyan]")
     console.print("[cyan]Autonomous Distributed Computing Operating System[/cyan]")
     console.print("\n[dim]Built by Team async_await[/dim]\n")
 
