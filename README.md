@@ -25,12 +25,13 @@ Through **multi-agent reinforcement learning**, nodes learn cooperative bidding,
 ---
 
 ## Table of Contents:
-1. [Core Architecture & Network](#core-architecture--network)  
-2. [Reinforcement Learning Engine](#reinforcement-learning-engine)  
-3. [Economic Fairness Engine](#economic-fairness-engine)  
-4. [Job Execution & Management](#job-execution--management)  
-5. [Technology Stack](#technology-stack)  
-6. [Contributors](#contributors)
+1. [Core Architecture & Network](#core-architecture--network)
+2. [Reinforcement Learning Engine](#reinforcement-learning-engine)
+3. [Economic Fairness Engine](#economic-fairness-engine)
+4. [Job Execution & Management](#job-execution--management)
+5. [Getting Started](#getting-started)
+6. [Technology Stack](#technology-stack)
+7. [Contributors](#contributors)
 
 ---
 
@@ -65,6 +66,90 @@ Through **multi-agent reinforcement learning**, nodes learn cooperative bidding,
 
 ---
 
+## Getting Started
+
+### ⚡ Quickest: Install with pip (Recommended)
+
+Install MarlOS globally with pip and use the `marl` command:
+
+```bash
+pip install git+https://github.com/ayush-jadaun/MarlOS.git
+```
+
+Then run:
+```bash
+marl  # Interactive menu
+```
+
+Or use directly:
+```bash
+marl start           # Start MarlOS
+marl execute "cmd"   # Run a command
+marl status          # Check status
+marl --help          # See all commands
+```
+
+**See complete guide:** [PIP_INSTALL.md](PIP_INSTALL.md) 📦
+
+---
+
+### 🚀 One-Line Interactive Installation (Full Setup)
+
+For the easiest setup experience, use our interactive installer that guides you through everything:
+
+```bash
+curl -sSL https://raw.githubusercontent.com/ayush-jadaun/MarlOS/main/install-marlos.sh | bash
+```
+
+Or download and run locally:
+```bash
+wget https://raw.githubusercontent.com/ayush-jadaun/MarlOS/main/install-marlos.sh
+chmod +x install-marlos.sh
+./install-marlos.sh
+```
+
+**The installer will:**
+- ✅ Detect your OS and install dependencies
+- ✅ Clone the repository
+- ✅ Ask about deployment mode (Docker vs Real Device)
+- ✅ Configure network settings interactively
+- ✅ Set up firewall rules automatically
+- ✅ Create launch scripts for your node
+- ✅ Optionally set up systemd service (Linux)
+- ✅ Start your node automatically
+
+---
+
+### Quick Start with Docker
+
+For local testing with containerized nodes:
+```bash
+docker-compose up -d
+```
+This starts 3 agent nodes and an MQTT broker for demonstration.
+
+---
+
+### Distributed Deployment on Real Devices
+
+To deploy MarlOS across actual laptops, desktops, or servers for true distributed computing:
+
+**🎯 Interactive Installer (Recommended):** [Run installer](#-one-line-interactive-installation)
+**⚡ 5-Minute Manual Setup:** [QUICKSTART.md](QUICKSTART.md)
+**📖 Complete Guide:** [docs/DISTRIBUTED_DEPLOYMENT.md](docs/DISTRIBUTED_DEPLOYMENT.md)
+
+**Quick Manual Overview:**
+```bash
+# On each device:
+export NODE_ID="laptop-1"
+export BOOTSTRAP_PEERS="tcp://192.168.1.101:5555,tcp://192.168.1.102:5555"
+./start-node.sh  # or start-node.bat on Windows
+```
+
+The system automatically discovers peers, elects coordinators, and distributes jobs using reinforcement learning and cryptographic security.
+
+---
+
 ## Technology Stack:
 1. **Python** – Core system logic and RL agent implementation  
 2. **ZeroMQ** – Decentralized PUB/SUB messaging network  
@@ -88,4 +173,18 @@ Through **multi-agent reinforcement learning**, nodes learn cooperative bidding,
 ### Made at:
 [![Built at Hack36](https://raw.githubusercontent.com/nihal2908/Hack-36-Readme-Template/main/BUILT-AT-Hack36-9-Secure.png)](https://raw.githubusercontent.com/nihal2908/Hack-36-Readme-Template/main/BUILT-AT-Hack36-9-Secure.png)
 
-## For more detailed architecture, look at `docs` and `guides` folder.
+---
+
+## Documentation
+
+### Setup & Installation
+- **[Interactive Installation Guide](INSTALL.md)** - Complete installation walkthrough
+- **[Quick Start Guide](QUICKSTART.md)** - 5-minute manual setup
+- **[Distributed Deployment Guide](docs/DISTRIBUTED_DEPLOYMENT.md)** - Deploy on real devices
+- **[Deployment Verification](DEPLOYMENT_VERIFICATION.md)** - Testing your setup
+
+### Architecture & Design
+- **[Network Design](docs/NETWORK_DESIGN.md)** - P2P communication architecture
+- **[RL Architecture](docs/ARCHITECTURE_RL.md)** - Reinforcement learning details
+- **[Token Economy](docs/ARCHITECTURE_TOKEN.md)** - Economic system design
+- **[Checkpoint Recovery](docs/CHECKPOINT_RECOVERY_GUIDE.md)** - Fault tolerance mechanisms

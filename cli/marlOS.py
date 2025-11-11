@@ -449,6 +449,38 @@ def jobs():
 
 
 @cli.command()
+@click.argument('command')
+@click.option('--port', '-p', default=8081, help='Dashboard WebSocket port (default: 8081 for agent-1)')
+@click.option('--payment', default=10.0, help='Payment amount in AC (default: 10)')
+@click.option('--priority', default=0.5, help='Job priority 0-1 (default: 0.5)')
+@click.option('--wait', '-w', is_flag=True, help='Wait for job completion')
+def execute(command, port, payment, priority, wait):
+    """
+    Quick execute a shell command on the swarm
+
+    Example: Marl execute "echo Hello World"
+    """
+    console.print(f"[cyan]⚡ Executing: {command}[/cyan]\n")
+
+    # Create shell job
+    import uuid
+    job = {
+        'job_id': f"job-{str(uuid.uuid4())[:8]}",
+        'job_type': 'shell',
+        'priority': priority,
+        'payment': payment,
+        'deadline': time.time() + 300,  # 5 min
+        'payload': {
+            'command': command,
+            'timeout': 60
+        }
+    }
+
+    # Submit via WebSocket
+    asyncio.run(submit_via_websocket(job, port, wait))
+
+
+@cli.command()
 @click.option('--name', '-n', required=True, help='Job type name')
 @click.option('--command', '-c', help='Command to execute (for shell jobs)')
 @click.option('--payment', '-p', default=100.0, help='Payment amount in AC')

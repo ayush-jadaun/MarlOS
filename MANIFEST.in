@@ -1,0 +1,40 @@
+# Include documentation
+include README.md
+include LICENSE
+include INSTALL.md
+include QUICKSTART.md
+include SHARE.md
+include DEPLOYMENT_VERIFICATION.md
+
+# Include configuration files
+include requirements.txt
+include docker-compose.yml
+include agent-config.yml
+
+# Include docs
+recursive-include docs *.md
+
+# Include scripts
+include install-marlos.sh
+include test_deployment.sh
+include start-node.sh
+include start-node.bat
+
+# Include package data
+recursive-include agent *.yml *.json
+recursive-include rl_trainer/models *.zip
+
+# Exclude unnecessary files
+global-exclude __pycache__
+global-exclude *.py[co]
+global-exclude .DS_Store
+global-exclude *.swp
+global-exclude *~
+
+# Exclude development files
+exclude .gitignore
+exclude .dockerignore
+prune venv
+prune data
+prune dashboard/node_modules
+prune .git
