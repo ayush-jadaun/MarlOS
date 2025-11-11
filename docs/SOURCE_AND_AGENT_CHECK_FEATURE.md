@@ -131,7 +131,7 @@ The main menu shows clear status:
 
 ```bash
 ╔═══════════════════════════════════════════════════════════════╗
-║                       MarlOS v1.0.3                           ║
+║                       MarlOS v1.0.4                           ║
 ╚═══════════════════════════════════════════════════════════════╝
 
 ℹ️  Note: MarlOS CLI is installed but source code is not available.
@@ -366,7 +366,7 @@ Possible improvements:
 
 ## Version
 
-**Added in**: v1.0.3
+**Added in**: v1.0.4
 **Status**: ✅ Production Ready
 **Breaking Changes**: None
 

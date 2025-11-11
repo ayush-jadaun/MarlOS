@@ -77,7 +77,7 @@ This includes:
 5. **Simpler Testing** - Test via GitHub without PyPI publishing
 6. **Smaller Learning Curve** - Standard pip workflow
 
-## [1.0.3] - 2025-01-11
+## [1.0.4] - 2025-01-11
 
 ### Fixed
 - Fixed `marl install` command crashing when MarlOS is installed via pip

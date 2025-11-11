@@ -44,7 +44,7 @@ ERROR: Could not open requirements file: [Errno 2] No such file or directory
 ### Modified Files (4)
 1. `cli/main.py` - Complete refactor for pip/source detection
 2. `setup.py` - Added post-install hook
-3. `pyproject.toml` - Version bump to 1.0.3
+3. `pyproject.toml` - Version bump to 1.0.4
 4. `README.md` - Added PATH warning and install guides
 
 ---
@@ -192,7 +192,7 @@ marl --help  # Works immediately!
 ### Test 1: Pip Installation
 ```bash
 pip install git+https://github.com/ayush-jadaun/MarlOS.git
-marl --version  # Should show v1.0.3
+marl --version  # Should show v1.0.4
 marl install    # Should show success message (not crash!)
 marl --help     # Should show all commands
 ```
@@ -222,7 +222,7 @@ marl                  # Interactive menu
 marl start            # Should show mode selection
 marl execute "ls"     # Should submit job
 marl status           # Should check status
-marl version          # Should show 1.0.3
+marl version          # Should show 1.0.4
 ```
 
 ---
@@ -260,7 +260,7 @@ MarlOS/
 |---------|----------|
 | "marl: command not found" (Windows) | Run `scripts/install_windows.ps1` OR add Scripts to PATH |
 | "marl: command not found" (Mac/Linux) | Add to PATH or use pipx |
-| `marl install` crashes | Fixed in v1.0.3! Update: `pip install --upgrade` |
+| `marl install` crashes | Fixed in v1.0.4! Update: `pip install --upgrade` |
 | Want no PATH issues | Use pipx instead of pip |
 | Want to develop | Clone repo + `pip install -e .` |
 | Want to help friends | Share `INSTALL_FOR_FRIENDS.md` |
@@ -271,7 +271,7 @@ MarlOS/
 
 - **v1.0.0** - Initial release
 - **v1.0.1** - PyPI publication
-- **v1.0.3** - PATH fixes + Installation wizard fix (THIS VERSION)
+- **v1.0.4** - PATH fixes + Installation wizard fix (THIS VERSION)
 
 ---
 
@@ -280,7 +280,7 @@ MarlOS/
 ### For You (Developer)
 1. ✅ Commit all changes
 2. ✅ Push to GitHub
-3. ✅ Tag release v1.0.3
+3. ✅ Tag release v1.0.4
 4. ✅ Test on clean machine
 5. ✅ Publish to PyPI (optional)
 
@@ -317,7 +317,7 @@ MarlOS/
 - Easy to share with friends
 
 ✅ **Production Ready**
-- Version bumped to 1.0.3
+- Version bumped to 1.0.4
 - Changelog created
 - All fixes tested
 - Documentation complete
