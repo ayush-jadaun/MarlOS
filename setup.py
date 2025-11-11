@@ -34,7 +34,7 @@ with open('requirements.txt', 'r') as f:
 
 setup(
     name='marlos',
-    version='1.0.2',
+    version='1.0.4',
     description='Autonomous Distributed Computing Operating System with Reinforcement Learning',
     long_description=long_description,
     long_description_content_type='text/markdown',
@@ -43,9 +43,9 @@ setup(
     url='https://github.com/ayush-jadaun/MarlOS',
     license='MIT',
 
-    # Package discovery
-    packages=find_packages(exclude=['tests', 'docs', 'dashboard']),
-    include_package_data=True,
+    # Package discovery - include ALL packages
+    packages=find_packages(exclude=['tests', 'dashboard', 'venv', 'build', 'dist']),
+    include_package_data=True,  # This uses MANIFEST.in
 
     # Python version requirement
     python_requires='>=3.11',
@@ -60,10 +60,15 @@ setup(
         ],
     },
 
-    # Package data
+    # Package data - MANIFEST.in handles most of this, but explicit is good
     package_data={
         'agent': ['*.yml', '*.json'],
-        'rl_trainer': ['models/*.zip'],
+        'rl_trainer': ['*.zip', '*.pkl', '*.pt', '*.pth', 'models/*.zip'],
+        'config': ['*.conf', '*.yml', '*.yaml', '*.json'],
+        'hardware': ['**/*.ino', '**/*.cpp', '**/*.h'],
+        'scripts': ['*.sh', '*.bat', '*.py'],
+        'examples': ['*.py', '*.md'],
+        '': ['*.md', '*.txt', '*.yml'],  # Root level files
     },
 
     # Classifiers for PyPI
