@@ -1,0 +1,32 @@
+# Include essential files
+include README.md
+include LICENSE
+include requirements.txt
+include requirements-docker.txt
+include docker-compose.yml
+include agent-config.yml
+
+# Include all documentation
+recursive-include docs *.md
+
+# Include all scripts
+recursive-include scripts *.sh *.bat
+
+# Include package data
+recursive-include agent *.yml *.json
+recursive-include rl_trainer/models *.zip
+
+# Exclude unnecessary files
+global-exclude __pycache__
+global-exclude *.py[co]
+global-exclude .DS_Store
+global-exclude *.swp
+global-exclude *~
+
+# Exclude development files
+exclude .gitignore
+exclude .dockerignore
+prune venv
+prune data
+prune dashboard/node_modules
+prune .git

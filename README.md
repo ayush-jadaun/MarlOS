@@ -14,23 +14,32 @@ Through **multi-agent reinforcement learning**, nodes learn cooperative bidding,
 
 ---
 
-## Demo Video Link:
-<a href="#">Coming Soon</a>
+## 🎥 Demo Video:
+<a href="https://youtu.be/EGv7Z3kXv30?si=_A561FUwf21EmcIb" target="_blank">
+  <img src="https://img.shields.io/badge/YouTube-Demo%20Video-red?style=for-the-badge&logo=youtube" alt="Demo Video">
+</a>
+
+**Watch the full demo:** [https://youtu.be/EGv7Z3kXv30](https://youtu.be/EGv7Z3kXv30?si=_A561FUwf21EmcIb)
 
 ---
 
-## Presentation Link:
-<a href="https://docs.google.com/presentation/d/10vXArIEf-o9x8L8SwAFzW25JaCazC9Aice8XeP9UAkM/edit?usp=sharing">PPT Link Here</a>
+## 📊 Presentation:
+<a href="https://www.canva.com/design/DAG4KrB5-D0/W-mglhEG6lW3rpzn7PW4BA/view" target="_blank">
+  <img src="https://img.shields.io/badge/Canva-Presentation-00C4CC?style=for-the-badge&logo=canva" alt="Presentation">
+</a>
+
+**View the slides:** [Canva Presentation](https://www.canva.com/design/DAG4KrB5-D0/W-mglhEG6lW3rpzn7PW4BA/view)
 
 ---
 
 ## Table of Contents:
-1. [Core Architecture & Network](#core-architecture--network)  
-2. [Reinforcement Learning Engine](#reinforcement-learning-engine)  
-3. [Economic Fairness Engine](#economic-fairness-engine)  
-4. [Job Execution & Management](#job-execution--management)  
-5. [Technology Stack](#technology-stack)  
-6. [Contributors](#contributors)
+1. [Core Architecture & Network](#core-architecture--network)
+2. [Reinforcement Learning Engine](#reinforcement-learning-engine)
+3. [Economic Fairness Engine](#economic-fairness-engine)
+4. [Job Execution & Management](#job-execution--management)
+5. [Getting Started](#getting-started)
+6. [Technology Stack](#technology-stack)
+7. [Contributors](#contributors)
 
 ---
 
@@ -65,6 +74,90 @@ Through **multi-agent reinforcement learning**, nodes learn cooperative bidding,
 
 ---
 
+## Getting Started
+
+### ⚡ Quickest: Install with pip (Recommended)
+
+Install MarlOS globally with pip and use the `marl` command:
+
+```bash
+pip install git+https://github.com/ayush-jadaun/MarlOS.git
+```
+
+Then run:
+```bash
+marl  # Interactive menu
+```
+
+Or use directly:
+```bash
+marl start           # Start MarlOS
+marl execute "cmd"   # Run a command
+marl status          # Check status
+marl --help          # See all commands
+```
+
+**See complete guide:** [pip Installation Guide](https://github.com/ayush-jadaun/MarlOS/blob/main/docs/PIP_INSTALL.md) 📦
+
+---
+
+### 🚀 One-Line Interactive Installation (Full Setup)
+
+For the easiest setup experience, use our interactive installer that guides you through everything:
+
+```bash
+curl -sSL https://raw.githubusercontent.com/ayush-jadaun/MarlOS/main/scripts/install-marlos.sh | bash
+```
+
+Or download and run locally:
+```bash
+wget https://raw.githubusercontent.com/ayush-jadaun/MarlOS/main/scripts/install-marlos.sh
+chmod +x install-marlos.sh
+./install-marlos.sh
+```
+
+**The installer will:**
+- ✅ Detect your OS and install dependencies
+- ✅ Clone the repository
+- ✅ Ask about deployment mode (Docker vs Real Device)
+- ✅ Configure network settings interactively
+- ✅ Set up firewall rules automatically
+- ✅ Create launch scripts for your node
+- ✅ Optionally set up systemd service (Linux)
+- ✅ Start your node automatically
+
+---
+
+### Quick Start with Docker
+
+For local testing with containerized nodes:
+```bash
+docker-compose up -d
+```
+This starts 3 agent nodes and an MQTT broker for demonstration.
+
+---
+
+### Distributed Deployment on Real Devices
+
+To deploy MarlOS across actual laptops, desktops, or servers for true distributed computing:
+
+**🎯 Interactive Installer (Recommended):** [Run installer](#-one-line-interactive-installation-full-setup)
+**⚡ 5-Minute Manual Setup:** [Quick Start Guide](https://github.com/ayush-jadaun/MarlOS/blob/main/docs/QUICKSTART.md)
+**📖 Complete Guide:** [Distributed Deployment Guide](https://github.com/ayush-jadaun/MarlOS/blob/main/docs/DISTRIBUTED_DEPLOYMENT.md)
+
+**Quick Manual Overview:**
+```bash
+# On each device:
+export NODE_ID="laptop-1"
+export BOOTSTRAP_PEERS="tcp://192.168.1.101:5555,tcp://192.168.1.102:5555"
+./start-node.sh  # or start-node.bat on Windows
+```
+
+The system automatically discovers peers, elects coordinators, and distributes jobs using reinforcement learning and cryptographic security.
+
+---
+
 ## Technology Stack:
 1. **Python** – Core system logic and RL agent implementation  
 2. **ZeroMQ** – Decentralized PUB/SUB messaging network  
@@ -88,4 +181,22 @@ Through **multi-agent reinforcement learning**, nodes learn cooperative bidding,
 ### Made at:
 [![Built at Hack36](https://raw.githubusercontent.com/nihal2908/Hack-36-Readme-Template/main/BUILT-AT-Hack36-9-Secure.png)](https://raw.githubusercontent.com/nihal2908/Hack-36-Readme-Template/main/BUILT-AT-Hack36-9-Secure.png)
 
-## For more detailed architecture, look at `docs` and `guides` folder.
+---
+
+## Documentation
+
+### Setup & Installation
+- **[pip Installation Guide](https://github.com/ayush-jadaun/MarlOS/blob/main/docs/PIP_INSTALL.md)** - Install with pip and use `marl` command
+- **[Interactive Installer Guide](https://github.com/ayush-jadaun/MarlOS/blob/main/docs/INSTALL.md)** - Full system setup walkthrough
+- **[Quick Start Guide](https://github.com/ayush-jadaun/MarlOS/blob/main/docs/QUICKSTART.md)** - 5-minute manual setup
+- **[Commands Reference](https://github.com/ayush-jadaun/MarlOS/blob/main/docs/COMMANDS.md)** - Complete command guide
+- **[Distributed Deployment](https://github.com/ayush-jadaun/MarlOS/blob/main/docs/DISTRIBUTED_DEPLOYMENT.md)** - Deploy on real devices
+- **[Deployment Verification](https://github.com/ayush-jadaun/MarlOS/blob/main/docs/DEPLOYMENT_VERIFICATION.md)** - Testing your setup
+- **[Share Guide](https://github.com/ayush-jadaun/MarlOS/blob/main/docs/SHARE.md)** - Share with your team
+
+### Architecture & Design
+- **[Network Design](https://github.com/ayush-jadaun/MarlOS/blob/main/docs/NETWORK_DESIGN.md)** - P2P communication architecture
+- **[RL Architecture](https://github.com/ayush-jadaun/MarlOS/blob/main/docs/ARCHITECTURE_RL.md)** - Reinforcement learning details
+- **[Token Economy](https://github.com/ayush-jadaun/MarlOS/blob/main/docs/ARCHITECTURE_TOKEN.md)** - Economic system design
+- **[Checkpoint Recovery](https://github.com/ayush-jadaun/MarlOS/blob/main/docs/CHECKPOINT_RECOVERY_GUIDE.md)** - Fault tolerance mechanisms
+- **[RL Prediction](https://github.com/ayush-jadaun/MarlOS/blob/main/docs/RL_PREDICTION_DESIGN.md)** - Predictive pre-execution system

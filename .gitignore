@@ -150,3 +150,11 @@ data/
 checkpoints/
 uploads/
 nul
+
+# =========================
+# PyPI Publishing
+# =========================
+.pypirc
+*.pypirc
+twine.log
+.twine/
