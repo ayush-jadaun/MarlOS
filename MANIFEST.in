@@ -1,24 +1,16 @@
-# Include documentation
+# Include essential files
 include README.md
 include LICENSE
-include INSTALL.md
-include QUICKSTART.md
-include SHARE.md
-include DEPLOYMENT_VERIFICATION.md
-
-# Include configuration files
 include requirements.txt
+include requirements-docker.txt
 include docker-compose.yml
 include agent-config.yml
 
-# Include docs
+# Include all documentation
 recursive-include docs *.md
 
-# Include scripts
-include install-marlos.sh
-include test_deployment.sh
-include start-node.sh
-include start-node.bat
+# Include all scripts
+recursive-include scripts *.sh *.bat
 
 # Include package data
 recursive-include agent *.yml *.json

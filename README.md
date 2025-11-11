@@ -89,7 +89,7 @@ marl status          # Check status
 marl --help          # See all commands
 ```
 
-**See complete guide:** [PIP_INSTALL.md](PIP_INSTALL.md) 📦
+**See complete guide:** [docs/PIP_INSTALL.md](docs/PIP_INSTALL.md) 📦
 
 ---
 
@@ -98,12 +98,12 @@ marl --help          # See all commands
 For the easiest setup experience, use our interactive installer that guides you through everything:
 
 ```bash
-curl -sSL https://raw.githubusercontent.com/ayush-jadaun/MarlOS/main/install-marlos.sh | bash
+curl -sSL https://raw.githubusercontent.com/ayush-jadaun/MarlOS/main/scripts/install-marlos.sh | bash
 ```
 
 Or download and run locally:
 ```bash
-wget https://raw.githubusercontent.com/ayush-jadaun/MarlOS/main/install-marlos.sh
+wget https://raw.githubusercontent.com/ayush-jadaun/MarlOS/main/scripts/install-marlos.sh
 chmod +x install-marlos.sh
 ./install-marlos.sh
 ```
@@ -134,8 +134,8 @@ This starts 3 agent nodes and an MQTT broker for demonstration.
 
 To deploy MarlOS across actual laptops, desktops, or servers for true distributed computing:
 
-**🎯 Interactive Installer (Recommended):** [Run installer](#-one-line-interactive-installation)
-**⚡ 5-Minute Manual Setup:** [QUICKSTART.md](QUICKSTART.md)
+**🎯 Interactive Installer (Recommended):** [Run installer](#-one-line-interactive-installation-full-setup)
+**⚡ 5-Minute Manual Setup:** [docs/QUICKSTART.md](docs/QUICKSTART.md)
 **📖 Complete Guide:** [docs/DISTRIBUTED_DEPLOYMENT.md](docs/DISTRIBUTED_DEPLOYMENT.md)
 
 **Quick Manual Overview:**
@@ -178,13 +178,17 @@ The system automatically discovers peers, elects coordinators, and distributes j
 ## Documentation
 
 ### Setup & Installation
-- **[Interactive Installation Guide](INSTALL.md)** - Complete installation walkthrough
-- **[Quick Start Guide](QUICKSTART.md)** - 5-minute manual setup
-- **[Distributed Deployment Guide](docs/DISTRIBUTED_DEPLOYMENT.md)** - Deploy on real devices
-- **[Deployment Verification](DEPLOYMENT_VERIFICATION.md)** - Testing your setup
+- **[pip Installation Guide](docs/PIP_INSTALL.md)** - Install with pip and use `marl` command
+- **[Interactive Installer Guide](docs/INSTALL.md)** - Full system setup walkthrough
+- **[Quick Start Guide](docs/QUICKSTART.md)** - 5-minute manual setup
+- **[Commands Reference](docs/COMMANDS.md)** - Complete command guide
+- **[Distributed Deployment](docs/DISTRIBUTED_DEPLOYMENT.md)** - Deploy on real devices
+- **[Deployment Verification](docs/DEPLOYMENT_VERIFICATION.md)** - Testing your setup
+- **[Share Guide](docs/SHARE.md)** - Share with your team
 
 ### Architecture & Design
 - **[Network Design](docs/NETWORK_DESIGN.md)** - P2P communication architecture
 - **[RL Architecture](docs/ARCHITECTURE_RL.md)** - Reinforcement learning details
 - **[Token Economy](docs/ARCHITECTURE_TOKEN.md)** - Economic system design
 - **[Checkpoint Recovery](docs/CHECKPOINT_RECOVERY_GUIDE.md)** - Fault tolerance mechanisms
+- **[RL Prediction](docs/RL_PREDICTION_DESIGN.md)** - Predictive pre-execution system

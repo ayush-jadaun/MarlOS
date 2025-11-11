@@ -11,13 +11,13 @@ MarlOS provides an interactive installation script that automatically sets up ev
 ### Linux / macOS / WSL
 
 ```bash
-curl -sSL https://raw.githubusercontent.com/ayush-jadaun/MarlOS/main/install-marlos.sh | bash
+curl -sSL https://raw.githubusercontent.com/ayush-jadaun/MarlOS/main/scripts/install-marlos.sh | bash
 ```
 
 ### Or Download and Run
 
 ```bash
-wget https://raw.githubusercontent.com/ayush-jadaun/MarlOS/main/install-marlos.sh
+wget https://raw.githubusercontent.com/ayush-jadaun/MarlOS/main/scripts/install-marlos.sh
 chmod +x install-marlos.sh
 ./install-marlos.sh
 ```

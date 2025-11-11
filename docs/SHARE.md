@@ -18,7 +18,7 @@ marl  # Start interactive setup
 
 **Option B: Full installer**
 ```bash
-curl -sSL https://raw.githubusercontent.com/ayush-jadaun/MarlOS/main/install-marlos.sh | bash
+curl -sSL https://raw.githubusercontent.com/ayush-jadaun/MarlOS/main/scripts/install-marlos.sh | bash
 ```
 
 **Step 2: During Installation**
@@ -51,7 +51,7 @@ Coordinator Node:
   - Bootstrap: tcp://[YOUR_IP]:5555
 
 Installation Command:
-  curl -sSL https://raw.githubusercontent.com/ayush-jadaun/MarlOS/main/install-marlos.sh | bash
+  curl -sSL https://raw.githubusercontent.com/ayush-jadaun/MarlOS/main/scripts/install-marlos.sh | bash
 
 Bootstrap Peers (use during installation):
   [YOUR_IP],192.168.1.101,192.168.1.102
@@ -77,7 +77,7 @@ Hi team!
 We're setting up a MarlOS distributed computing network. Here's how to join:
 
 1. Run this command on your laptop/device:
-   curl -sSL https://raw.githubusercontent.com/ayush-jadaun/MarlOS/main/install-marlos.sh | bash
+   curl -sSL https://raw.githubusercontent.com/ayush-jadaun/MarlOS/main/scripts/install-marlos.sh | bash
 
 2. When prompted:
    - Choose option 2 (Real Device)
@@ -115,7 +115,7 @@ Coordinator Public IP: [YOUR_PUBLIC_IP]
 Bootstrap Peers: tcp://[YOUR_PUBLIC_IP]:5555
 
 Installation:
-  curl -sSL https://raw.githubusercontent.com/ayush-jadaun/MarlOS/main/install-marlos.sh | bash
+  curl -sSL https://raw.githubusercontent.com/ayush-jadaun/MarlOS/main/scripts/install-marlos.sh | bash
 
 During Setup:
   - Deployment: Option 2 (Real Device)
@@ -141,7 +141,7 @@ Find your public IP: curl ifconfig.me
 2. Share on screen/whiteboard
 
 **Participants:**
-1. Run installer: `curl -sSL https://raw.githubusercontent.com/ayush-jadaun/MarlOS/main/install-marlos.sh | bash`
+1. Run installer: `curl -sSL https://raw.githubusercontent.com/ayush-jadaun/MarlOS/main/scripts/install-marlos.sh | bash`
 2. Use organizer's IP as bootstrap peer
 3. Start competing on the distributed network!
 
@@ -154,7 +154,7 @@ We'll be creating a real distributed computing network in this room!
 
 Setup (5 minutes):
   1. Connect to WiFi: [WIFI_NAME]
-  2. Run: curl -sSL https://raw.githubusercontent.com/ayush-jadaun/MarlOS/main/install-marlos.sh | bash
+  2. Run: curl -sSL https://raw.githubusercontent.com/ayush-jadaun/MarlOS/main/scripts/install-marlos.sh | bash
   3. Bootstrap peer: tcp://192.168.1.XXX:5555 (see projector)
 
 Challenge:
@@ -251,7 +251,7 @@ Want to help develop MarlOS?
 
 1. Install developer environment:
    ```bash
-   curl -sSL https://raw.githubusercontent.com/ayush-jadaun/MarlOS/main/install-marlos.sh | bash
+   curl -sSL https://raw.githubusercontent.com/ayush-jadaun/MarlOS/main/scripts/install-marlos.sh | bash
    # Choose option 3 (Development Mode)
    ```
 
@@ -270,7 +270,7 @@ See CONTRIBUTING.md for guidelines.
 Testing distributed algorithms? Join our research network:
 
 Setup:
-  curl -sSL https://raw.githubusercontent.com/ayush-jadaun/MarlOS/main/install-marlos.sh | bash
+  curl -sSL https://raw.githubusercontent.com/ayush-jadaun/MarlOS/main/scripts/install-marlos.sh | bash
 
 Features for Research:
   - RL policy experimentation
