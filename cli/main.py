@@ -39,24 +39,58 @@ def is_pip_installed():
 
 
 def get_source_root():
-    """Get the source root directory (for git clone installations)"""
-    # Try to find the actual source directory
-    current = Path.cwd()
+    """
+    Get the MarlOS installation root directory.
 
-    # Check if we're in a MarlOS source directory
+    This works for both:
+    - Development mode (git clone + pip install -e .)
+    - Normal pip install (everything in site-packages)
+
+    Returns the directory containing the agent, cli, and other packages.
+    """
+    # Method 1: Check if running from development directory (git clone)
+    current = Path.cwd()
     if (current / "agent" / "main.py").exists():
         return current
 
-    # Check common locations
-    common_locations = [
+    # Method 2: Check common development locations
+    common_dev_locations = [
         Path.home() / "MarlOS",
         Path.home() / "Documents" / "MarlOS",
         Path("/opt/MarlOS") if os.name != 'nt' else Path("C:/MarlOS"),
     ]
 
-    for location in common_locations:
+    for location in common_dev_locations:
         if location.exists() and (location / "agent" / "main.py").exists():
             return location
+
+    # Method 3: Use installed package location (pip install marlos)
+    # When pip installed, agent, cli, etc. are in site-packages/
+    try:
+        import pkg_resources
+        # Get the location of the 'agent' package
+        agent_path = Path(pkg_resources.resource_filename('agent', ''))
+        # The parent directory contains all packages (agent, cli, etc.)
+        # For pip installations, this is site-packages/
+        # We return the parent of agent which contains everything
+        install_root = agent_path.parent
+
+        # Verify agent.main exists
+        if (agent_path / "main.py").exists():
+            return install_root
+    except:
+        pass
+
+    # Method 4: Try using __file__ relative path from cli package
+    try:
+        cli_path = Path(__file__).parent  # This is site-packages/cli/
+        install_root = cli_path.parent     # This is site-packages/
+
+        # Verify agent exists at sibling location
+        if (install_root / "agent" / "main.py").exists():
+            return install_root
+    except:
+        pass
 
     return None
 
@@ -75,7 +109,7 @@ def print_banner():
 ║   ╚═╝     ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝ ╚═════╝ ╚══════╝      ║
 ║                                                               ║
 ║        Autonomous Distributed Computing OS                   ║
-║        v1.0.3 | Team async_await                             ║
+║        v1.0.4 | Team async_await                             ║
 ║                                                               ║
 ╚═══════════════════════════════════════════════════════════════╝
 [/bold cyan]
@@ -103,120 +137,32 @@ def check_installation():
     return pip_installed or has_source, has_source
 
 
-def check_source_required():
-    """Check if source code is required and prompt user to install if not present"""
+def verify_installation():
+    """
+    Verify that MarlOS is properly installed with all required components.
+
+    This should always pass for properly installed MarlOS (via pip install).
+    Returns True if OK, False if something is wrong.
+    """
     source_root = get_source_root()
 
     if source_root is None or not (source_root / "agent" / "main.py").exists():
-        console.print("\n[bold red]⚠️  MarlOS Source Code Required[/bold red]\n")
-        console.print("To start MarlOS nodes, you need the full source code.\n")
+        console.print("\n[bold red]⚠️  MarlOS Installation Error[/bold red]\n")
+        console.print("[red]✗[/red] Cannot find MarlOS agent code\n")
 
-        if is_pip_installed():
-            console.print("[green]✓[/green] MarlOS CLI is installed via pip")
-            console.print("[red]✗[/red] But agent source code is not available\n")
+        console.print("This usually means MarlOS wasn't installed correctly.\n")
+        console.print("[bold yellow]To fix this:[/bold yellow]\n")
 
-        console.print("[bold yellow]How to Install Source Code:[/bold yellow]\n")
-        console.print("Option 1 - Clone from GitHub (Recommended):")
-        console.print("  [cyan]git clone https://github.com/ayush-jadaun/MarlOS.git[/cyan]")
-        console.print("  [cyan]cd MarlOS[/cyan]")
-        console.print("  [cyan]pip install -e .[/cyan]\n")
+        console.print("1. Reinstall MarlOS:")
+        console.print("   [cyan]pip uninstall -y marlos[/cyan]")
+        console.print("   [cyan]pip install --no-cache-dir marlos[/cyan]\n")
 
-        console.print("Option 2 - Download ZIP:")
-        console.print("  1. Visit: [cyan]https://github.com/ayush-jadaun/MarlOS[/cyan]")
-        console.print("  2. Click 'Code' → 'Download ZIP'")
-        console.print("  3. Extract and run: [cyan]pip install -e .[/cyan]\n")
-
-        if Confirm.ask("Do you want me to clone the repository now?", default=True):
-            clone_repository()
-            return True
+        console.print("2. Or install from GitHub:")
+        console.print("   [cyan]pip install git+https://github.com/ayush-jadaun/MarlOS.git[/cyan]\n")
 
         return False
 
     return True
-
-
-def clone_repository():
-    """Clone MarlOS repository interactively"""
-    console.print("\n[bold cyan]📦 Cloning MarlOS Repository[/bold cyan]\n")
-
-    # Check if git is installed
-    try:
-        subprocess.run(["git", "--version"], capture_output=True, check=True)
-    except (subprocess.CalledProcessError, FileNotFoundError):
-        console.print("[red]✗[/red] Git is not installed!")
-        console.print("\nInstall Git first:")
-        console.print("  [cyan]https://git-scm.com/downloads[/cyan]\n")
-        return False
-
-    # Ask where to clone
-    default_path = Path.home() / "MarlOS"
-    clone_path = Prompt.ask(
-        "Where to clone MarlOS?",
-        default=str(default_path)
-    )
-
-    clone_path = Path(clone_path)
-
-    # Check if directory exists
-    if clone_path.exists():
-        if (clone_path / ".git").exists():
-            console.print(f"\n[yellow]MarlOS already cloned at {clone_path}[/yellow]\n")
-            if Confirm.ask("Pull latest changes?", default=True):
-                try:
-                    with console.status("[bold green]Pulling latest changes..."):
-                        result = subprocess.run(
-                            ["git", "pull"],
-                            cwd=clone_path,
-                            capture_output=True,
-                            text=True,
-                            check=True
-                        )
-                    console.print("[green]✓[/green] Updated successfully!\n")
-                    return True
-                except subprocess.CalledProcessError as e:
-                    console.print(f"[red]✗[/red] Failed to pull: {e.stderr}\n")
-                    return False
-        else:
-            console.print(f"[red]✗[/red] Directory exists but is not a git repo\n")
-            return False
-
-    # Clone repository
-    try:
-        with console.status(f"[bold green]Cloning to {clone_path}..."):
-            result = subprocess.run(
-                ["git", "clone", "https://github.com/ayush-jadaun/MarlOS.git", str(clone_path)],
-                capture_output=True,
-                text=True,
-                check=True
-            )
-
-        console.print(f"[green]✓[/green] Cloned successfully to {clone_path}\n")
-
-        # Ask to install in editable mode
-        if Confirm.ask("Install in editable mode (pip install -e .)?", default=True):
-            with console.status("[bold green]Installing in editable mode..."):
-                result = subprocess.run(
-                    [sys.executable, "-m", "pip", "install", "-e", str(clone_path)],
-                    capture_output=True,
-                    text=True
-                )
-
-            if result.returncode == 0:
-                console.print("[green]✓[/green] Installed in editable mode!\n")
-                console.print("[bold green]You're all set! Source code is ready.[/bold green]\n")
-                return True
-            else:
-                console.print(f"[yellow]⚠[/yellow] Install failed, but code is cloned.\n")
-                console.print(f"You can manually install with:")
-                console.print(f"  [cyan]cd {clone_path}[/cyan]")
-                console.print(f"  [cyan]pip install -e .[/cyan]\n")
-                return True
-
-        return True
-
-    except subprocess.CalledProcessError as e:
-        console.print(f"[red]✗[/red] Clone failed: {e.stderr}\n")
-        return False
 
 
 def check_agent_running(port=3001):
@@ -412,11 +358,9 @@ def start_marlos_interactive():
     """Interactive mode selection for starting MarlOS"""
     console.clear()
 
-    # Check if source code is available
-    if not check_source_required():
-        console.print("\n[yellow]Cannot start MarlOS without source code.[/yellow]")
-        console.print("Please run the steps above to get the source code first.\n")
-        input("Press Enter to continue...")
+    # Verify MarlOS installation
+    if not verify_installation():
+        input("\nPress Enter to continue...")
         return
 
     console.print(Panel.fit(
@@ -527,8 +471,11 @@ def start_native_mode():
     else:
         root_dir = MARLOS_ROOT
 
-    # Check for existing launch scripts
-    launch_scripts = list(root_dir.glob("start-*.sh"))
+    # Check for existing launch scripts (both .sh and .bat)
+    if os.name == 'nt':
+        launch_scripts = list(root_dir.glob("start-*.bat"))
+    else:
+        launch_scripts = list(root_dir.glob("start-*.sh"))
 
     if launch_scripts:
         console.print(f"[green]Found {len(launch_scripts)} launch script(s):[/green]\n")
@@ -546,7 +493,10 @@ def start_native_mode():
 
             console.print(f"\n[cyan]Starting {script_to_run.name}...[/cyan]\n")
             try:
-                subprocess.run([str(script_to_run)], cwd=MARLOS_ROOT, check=True)
+                if os.name == 'nt':
+                    subprocess.run([str(script_to_run)], cwd=root_dir, shell=True, check=True)
+                else:
+                    subprocess.run([str(script_to_run)], cwd=root_dir, check=True)
             except KeyboardInterrupt:
                 console.print("\n[yellow]Agent stopped[/yellow]")
             return
@@ -565,10 +515,35 @@ def start_native_mode():
         ips = [ip.strip() for ip in peers_input.split(',')]
         bootstrap_peers = ",".join([f"tcp://{ip}:5555" for ip in ips])
 
-    # Create launch script
-    script_path = root_dir / f"start-{node_id}.sh"
-    with open(script_path, 'w') as f:
-        f.write(f"""#!/bin/bash
+    # Create launch script - different for Windows vs Unix
+    if os.name == 'nt':  # Windows
+        script_path = root_dir / f"start-{node_id}.bat"
+        with open(script_path, 'w') as f:
+            f.write(f"""@echo off
+REM MarlOS Launch Script for {node_id}
+
+set NODE_ID={node_id}
+set BOOTSTRAP_PEERS={bootstrap_peers}
+set PUB_PORT=5555
+set SUB_PORT=5556
+set DASHBOARD_PORT=3001
+set ENABLE_DOCKER=false
+
+cd /d {root_dir}
+call venv\\Scripts\\activate.bat
+python -m agent.main
+""")
+        console.print(f"\n[green]✓[/green] Launch script created: {script_path.name}\n")
+
+        if Confirm.ask("Start node now?", default=True):
+            try:
+                subprocess.run([str(script_path)], cwd=root_dir, shell=True, check=True)
+            except KeyboardInterrupt:
+                console.print("\n[yellow]Agent stopped[/yellow]")
+    else:  # Linux/Mac
+        script_path = root_dir / f"start-{node_id}.sh"
+        with open(script_path, 'w') as f:
+            f.write(f"""#!/bin/bash
 export NODE_ID="{node_id}"
 export BOOTSTRAP_PEERS="{bootstrap_peers}"
 export PUB_PORT=5555
@@ -580,15 +555,14 @@ cd {root_dir}
 source venv/bin/activate
 python -m agent.main
 """)
+        script_path.chmod(0o755)
+        console.print(f"\n[green]✓[/green] Launch script created: {script_path.name}\n")
 
-    script_path.chmod(0o755)
-    console.print(f"\n[green]✓[/green] Launch script created: {script_path.name}\n")
-
-    if Confirm.ask("Start node now?", default=True):
-        try:
-            subprocess.run([str(script_path)], cwd=MARLOS_ROOT, check=True)
-        except KeyboardInterrupt:
-            console.print("\n[yellow]Agent stopped[/yellow]")
+        if Confirm.ask("Start node now?", default=True):
+            try:
+                subprocess.run([str(script_path)], cwd=root_dir, check=True)
+            except KeyboardInterrupt:
+                console.print("\n[yellow]Agent stopped[/yellow]")
 
 
 def start_dev_mode():
@@ -867,7 +841,12 @@ def configuration_menu():
     choice = Prompt.ask("Select option", choices=["0", "1", "2", "3"])
 
     if choice == "1":
-        launch_scripts = list(root_dir.glob("start-*.sh"))
+        # Find launch scripts (both .sh and .bat)
+        if os.name == 'nt':
+            launch_scripts = list(root_dir.glob("start-*.bat"))
+        else:
+            launch_scripts = list(root_dir.glob("start-*.sh"))
+
         if launch_scripts:
             console.print("\nLaunch scripts:")
             for i, script in enumerate(launch_scripts, 1):
@@ -1097,9 +1076,8 @@ def create(name, command, payment, priority, output):
 @cli.command()
 def start():
     """Start MarlOS (interactive mode selection)"""
-    # Check if source code is available
-    if not check_source_required():
-        console.print("\n[yellow]Cannot start MarlOS without source code.[/yellow]\n")
+    # Verify MarlOS installation
+    if not verify_installation():
         return
 
     print_banner()
@@ -1109,7 +1087,7 @@ def start():
 @cli.command()
 def version():
     """Show version information"""
-    console.print("\n[bold cyan]🌌 MarlOS v1.0.3[/bold cyan]")
+    console.print("\n[bold cyan]🌌 MarlOS v1.0.4[/bold cyan]")
     console.print("[cyan]Autonomous Distributed Computing Operating System[/cyan]")
     console.print("\n[dim]Built by Team async_await[/dim]\n")
 

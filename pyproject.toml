@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "marlos"
-version = "1.0.3"
+version = "1.0.4"
 description = "Autonomous Distributed Computing Operating System with Reinforcement Learning"
 readme = "README.md"
 requires-python = ">=3.11"
@@ -62,8 +62,12 @@ Repository = "https://github.com/ayush-jadaun/MarlOS"
 marl = "cli.main:cli"
 
 [tool.setuptools]
-packages = ["agent", "cli", "rl_trainer", "rl_trainer.models"]
+packages = ["agent", "cli", "rl_trainer", "config", "hardware", "scripts", "examples"]
 
 [tool.setuptools.package-data]
 agent = ["*.yml", "*.json"]
-rl_trainer = ["models/*.zip"]
+rl_trainer = ["*.zip", "*.pkl", "*.pt", "*.pth", "models/*.zip"]
+config = ["*.conf", "*.yml", "*.yaml", "*.json"]
+hardware = ["**/*.ino", "**/*.cpp", "**/*.h"]
+scripts = ["*.sh", "*.bat", "*.py"]
+examples = ["*.py", "*.md"]

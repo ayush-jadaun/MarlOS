@@ -9,12 +9,19 @@ include agent-config.yml
 # Include all documentation
 recursive-include docs *.md
 
-# Include all scripts
-recursive-include scripts *.sh *.bat
+# Include all scripts (shell, batch, python)
+recursive-include scripts *.sh *.bat *.py
+
+# Include hardware files (Arduino, ESP code)
+recursive-include hardware *.ino *.cpp *.h
+
+# Include configuration files
+recursive-include config *.conf *.yml *.yaml *.json
 
 # Include package data
 recursive-include agent *.yml *.json
-recursive-include rl_trainer/models *.zip
+recursive-include rl_trainer *.zip *.pkl *.pt *.pth
+recursive-include examples *.py *.md
 
 # Exclude unnecessary files
 global-exclude __pycache__
