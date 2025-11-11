@@ -23,7 +23,7 @@ setup(
     long_description=long_description,
     long_description_content_type='text/markdown',
     author='Team async_await',
-    author_email='ayush.jadaun@example.com',
+    author_email='ayushjadaun6@gmail.com',
     url='https://github.com/ayush-jadaun/MarlOS',
     license='MIT',
 
