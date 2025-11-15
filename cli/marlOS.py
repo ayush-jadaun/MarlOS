@@ -42,7 +42,7 @@ console = Console()
 
 
 @click.group()
-@click.version_option(version="1.0.0", prog_name="MarlOS")
+@click.version_option(version="1.0.5", prog_name="MarlOS")
 def cli():
     """
     🌌 MarlOS - Autonomous Distributed Computing Swarm
@@ -547,7 +547,7 @@ def create(name, command, payment, priority, output):
 @cli.command()
 def version():
     """Show version information"""
-    console.print("\n[bold cyan]🌌 MarlOS v1.0.0[/bold cyan]")
+    console.print("\n[bold cyan]🌌 MarlOS v1.0.5[/bold cyan]")
     console.print("[cyan]A self-organizing distributed computing swarm[/cyan]\n")
 
 

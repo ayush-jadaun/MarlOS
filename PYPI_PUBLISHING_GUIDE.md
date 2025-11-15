@@ -120,14 +120,14 @@ python -m build
 This creates:
 ```
 dist/
-├── marlos-1.0.4-py3-none-any.whl    # Wheel (binary)
-└── marlos-1.0.4.tar.gz               # Source distribution
+├── marlos-1.0.5-py3-none-any.whl    # Wheel (binary)
+└── marlos-1.0.5.tar.gz               # Source distribution
 ```
 
 ### 4.3 Verify Package Contents
 
 ```bash
-tar -tzf dist/marlos-1.0.4.tar.gz | head -20
+tar -tzf dist/marlos-1.0.5.tar.gz | head -20
 ```
 
 Should include:
@@ -152,13 +152,13 @@ twine upload --repository testpypi dist/*
 You'll see:
 ```
 Uploading distributions to https://test.pypi.org/legacy/
-Uploading marlos-1.0.4-py3-none-any.whl
+Uploading marlos-1.0.5-py3-none-any.whl
 100% ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Uploading marlos-1.0.4.tar.gz
+Uploading marlos-1.0.5.tar.gz
 100% ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 View at:
-https://test.pypi.org/project/marlos/1.0.4/
+https://test.pypi.org/project/marlos/1.0.5/
 ```
 
 ### 5.2 Test Installation from TestPyPI
@@ -210,13 +210,13 @@ twine upload dist/*
 You'll see:
 ```
 Uploading distributions to https://upload.pypi.org/legacy/
-Uploading marlos-1.0.4-py3-none-any.whl
+Uploading marlos-1.0.5-py3-none-any.whl
 100% ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Uploading marlos-1.0.4.tar.gz
+Uploading marlos-1.0.5.tar.gz
 100% ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 View at:
-https://pypi.org/project/marlos/1.0.4/
+https://pypi.org/project/marlos/1.0.5/
 ```
 
 ### 6.3 Verify on PyPI
@@ -225,7 +225,7 @@ Visit: https://pypi.org/project/marlos/
 
 You should see:
 - Package name: **marlos**
-- Version: **1.0.4**
+- Version: **1.0.5**
 - Your README rendered
 - Installation instructions
 - Project links
@@ -268,11 +268,11 @@ marl  # Interactive menu
 
 ## 🔄 Publishing Updates
 
-### For Version 1.0.1, 1.1.0, etc.
+### For Version 1.0.5, 1.1.0, etc.
 
 1. **Update version** in `pyproject.toml`:
    ```toml
-   version = "1.0.1"
+   version = "1.0.5"
    ```
 
 2. **Clean and rebuild**:
@@ -293,8 +293,8 @@ marl  # Interactive menu
 
 5. **Tag release in Git**:
    ```bash
-   git tag -a v1.0.1 -m "Release version 1.0.1"
-   git push origin v1.0.1
+   git tag -a v1.0.5 -m "Release version 1.0.5"
+   git push origin v1.0.5
    ```
 
 ---
@@ -305,7 +305,7 @@ marl  # Interactive menu
 
 You can't re-upload the same version. Bump version number:
 ```toml
-version = "1.0.1"  # Increment
+version = "1.0.5"  # Increment
 ```
 
 ### "Invalid or non-existent authentication information"
@@ -427,7 +427,7 @@ Autonomous distributed OS with RL-based job scheduling.
 5. **Monitor package for unauthorized changes**
 6. **Sign releases with GPG** (optional):
    ```bash
-   gpg --detach-sign -a dist/marlos-1.0.4.tar.gz
+   gpg --detach-sign -a dist/marlos-1.0.5.tar.gz
    ```
 
 ---

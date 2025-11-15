@@ -2,10 +2,104 @@
 
 All notable changes to MarlOS will be documented in this file.
 
-The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.5/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.0.4] - 2025-01-12 ⭐ MAJOR UPDATE
+## [1.0.5] - 2025-11-15 ⭐ CONFIGURATION SYSTEM UPDATE
+
+### 🎉 Revolutionary Change: Production-Grade Two-Tier Configuration
+
+**MarlOS now features a sophisticated configuration management system!**
+
+Previously, configuration was scattered across environment variables and temporary files.
+Now with v1.0.5, you get a **production-ready two-tier system**:
+
+1. **System Defaults** - Built-in sensible defaults (agent/config.py)
+2. **Per-Node Configuration** - Individual node configs (~/.marlos/nodes/{node_id}/config.json)
+3. **Environment Overrides** - Temporary overrides via environment variables
+
+### Added
+- **Two-Tier Configuration System** ⭐
+  - Created `agent/node_config.py` for node configuration management
+  - Per-node config files at `~/.marlos/nodes/{node_id}/config.json`
+  - Configuration precedence: Environment > Node Config > System Defaults
+  - Support for multiple network modes (Private/Public)
+  - DHT configuration for cross-internet discovery
+
+- **Node Management Commands** 🔧
+  - `marl nodes list` - List all configured nodes
+  - `marl nodes show <node_id>` - Display node configuration
+  - `marl nodes edit <node_id>` - Edit node config in default editor
+  - `marl nodes delete <node_id>` - Remove node configuration
+
+- **Improved Network Configuration** 🌐
+  - Private Mode: Manual peer management for personal networks
+  - Public Mode: DHT-based automatic discovery
+  - Network mode selection during node creation
+  - Bootstrap peers configuration per node
+  - Dynamic peer management
+
+- **Comprehensive Documentation** 📚
+  - Created `docs/CONFIG_ARCHITECTURE.md` - System design documentation
+  - Created `docs/CONFIG_MANAGEMENT_GUIDE.md` - Node management guide
+  - Created `docs/FULL_CONFIG_USAGE.md` - Complete configuration reference
+  - Created `docs/USER_GUIDE_NETWORK_MODES.md` - Network modes user guide
+  - Created `docs/CROSS_INTERNET_DISCOVERY.md` - Cross-network connectivity guide
+  - Created `docs/README.md` - Documentation index
+  - Updated `docs/COMMANDS.md` with node management commands
+
+### Changed
+- **Updated Configuration Loader** (`agent/config.py`)
+  - Rewritten `load_config()` to support three-tier precedence
+  - Automatic node config file detection based on NODE_ID
+  - Improved error handling and fallbacks
+  - Support for both JSON node configs and environment variables
+
+- **Simplified Node Creation** (`cli/main.py`)
+  - Node creation now generates persistent config files
+  - Launch scripts simplified to only need NODE_ID
+  - All settings loaded from node config automatically
+  - Better network mode selection during setup
+
+- **Updated Launch Scripts**
+  - `scripts/start-node.sh` - Simplified to use node configs
+  - `scripts/start-node.bat` - Windows version updated
+  - Only requires NODE_ID environment variable
+  - All other settings loaded from config file
+
+- **Documentation Cleanup** 🧹
+  - Removed 7 redundant/outdated documentation files
+  - Reorganized guides into docs/ folder
+  - Created comprehensive documentation index
+  - Updated README with new config documentation links
+
+### Removed
+- Deleted redundant summary files (COMPLETE_FIX_SUMMARY.md, FINAL_UPDATE_SUMMARY.md, etc.)
+- Removed implementation planning documents
+- Cleaned up outdated guides folder
+
+### Migration Guide
+
+**For Users:**
+- **Before**: Configure everything via environment variables
+- **After**: Create nodes with `marl start`, configs saved automatically
+- **Managing Nodes**: Use `marl nodes` commands to manage configurations
+- **Updating**: Run `pip install --upgrade marlos`
+
+**For Developers:**
+- Node configs stored in `~/.marlos/nodes/{node_id}/config.json`
+- Environment variables still work as overrides
+- Use `node_config` module for programmatic access
+
+### Benefits
+1. **Persistent Configuration** - Node settings saved and reused
+2. **Easy Multi-Node Management** - Run multiple nodes with different configs
+3. **Clear Configuration Hierarchy** - Understand precedence easily
+4. **Better Organization** - Per-node configs instead of scattered env vars
+5. **Network Mode Support** - Private and Public modes with proper config
+6. **Production Ready** - Scalable configuration for real deployments
+
+## [1.0.5] - 2025-01-12 ⭐ MAJOR UPDATE
 
 ### 🎉 Revolutionary Change: Complete Package Distribution
 
@@ -16,7 +110,7 @@ Previously, users had to:
 2. Manually clone the GitHub repository (get agent code)
 3. Set up environment and dependencies
 
-Now with v1.0.4, a single command gives you **EVERYTHING**:
+Now with v1.0.5, a single command gives you **EVERYTHING**:
 ```bash
 pip install marlos
 ```
@@ -77,7 +171,7 @@ This includes:
 5. **Simpler Testing** - Test via GitHub without PyPI publishing
 6. **Smaller Learning Curve** - Standard pip workflow
 
-## [1.0.4] - 2025-01-11
+## [1.0.5] - 2025-01-11
 
 ### Fixed
 - Fixed `marl install` command crashing when MarlOS is installed via pip
@@ -134,7 +228,7 @@ This includes:
 - Created comprehensive fix summary (`FIX_SUMMARY.md`)
 - Created installation improvements summary (`INSTALLATION_IMPROVEMENTS_SUMMARY.md`)
 
-## [1.0.1] - 2025-01-09
+## [1.0.5] - 2025-01-09
 
 ### Added
 - Published to PyPI for easier installation
@@ -143,7 +237,7 @@ This includes:
 ### Changed
 - Updated packaging configuration for PyPI
 
-## [1.0.0] - 2025-01-08
+## [1.0.5] - 2025-01-08
 
 ### Added
 - Initial release

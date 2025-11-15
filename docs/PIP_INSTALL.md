@@ -48,7 +48,7 @@ This launches the beautiful interactive menu:
 ║   ╚═╝     ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝ ╚═════╝ ╚══════╝      ║
 ║                                                               ║
 ║        Autonomous Distributed Computing OS                   ║
-║        v1.0.0 | Team async_await                             ║
+║        v1.0.5 | Team async_await                             ║
 ║                                                               ║
 ╚═══════════════════════════════════════════════════════════════╝
 

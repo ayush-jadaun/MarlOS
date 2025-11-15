@@ -42,7 +42,7 @@ echo ""
 # Test installation
 echo "[2] Testing local install..."
 pip uninstall -y marlos || true
-pip install dist/marlos-1.0.4-py3-none-any.whl
+pip install dist/marlos-1.0.5-py3-none-any.whl
 
 echo ""
 echo "[3] Verifying command..."
@@ -55,7 +55,7 @@ echo "========================================"
 echo ""
 echo "Package built and tested successfully!"
 echo ""
-echo "Wheel file: dist/marlos-1.0.4-py3-none-any.whl"
+echo "Wheel file: dist/marlos-1.0.5-py3-none-any.whl"
 echo ""
 echo "Next steps:"
 echo "  1. Test locally: marl --help"

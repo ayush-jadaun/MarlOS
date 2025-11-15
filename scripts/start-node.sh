@@ -1,37 +1,30 @@
 #!/bin/bash
 # MarlOS Node Launcher
-# Customize this script for your device
+# Template script for launching a MarlOS node
 
 # ============================================
-# CONFIGURATION - EDIT THESE VALUES
+# CONFIGURATION - EDIT NODE_ID
 # ============================================
 
-# Node Identity (make it unique for each device)
-export NODE_ID="laptop-1"
-export NODE_NAME="My-Device"
+# Node ID (must match a configured node in ~/.marlos/nodes/)
+# Create nodes using: marl start
+# List nodes using: marl nodes list
+export NODE_ID="YOUR_NODE_ID_HERE"
 
-# Network Ports (default values, change if needed)
-export PUB_PORT=5555
-export SUB_PORT=5556
-export DASHBOARD_PORT=3001
+# ============================================
+# OPTIONAL OVERRIDES
+# ============================================
+# These override settings from the node config file
+# Uncomment only if you need temporary overrides
 
-# Bootstrap Peers - REPLACE WITH YOUR ACTUAL DEVICE IPs
-# Format: tcp://<IP>:<PORT>,tcp://<IP>:<PORT>
-# Example for local network:
-#   export BOOTSTRAP_PEERS="tcp://192.168.1.101:5555,tcp://192.168.1.102:5555"
-# Example for public IPs:
-#   export BOOTSTRAP_PEERS="tcp://203.0.113.45:5555,tcp://198.51.100.89:5555"
-export BOOTSTRAP_PEERS="tcp://192.168.1.101:5555,tcp://192.168.1.102:5555"
-
-# Optional: Disable Docker for direct job execution
-export ENABLE_DOCKER=false
-
-# Optional: Enable hardware control via MQTT
-export ENABLE_HARDWARE_RUNNER=false
-export MQTT_BROKER_HOST="localhost"
-
-# Optional: Data directory (default: ./data)
-# export DATA_DIR="/var/marlos/data"
+# export PUB_PORT=5555
+# export SUB_PORT=5556
+# export DASHBOARD_PORT=3001
+# export NETWORK_MODE="private"
+# export DHT_ENABLED="false"
+# export BOOTSTRAP_PEERS="tcp://192.168.1.101:5555"
+# export ENABLE_DOCKER=false
+# export ENABLE_HARDWARE_RUNNER=false
 
 # ============================================
 # STARTUP
@@ -39,14 +32,11 @@ export MQTT_BROKER_HOST="localhost"
 
 echo "╔═══════════════════════════════════════╗"
 echo "║     MarlOS Distributed Agent          ║"
+echo "║           v1.0.5                      ║"
 echo "╚═══════════════════════════════════════╝"
 echo ""
 echo "🆔 Node ID:      $NODE_ID"
-echo "📛 Node Name:    $NODE_NAME"
-echo "📡 Bootstrap:    $BOOTSTRAP_PEERS"
-echo "🌐 Dashboard:    http://0.0.0.0:$DASHBOARD_PORT"
-echo "⚙️  PUB Port:     $PUB_PORT"
-echo "⚙️  SUB Port:     $SUB_PORT"
+echo "📁 Config:       ~/.marlos/nodes/$NODE_ID/config.json"
 echo ""
 echo "Starting agent..."
 echo ""
