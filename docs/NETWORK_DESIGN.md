@@ -1,7 +1,7 @@
 # MarlOS Network Design
 ## Decentralized P2P Architecture
 
-**Version:** 1.0.0
+**Version:** 1.0.5
 **Last Updated:** 2025-01-08
 
 ---
@@ -676,6 +676,6 @@ network:
 
 ---
 
-**Document Version:** 1.0.0
+**Document Version:** 1.0.5
 **Last Updated:** 2025-01-08
 **Maintained By:** Team async_await

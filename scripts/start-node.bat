@@ -1,31 +1,30 @@
 @echo off
 REM MarlOS Node Launcher for Windows
-REM Customize this script for your device
+REM Template script for launching a MarlOS node
 
 REM ============================================
-REM CONFIGURATION - EDIT THESE VALUES
+REM CONFIGURATION - EDIT NODE_ID
 REM ============================================
 
-REM Node Identity (make it unique for each device)
-set NODE_ID=laptop-1
-set NODE_NAME=My-Device
+REM Node ID (must match a configured node in ~/.marlos/nodes/)
+REM Create nodes using: marl start
+REM List nodes using: marl nodes list
+set NODE_ID=YOUR_NODE_ID_HERE
 
-REM Network Ports (default values, change if needed)
-set PUB_PORT=5555
-set SUB_PORT=5556
-set DASHBOARD_PORT=3001
+REM ============================================
+REM OPTIONAL OVERRIDES
+REM ============================================
+REM These override settings from the node config file
+REM Uncomment only if you need temporary overrides
 
-REM Bootstrap Peers - REPLACE WITH YOUR ACTUAL DEVICE IPs
-REM Format: tcp://<IP>:<PORT>,tcp://<IP>:<PORT>
-REM Example: set BOOTSTRAP_PEERS=tcp://192.168.1.101:5555,tcp://192.168.1.102:5555
-set BOOTSTRAP_PEERS=tcp://192.168.1.101:5555,tcp://192.168.1.102:5555
-
-REM Optional: Disable Docker for direct job execution
-set ENABLE_DOCKER=false
-
-REM Optional: Enable hardware control via MQTT
-set ENABLE_HARDWARE_RUNNER=false
-set MQTT_BROKER_HOST=localhost
+REM set PUB_PORT=5555
+REM set SUB_PORT=5556
+REM set DASHBOARD_PORT=3001
+REM set NETWORK_MODE=private
+REM set DHT_ENABLED=false
+REM set BOOTSTRAP_PEERS=tcp://192.168.1.101:5555
+REM set ENABLE_DOCKER=false
+REM set ENABLE_HARDWARE_RUNNER=false
 
 REM ============================================
 REM STARTUP
@@ -34,14 +33,11 @@ REM ============================================
 echo.
 echo ╔═══════════════════════════════════════╗
 echo ║     MarlOS Distributed Agent          ║
+echo ║           v1.0.5                      ║
 echo ╚═══════════════════════════════════════╝
 echo.
 echo 🆔 Node ID:      %NODE_ID%
-echo 📛 Node Name:    %NODE_NAME%
-echo 📡 Bootstrap:    %BOOTSTRAP_PEERS%
-echo 🌐 Dashboard:    http://0.0.0.0:%DASHBOARD_PORT%
-echo ⚙️  PUB Port:     %PUB_PORT%
-echo ⚙️  SUB Port:     %SUB_PORT%
+echo 📁 Config:       ~/.marlos/nodes/%NODE_ID%/config.json
 echo.
 echo Starting agent...
 echo.

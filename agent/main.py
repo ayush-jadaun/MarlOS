@@ -10,6 +10,18 @@ from pathlib import Path
 import time
 from typing import Dict, List
 import paho.mqtt.client as mqtt
+
+# Fix Windows console encoding for emojis
+if sys.platform == 'win32':
+    try:
+        import codecs
+        sys.stdout.reconfigure(encoding='utf-8')
+        sys.stderr.reconfigure(encoding='utf-8')
+    except Exception:
+        # Fallback for older Python versions
+        import io
+        sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8', errors='replace')
+        sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding='utf-8', errors='replace')
 from .executor.hardware import HardwareRunner
 from .config import AgentConfig, load_config
 from .crypto.signing import SigningKey, sign_message, verify_message
@@ -37,6 +49,9 @@ from .bidding.router import JobRouter
 from .rl.online_learner import OnlineLearner
 from .p2p.coordinator import CoordinatorElection
 from .predictive.integration import PredictiveExtension
+from .p2p.peer_manager import PeerManager
+from .p2p.dht_manager import DHTManager
+from .config import NetworkMode
 import os  # <-- ADD THIS
 
 class MarlOSAgent:
@@ -136,6 +151,34 @@ class MarlOSAgent:
 
         # Predictive Pre-Execution System (RL-powered speculation)
         self.predictive = PredictiveExtension(self)
+
+        # Network Mode - Private or Public
+        self.peer_manager = None
+        self.dht = None
+
+        if self.config.network.mode == NetworkMode.PRIVATE:
+            # PRIVATE MODE: Manual peer management
+            print(f"📋 [NETWORK] Private Mode - Manual peer management")
+            self.peer_manager = PeerManager(self.config.network.saved_peers_file)
+            print(f"📋 [NETWORK] Loaded {len(self.peer_manager.peers)} saved peers")
+
+            # Auto-connect to saved peers on startup
+            auto_connect_peers = self.peer_manager.get_auto_connect_peers()
+            if auto_connect_peers:
+                print(f"📋 [NETWORK] Will auto-connect to {len(auto_connect_peers)} peers")
+
+        elif self.config.network.mode == NetworkMode.PUBLIC:
+            # PUBLIC MODE: DHT-based automatic discovery
+            print(f"🌐 [NETWORK] Public Mode - DHT automatic discovery")
+            if self.config.network.dht_enabled:
+                self.dht = DHTManager(
+                    self.node_id,
+                    self.config.network.dht_port,
+                    self.config.network.dht_bootstrap_nodes
+                )
+                print(f"🌐 [NETWORK] DHT enabled on port {self.config.network.dht_port}")
+            else:
+                print(f"⚠️  [NETWORK] Public mode selected but DHT disabled")
 
         # State
         self.running = False
@@ -347,25 +390,75 @@ class MarlOSAgent:
 
         # Start predictive system (if enabled in config)
         await self.predictive.start()
-    
+
+        # Start network mode specific components
+        if self.config.network.mode == NetworkMode.PRIVATE and self.peer_manager:
+            # Auto-connect to saved peers
+            auto_connect_peers = self.peer_manager.get_auto_connect_peers()
+            for peer_address in auto_connect_peers:
+                try:
+                    self.p2p.connect_to_peer(peer_address)
+                    print(f"📋 [NETWORK] Connected to saved peer: {peer_address}")
+                except Exception as e:
+                    print(f"⚠️  [NETWORK] Failed to connect to {peer_address}: {e}")
+
+        elif self.config.network.mode == NetworkMode.PUBLIC and self.dht:
+            # Start DHT and announce ourselves
+            try:
+                local_ip = self.p2p.local_ip
+                capabilities = self.executor.get_capabilities()
+                success = await self.dht.start(local_ip, self.config.network.pub_port, capabilities)
+
+                if success:
+                    print(f"🌐 [NETWORK] Joined global DHT network")
+
+                    # Set up DHT callback for discovered peers
+                    async def on_peer_discovered(peer_info):
+                        peer_address = f"tcp://{peer_info['ip']}:{peer_info['port']}"
+                        self.p2p.connect_to_peer(peer_address)
+                        print(f"🌐 [NETWORK] Auto-connected to DHT peer: {peer_info['node_id']}")
+
+                    self.dht.on_peer_discovered = on_peer_discovered
+                else:
+                    print(f"⚠️  [NETWORK] Failed to join DHT network")
+            except Exception as e:
+                print(f"⚠️  [NETWORK] DHT error: {e}")
+
         print(f"\n✅ Agent {self.node_name} is ONLINE")
-        
+
         asyncio.create_task(self.dashboard.start())
         asyncio.create_task(self._stats_reporter())
         asyncio.create_task(self._idle_reward_task())
-        
+
         print(f"   Public Key: {self.signing_key.public_key_hex()}")
         print(f"   Trust Score: {self.reputation.get_my_trust_score():.3f}")
         print(f"   Token Balance: {self.wallet.balance:.2f} AC")
         print(f"   Capabilities: {', '.join(self.executor.get_capabilities())}")
-        print(f"   Dashboard: http://localhost:{self.config.dashboard.port}\n")
+
+        # Display dashboard URLs for both local and network access
+        local_ip = self.p2p.local_ip
+        print(f"   Network Mode: {self.config.network.mode.value.upper()}")
+
+        if self.config.network.mode == NetworkMode.PRIVATE:
+            print(f"   Saved Peers: {len(self.peer_manager.peers) if self.peer_manager else 0}")
+        elif self.config.network.mode == NetworkMode.PUBLIC:
+            print(f"   DHT: {'Active' if self.dht and self.dht.running else 'Inactive'}")
+
+        print(f"   Dashboard URLs:")
+        print(f"     - Local:   http://localhost:{self.config.dashboard.port}")
+        print(f"     - Network: http://{local_ip}:{self.config.dashboard.port}")
+        print(f"   P2P Address: tcp://{local_ip}:{self.config.network.pub_port}\n")
     
     async def stop(self):
         """Stop the agent"""
         print(f"\n🛑 Stopping agent {self.node_name}...")
-        
+
         self.running = False
-        
+
+        # Stop network mode specific components
+        if self.dht:
+            await self.dht.stop()
+
         await self.p2p.stop()
         await self.watchdog.stop()
         await self.recovery.stop()

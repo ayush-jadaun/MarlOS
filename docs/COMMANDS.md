@@ -88,6 +88,25 @@ marl watch
 marl watch --port 3001 --interval 1
 ```
 
+### Node Management
+
+```bash
+# List all configured nodes
+marl nodes list
+
+# Show detailed config for a node
+marl nodes show <node_id>
+marl nodes show node-abc123
+
+# Edit node configuration
+marl nodes edit <node_id>
+marl nodes edit node-abc123
+
+# Delete a node
+marl nodes delete <node_id>
+marl nodes delete node-abc123 --force
+```
+
 ---
 
 ## Command Options
@@ -199,6 +218,54 @@ marl watch
 marl watch --port 3002 --interval 1
 ```
 
+### `marl nodes list` Options
+
+```
+(no options - lists all configured nodes)
+```
+
+**Examples:**
+```bash
+marl nodes list
+```
+
+### `marl nodes show` Options
+
+```
+node_id    Node ID to show (required)
+```
+
+**Examples:**
+```bash
+marl nodes show node-abc123
+marl nodes show my-laptop-node
+```
+
+### `marl nodes edit` Options
+
+```
+node_id    Node ID to edit (required)
+```
+
+**Examples:**
+```bash
+marl nodes edit node-abc123
+# Opens config in your default editor (EDITOR env var or notepad/nano)
+```
+
+### `marl nodes delete` Options
+
+```
+node_id         Node ID to delete (required)
+--force, -f     Skip confirmation prompt
+```
+
+**Examples:**
+```bash
+marl nodes delete node-abc123
+marl nodes delete old-node --force  # No confirmation
+```
+
 ---
 
 ## Interactive Menu Options
@@ -267,41 +334,71 @@ export LOG_LEVEL=DEBUG
 
 ---
 
-## Configuration Files
+## Configuration System
 
-MarlOS looks for configuration in these locations (in order):
+MarlOS uses a **two-tier configuration system**:
 
-1. `./agent-config.yml` (current directory)
-2. `~/.marlos/config.yml` (user config)
-3. `/etc/marlos/config.yml` (system config)
+### 1. System Defaults (agent/config.py)
+Built-in defaults for all settings
 
-**Example config:**
+### 2. Per-Node Configuration (~/.marlos/nodes/{node_id}/config.json)
+Each node has its own configuration file
 
-```yaml
-node:
-  id: production-node-1
-  name: Main Compute Node
+### 3. Environment Variable Overrides
+Temporary overrides using environment variables
 
-network:
-  pub_port: 5555
-  sub_port: 5556
-  bootstrap_peers:
-    - tcp://192.168.1.100:5555
-    - tcp://192.168.1.101:5555
-
-executor:
-  max_concurrent_jobs: 5
-  docker_enabled: true
-  sandbox_enabled: true
-
-dashboard:
-  port: 3001
-  host: 0.0.0.0
-
-token:
-  starting_balance: 100.0
-  stake_requirement: 10.0
+**Configuration Precedence:**
 ```
+Environment Variables > Node Config > System Defaults
+```
+
+**Node Config Location:**
+```
+~/.marlos/nodes/{node_id}/config.json
+```
+
+**Example node config:**
+
+```json
+{
+  "node_id": "production-node-1",
+  "node_name": "Main Compute Node",
+  "created": "2025-11-15T10:30:00",
+  "network": {
+    "mode": "private",
+    "pub_port": 5555,
+    "sub_port": 5556,
+    "dashboard_port": 3001,
+    "bootstrap_peers": [
+      "tcp://192.168.1.100:5555",
+      "tcp://192.168.1.101:5555"
+    ],
+    "dht_enabled": false
+  },
+  "executor": {
+    "max_concurrent_jobs": 5,
+    "docker_enabled": true,
+    "sandbox_enabled": true
+  },
+  "token": {
+    "starting_balance": 100.0,
+    "stake_requirement": 10.0
+  }
+}
+```
+
+**Managing Nodes:**
+```bash
+marl nodes list          # List all nodes
+marl nodes show <id>     # View node config
+marl nodes edit <id>     # Edit node config
+marl nodes delete <id>   # Delete node
+```
+
+**See also:**
+- [Configuration Architecture](CONFIG_ARCHITECTURE.md)
+- [Configuration Management Guide](CONFIG_MANAGEMENT_GUIDE.md)
+- [Full Configuration Usage](FULL_CONFIG_USAGE.md)
 
 ---
 
@@ -361,6 +458,27 @@ watch -n 10 "marl peers"
 
 # Terminal 3: Execute jobs
 marl execute "periodic-task"
+```
+
+### Manage Multiple Nodes
+
+```bash
+# 1. List all your nodes
+marl nodes list
+
+# 2. Create a new node
+marl start
+# Choose network mode and configure
+
+# 3. View node configuration
+marl nodes show node-abc123
+
+# 4. Edit node settings
+marl nodes edit node-abc123
+# Modify network peers, ports, etc.
+
+# 5. Delete old node
+marl nodes delete old-node-xyz
 ```
 
 ---

@@ -1,5 +1,11 @@
 # Core Networking (for agent/p2p/node.py)
 pyzmq
+websockets>=11.0.0
+paho-mqtt>=1.6.0
+
+# DHT for Public Mode (peer discovery)
+kademlia>=2.2.2
+
 # Performance Event Loops
 winloop; sys_platform == 'win32'
 uvloop; sys_platform != 'win32'

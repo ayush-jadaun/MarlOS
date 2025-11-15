@@ -224,9 +224,19 @@ The system automatically discovers peers, elects coordinators, and distributes j
 - **[Deployment Verification](https://github.com/ayush-jadaun/MarlOS/blob/main/docs/DEPLOYMENT_VERIFICATION.md)** - Testing your setup
 - **[Share Guide](https://github.com/ayush-jadaun/MarlOS/blob/main/docs/SHARE.md)** - Share with your team
 
+### Configuration & Network
+- **[Network Modes User Guide](https://github.com/ayush-jadaun/MarlOS/blob/main/docs/USER_GUIDE_NETWORK_MODES.md)** - Choose between Private and Public modes
+- **[Configuration Architecture](https://github.com/ayush-jadaun/MarlOS/blob/main/docs/CONFIG_ARCHITECTURE.md)** - Two-tier configuration system design
+- **[Configuration Management](https://github.com/ayush-jadaun/MarlOS/blob/main/docs/CONFIG_MANAGEMENT_GUIDE.md)** - Manage node configurations
+- **[Full Configuration Reference](https://github.com/ayush-jadaun/MarlOS/blob/main/docs/FULL_CONFIG_USAGE.md)** - Complete configuration guide
+- **[Cross-Internet Discovery](https://github.com/ayush-jadaun/MarlOS/blob/main/docs/CROSS_INTERNET_DISCOVERY.md)** - Connect nodes across different networks
+
 ### Architecture & Design
 - **[Network Design](https://github.com/ayush-jadaun/MarlOS/blob/main/docs/NETWORK_DESIGN.md)** - P2P communication architecture
 - **[RL Architecture](https://github.com/ayush-jadaun/MarlOS/blob/main/docs/ARCHITECTURE_RL.md)** - Reinforcement learning details
 - **[Token Economy](https://github.com/ayush-jadaun/MarlOS/blob/main/docs/ARCHITECTURE_TOKEN.md)** - Economic system design
 - **[Checkpoint Recovery](https://github.com/ayush-jadaun/MarlOS/blob/main/docs/CHECKPOINT_RECOVERY_GUIDE.md)** - Fault tolerance mechanisms
 - **[RL Prediction](https://github.com/ayush-jadaun/MarlOS/blob/main/docs/RL_PREDICTION_DESIGN.md)** - Predictive pre-execution system
+
+### Complete Documentation Index
+- **[Documentation Index](https://github.com/ayush-jadaun/MarlOS/blob/main/docs/README.md)** - Browse all documentation by topic
