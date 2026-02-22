@@ -222,13 +222,11 @@ class OnlineLearner:
     
     async def _retrain_model(self, experiences: list):
         """
-        Retrain model from scratch on accumulated experiences
-        This is the "nuclear option" - rebuild model with new data
+        Save accumulated experiences for offline retraining.
+        Called every 5th update cycle once 500+ experiences are collected.
         """
         self._save_experiences_for_offline_training(experiences)
-        
-        print("[ONLINE LEARNER] Experiences saved for offline retraining")
-        print("[ONLINE LEARNER] Run: python rl_trainer/train.py --continue-from experiences.pkl")
+        print(f"[ONLINE LEARNER] {len(experiences)} experiences saved for offline retraining at {self.data_dir}/experiences_for_training.pkl")
     
     def _save_experiences_for_offline_training(self, experiences: list):
         """Save experiences for offline retraining"""

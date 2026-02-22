@@ -159,10 +159,15 @@ class RLPolicy:
                 'done': done
             }
             self.current_episode.append(transition)
-            
+
+            # Forward to online learner
+            if self.online_learner:
+                self.online_learner.record_experience(
+                    state, int(action), reward, next_state, done
+                )
+
             if done:
                 self.episode_count += 1
-                # TODO: Implement online learning update
                 self.current_episode = []
     
     def update_job_history(self, job_type: str, success: bool, completion_time: float):
