@@ -2,6 +2,7 @@
 Bid Score Calculator
 Calculates competitive score for job bidding with economic fairness
 """
+import math
 import psutil
 import time
 import random
@@ -176,7 +177,6 @@ class BidScorer:
 
         # Sigmoid-like function: 1 / (1 + e^(-k*(score - 0.5)))
         # Maps [0, inf) -> [0, 1) with smooth transition
-        import math
         try:
             # Center sigmoid around score=0.8 to preserve low scores
             centered_score = score - 0.8
@@ -232,7 +232,7 @@ class BidScorer:
         
         # Consider system resources
         try:
-            cpu = psutil.cpu_percent(interval=0.1) / 100.0
+            cpu = psutil.cpu_percent(interval=None) / 100.0
             memory = psutil.virtual_memory().percent / 100.0
             
             # Average resource usage
