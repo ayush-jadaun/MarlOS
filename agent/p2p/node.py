@@ -214,7 +214,6 @@ class P2PNode:
         # Start background tasks
         asyncio.create_task(self._discovery_loop())
         asyncio.create_task(self._message_receiver())
-        asyncio.create_task(self._heartbeat_loop())
         asyncio.create_task(self._cleanup_loop())
         asyncio.create_task(self._health_check_loop())
         asyncio.create_task(self._clock_sync_loop())
@@ -520,12 +519,6 @@ class P2PNode:
                 capabilities=self.capabilities
             )
             await asyncio.sleep(self.config.discovery_interval)
-    
-    async def _heartbeat_loop(self):
-        """Send periodic heartbeats"""
-        while self.running:
-            await asyncio.sleep(30)
-            # Optional: send ping to check connectivity
     
     async def _cleanup_loop(self):
         """Clean up old seen messages and dead peers"""
