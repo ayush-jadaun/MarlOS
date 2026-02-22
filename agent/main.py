@@ -999,8 +999,22 @@ class MarlOSAgent:
             'quarantined': self.reputation.am_i_quarantined(),
             'reputation_stats': self.reputation.get_reputation_stats(),
             'watchdog_stats': self.watchdog.get_watchdog_stats(),
-            'fairness_stats': fairness_stats,  # Add fairness statistics
-            'predictive_stats': self.predictive.get_stats()  # Add predictive system stats
+            'fairness_stats': fairness_stats,
+            'predictive_stats': self.predictive.get_stats(),
+            # Transaction history for Wallet view
+            'transactions': [tx.to_dict() for tx in self.wallet.transactions[-50:]],
+            # Reputation event timeline for Trust view (mapped to frontend field names)
+            'reputation_events': [
+                {
+                    'event': e.event_type,
+                    'delta': e.trust_delta,
+                    'new_score': e.trust_after,
+                    'reason': e.reason,
+                    'job_id': e.job_id,
+                    'timestamp': e.timestamp,
+                }
+                for e in self.reputation.reputation_history[-50:]
+            ],
         }
     
     def _get_cpu_usage(self) -> float:
@@ -1008,7 +1022,7 @@ class MarlOSAgent:
         try:
             import psutil
             return round(psutil.cpu_percent(interval=0.1), 1)
-        except:
+        except Exception:
             return 0.0
 
     def _get_memory_usage(self) -> float:
@@ -1016,7 +1030,7 @@ class MarlOSAgent:
         try:
             import psutil
             return round(psutil.virtual_memory().percent, 1)
-        except:
+        except Exception:
             return 0.0
 
     def _get_disk_usage(self) -> float:
@@ -1024,7 +1038,7 @@ class MarlOSAgent:
         try:
             import psutil
             return round(psutil.disk_usage('/').percent, 1)
-        except:
+        except Exception:
             return 0.0
 
 

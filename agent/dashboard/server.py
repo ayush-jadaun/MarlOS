@@ -9,8 +9,6 @@ from typing import Set
 import websockets
 from websockets.server import WebSocketServerProtocol
 
-# Configure logging for websockets
-logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 
@@ -216,9 +214,12 @@ class DashboardServer:
         """Periodically broadcast state updates"""
         while self.running:
             await asyncio.sleep(1)  # Update every second
-            
+
             if self.clients:
-                await self.broadcast({
-                    'type': 'state_update',
-                    'data': self.agent.get_state()
-                })
+                try:
+                    await self.broadcast({
+                        'type': 'state_update',
+                        'data': self.agent.get_state()
+                    })
+                except Exception as e:
+                    logger.debug(f"[Dashboard] Error in broadcast loop: {e}")
