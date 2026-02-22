@@ -199,6 +199,7 @@ class ReputationSystem:
         if peer_id in self.quarantined_nodes:
             self.quarantined_nodes.remove(peer_id)
             self.rehabilitation_progress.pop(peer_id, None)
+            self._save_reputation()
             print(f"✅ [TRUST] Unquarantined peer {peer_id}")
     
     def record_rehabilitation_progress(self, peer_id: str, success: bool):

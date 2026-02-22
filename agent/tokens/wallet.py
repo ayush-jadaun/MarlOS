@@ -3,9 +3,9 @@ Token Wallet Management
 Handles token balance, transactions, staking, and ledger
 """
 import hashlib
+import uuid
 import time
 import json
-import hashlib
 from typing import List, Dict, Optional
 from dataclasses import dataclass, asdict
 from pathlib import Path
@@ -257,9 +257,6 @@ class Wallet:
         
         return tx
     
-    # Remaining methods (can_afford, get_total_value, get_transaction_history, 
-    # get_stats, _generate_tx_id, _save_wallet, _load_wallet) are unchanged.
-
     def can_afford(self, amount: float) -> bool:
         """Check if wallet has sufficient balance"""
         return self.balance >= amount
@@ -286,7 +283,6 @@ class Wallet:
     
     def _generate_tx_id(self) -> str:
         """Generate unique transaction ID"""
-        import uuid
         return f"tx-{str(uuid.uuid4())[:8]}"
     
     def _save_wallet(self):
