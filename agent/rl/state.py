@@ -20,8 +20,9 @@ class StateCalculator:
     Calculates RL state vector from current context
     """
     
-    def __init__(self, node_id: str, enable_fairness: bool = True):
+    def __init__(self, node_id: str, enable_fairness: bool = True, health_monitor=None):
         self.node_id = node_id
+        self.health_monitor = health_monitor  # HealthMonitor from P2PNode
 
         # Historical tracking
         self.job_type_history: Dict[str, int] = {}  # job_type -> count completed
@@ -99,7 +100,12 @@ class StateCalculator:
             memory = psutil.virtual_memory().percent / 100.0  # 0-1
             disk = psutil.disk_usage('/').percent / 100.0  # 0-1
 
-            network_latency = 0.1  # TODO: Implement actual network measurement
+            if self.health_monitor:
+                raw_latency = self.health_monitor.get_p99_latency()
+                # Normalize: clamp to [0, 1] where 1.0 = 1 second latency
+                network_latency = min(1.0, raw_latency)
+            else:
+                network_latency = 0.1
 
             # Normalize active jobs (assume max 10 concurrent)
             jobs_normalized = min(1.0, active_jobs / 10.0)

@@ -106,7 +106,9 @@ class MarlOSAgent:
         
         # RL System
         self.rl_policy = RLPolicy(self.node_id, config.rl)
-        
+        # Wire real network latency into RL state calculator
+        self.rl_policy.state_calc.health_monitor = self.p2p.health_monitor
+
         # Bidding System
         self.scorer = BidScorer(node_id=self.node_id, coordinator=self.coordinator)
         self.auction = BiddingAuction(self.node_id, self.p2p)
