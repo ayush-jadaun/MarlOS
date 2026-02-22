@@ -7,10 +7,8 @@ import asyncio
 import time
 from unittest.mock import Mock, AsyncMock, patch
 from typing import Dict, List
-import os 
+import os
 import sys
-import sys
-sys.path.insert(0, '../')
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
 
 from agent.bidding.router import JobRouter
@@ -196,8 +194,6 @@ class TestJobRouter:
         # Record another success
         router.record_forward_success('peer-1')
         assert router.peer_scores['peer-1'] == 0.7
-    
-# In test/routing/routing.py
 
     def test_record_forward_failure(self, router):
         """Test recording failed forward"""
