@@ -25,27 +25,25 @@ def test_predictive_initialization():
     assert agent.predictive is not None, "Predictive system should be initialized"
 
     print("  [PASS] Predictive system initialized")
-    return True
 
 
 def test_predictive_enabled_by_default():
-    """Test that predictive system is enabled by default"""
+    """Test that predictive system is disabled by default (opt-in feature)"""
     print("\n" + "=" * 60)
-    print("TEST 2: Predictive System Enabled by Default")
+    print("TEST 2: Predictive System Disabled by Default")
     print("=" * 60)
 
     config = AgentConfig()
     agent = MarlOSAgent(config)
 
-    # Check if enabled
-    assert config.predictive.enabled == True, "Predictive should be enabled by default"
+    # Predictive is opt-in — disabled by default
+    assert config.predictive.enabled == False, "Predictive should be disabled by default"
 
     stats = agent.predictive.get_stats()
     print(f"  Predictive enabled: {stats['enabled']}")
-    assert stats['enabled'] == True, "Predictive stats should show enabled"
+    assert stats['enabled'] == False, "Predictive stats should show disabled"
 
-    print("  [PASS] Predictive enabled by default")
-    return True
+    print("  [PASS] Predictive disabled by default (opt-in)")
 
 
 def test_predictive_can_be_disabled():
@@ -66,7 +64,6 @@ def test_predictive_can_be_disabled():
     assert stats['enabled'] == False, "Predictive should be disabled"
 
     print("  [PASS] Predictive can be disabled via config")
-    return True
 
 
 def test_rl_speculation_configurable():
@@ -96,7 +93,6 @@ def test_rl_speculation_configurable():
         print(f"  With RL disabled: using_rl_policy = {spec_stats2.get('using_rl_policy')}")
 
     print("  [PASS] RL speculation is configurable")
-    return True
 
 
 def test_custom_predictive_config():
@@ -127,7 +123,6 @@ def test_custom_predictive_config():
     print(f"  Max cache size: {agent.config.predictive.max_cache_size}")
 
     print("  [PASS] Custom configuration works")
-    return True
 
 
 def test_predictive_components_connected():
@@ -154,7 +149,6 @@ def test_predictive_components_connected():
         print("  Executor reference: OK")
 
     print("  [PASS] All components properly connected")
-    return True
 
 
 def test_predictive_stats_structure():
@@ -191,7 +185,6 @@ def test_predictive_stats_structure():
         print(f"  Speculation stats: {list(spec_stats.keys())}")
 
     print("  [PASS] Stats structure is correct")
-    return True
 
 
 def test_agent_state_includes_predictive():
@@ -212,7 +205,6 @@ def test_agent_state_includes_predictive():
     print(f"  Predictive stats included: YES")
 
     print("  [PASS] Predictive stats in agent state")
-    return True
 
 
 def run_all_tests():

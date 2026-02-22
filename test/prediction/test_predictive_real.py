@@ -52,7 +52,6 @@ def test_pattern_detector_repeated_jobs():
     else:
         print("\n[FAIL] No predictions made (might need more time variance)")
 
-    return True
 
 
 def test_cache_hit():
@@ -99,7 +98,6 @@ def test_cache_hit():
     assert stats['hit_rate'] == 100.0, "Should have 100% hit rate"
 
     print("\n[PASS] Cache correctly stored and retrieved result!")
-    return True
 
 
 def test_cache_miss():
@@ -128,7 +126,6 @@ def test_cache_miss():
     assert stats['cache_misses'] == 1, "Should have 1 cache miss"
 
     print("\n[PASS] Cache correctly returned None for unknown job!")
-    return True
 
 
 def test_fingerprint_consistency():
@@ -166,7 +163,6 @@ def test_fingerprint_consistency():
     assert fp1 != fp3, "Different jobs should have different fingerprints"
 
     print("\n[PASS] Fingerprints are consistent!")
-    return True
 
 
 def test_sequence_detection():
@@ -208,7 +204,6 @@ def test_sequence_detection():
     assert count_bc == 3, "Should see sequence 3 times"
 
     print("\n[PASS] Sequence detection works correctly!")
-    return True
 
 
 def test_cache_expiry():
@@ -243,7 +238,6 @@ def test_cache_expiry():
     assert stats['expired_entries'] == 1, "Should have 1 expired entry"
 
     print("\n[PASS] Cache TTL works correctly!")
-    return True
 
 
 def run_all_tests():

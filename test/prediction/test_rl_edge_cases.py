@@ -48,7 +48,6 @@ class TestStateCalculationEdgeCases:
         assert state[4] == 0.0, "Balance should normalize to 0"
 
         print("  [PASS] All zeros handled correctly")
-        return True
 
     def test_all_max_values(self):
         """Test when all values are at maximum"""
@@ -75,7 +74,6 @@ class TestStateCalculationEdgeCases:
         assert state[1] == 1.0, "CPU idle should be 1.0"
 
         print("  [PASS] Max values handled correctly")
-        return True
 
     def test_negative_values(self):
         """Test that negative values are handled correctly"""
@@ -101,7 +99,6 @@ class TestStateCalculationEdgeCases:
         assert all(0 <= x <= 1 for x in state), f"State should be in [0,1], got {state}"
 
         print("  [PASS] Negative values clamped correctly")
-        return True
 
     def test_missing_context_fields(self):
         """Test when context fields are missing"""
@@ -119,10 +116,8 @@ class TestStateCalculationEdgeCases:
             should_spec, conf, state = policy.decide(prediction, context)
             print(f"  State: {state}")
             print("  [PASS] Missing fields handled with defaults")
-            return True
         except Exception as e:
             print(f"  [EXPECTED] Error on missing fields: {e}")
-            return True
 
     def test_extreme_confidence_values(self):
         """Test confidence values outside [0,1]"""
@@ -155,7 +150,6 @@ class TestStateCalculationEdgeCases:
                 print(f"  {name}: Caught exception = {type(e).__name__}")
 
         print("  [PASS] Extreme values handled")
-        return True
 
     def test_very_large_expected_in(self):
         """Test with very large expected_in values"""
@@ -181,7 +175,6 @@ class TestStateCalculationEdgeCases:
         assert 0 <= state[5] <= 1, "expected_in should normalize correctly"
 
         print("  [PASS] Large expected_in handled")
-        return True
 
 
 class TestDecisionMakingEdgeCases:
@@ -211,7 +204,6 @@ class TestDecisionMakingEdgeCases:
         assert isinstance(should_spec, bool), "Should return valid decision"
 
         print("  [PASS] Zero balance handled")
-        return True
 
     def test_negative_balance_decision(self):
         """Test decision when agent has negative balance (debt)"""
@@ -237,7 +229,6 @@ class TestDecisionMakingEdgeCases:
         assert isinstance(should_spec, bool), "Should return valid decision"
 
         print("  [PASS] Negative balance handled")
-        return True
 
     def test_cpu_100_percent_busy(self):
         """Test when CPU is 100% busy"""
@@ -263,7 +254,6 @@ class TestDecisionMakingEdgeCases:
         print(f"  State CPU idle: {state[1]}")
 
         print("  [PASS] Busy CPU handled")
-        return True
 
     def test_cache_full(self):
         """Test when cache is full"""
@@ -289,7 +279,6 @@ class TestDecisionMakingEdgeCases:
         assert state[2] == 1.0, "Cache utilization should be 1.0"
 
         print("  [PASS] Full cache handled")
-        return True
 
     def test_very_low_confidence_prediction(self):
         """Test with very low confidence prediction"""
@@ -318,7 +307,6 @@ class TestDecisionMakingEdgeCases:
             print("  WARNING: Chose to speculate on low confidence")
 
         print("  [PASS] Low confidence handled")
-        return True
 
     def test_perfect_conditions(self):
         """Test with perfect conditions for speculation"""
@@ -343,7 +331,6 @@ class TestDecisionMakingEdgeCases:
         assert should_spec, "Should speculate under perfect conditions"
 
         print("  [PASS] Perfect conditions handled")
-        return True
 
 
 class TestRLModelEdgeCases:
@@ -376,7 +363,6 @@ class TestRLModelEdgeCases:
         assert isinstance(should_spec, bool), "Should work with fallback"
 
         print("  [PASS] Missing model handled with fallback")
-        return True
 
     def test_model_file_corrupted(self):
         """Test when model file is corrupted"""
@@ -416,7 +402,6 @@ class TestRLModelEdgeCases:
         finally:
             os.unlink(corrupted_path)
 
-        return True
 
     def test_disabled_policy(self):
         """Test when RL policy is explicitly disabled"""
@@ -443,7 +428,6 @@ class TestRLModelEdgeCases:
         print(f"  Decision when disabled: {'SPECULATE' if should_spec else 'WAIT'}")
 
         print("  [PASS] Disabled policy works")
-        return True
 
 
 class TestIntegrationEdgeCases:
@@ -467,6 +451,7 @@ class TestIntegrationEdgeCases:
 
         # Create engine WITHOUT wallet
         engine = SpeculationEngine(
+            agent=Mock(),
             config=config,
             executor=executor,
             cache=cache,
@@ -487,7 +472,6 @@ class TestIntegrationEdgeCases:
             print(f"  [ERROR] Failed to handle missing wallet: {e}")
             raise
 
-        return True
 
     def test_speculation_engine_with_wallet(self):
         """Test speculation engine with real wallet"""
@@ -509,6 +493,7 @@ class TestIntegrationEdgeCases:
         wallet.balance = 250.0
 
         engine = SpeculationEngine(
+            agent=Mock(),
             config=config,
             executor=executor,
             cache=cache,
@@ -522,7 +507,6 @@ class TestIntegrationEdgeCases:
         assert context['balance'] == 250.0, "Should use wallet balance"
 
         print("  [PASS] Wallet integration works")
-        return True
 
     def test_speculation_at_limit(self):
         """Test when at max concurrent speculations"""
@@ -540,6 +524,7 @@ class TestIntegrationEdgeCases:
         pattern_detector = PatternDetector()
 
         engine = SpeculationEngine(
+            agent=Mock(),
             config=config,
             executor=executor,
             cache=cache,
@@ -566,7 +551,6 @@ class TestIntegrationEdgeCases:
         asyncio.run(test())
 
         print("  [PASS] Speculation limit enforced")
-        return True
 
     def test_already_cached_prediction(self):
         """Test when prediction result is already cached"""
@@ -588,6 +572,7 @@ class TestIntegrationEdgeCases:
         cache.store(test_job, {'result': 'cached'}, fingerprint='test123')
 
         engine = SpeculationEngine(
+            agent=Mock(),
             config=config,
             executor=executor,
             cache=cache,
@@ -611,7 +596,6 @@ class TestIntegrationEdgeCases:
         asyncio.run(test())
 
         print("  [PASS] Cached prediction skipped")
-        return True
 
 
 class TestConcurrencyEdgeCases:
@@ -645,7 +629,6 @@ class TestConcurrencyEdgeCases:
         assert stats['decisions_made'] == 100, "Should track all decisions"
 
         print("  [PASS] Rapid decisions handled")
-        return True
 
     def test_many_outcomes_recorded(self):
         """Test recording many outcomes"""
@@ -655,13 +638,14 @@ class TestConcurrencyEdgeCases:
 
         state = np.array([0.8, 0.7, 0.2, 0.8, 0.15, 0.1, 0.1], dtype=np.float32)
 
-        # Record many outcomes
+        # Record many outcomes (bypasses decide(), so set speculations_chosen directly)
         for i in range(500):
             policy.record_outcome(state, 1, 20.0)  # Success
 
         for i in range(500):
             policy.record_outcome(state, 1, -5.0)  # Failure
 
+        policy.speculations_chosen = 1000  # All 1000 were action=1 speculations
         stats = policy.get_stats()
 
         print(f"  Correct speculations: {stats['correct_speculations']}")
@@ -672,7 +656,6 @@ class TestConcurrencyEdgeCases:
         assert abs(stats['success_rate'] - 50.0) < 1.0, "Success rate should be ~50%"
 
         print("  [PASS] Many outcomes tracked correctly")
-        return True
 
 
 class TestStatisticsEdgeCases:
@@ -693,7 +676,6 @@ class TestStatisticsEdgeCases:
         assert stats['avg_reward'] == 0.0, "Avg reward should be 0"
 
         print("  [PASS] Empty stats handled")
-        return True
 
     def test_stats_after_mixed_outcomes(self):
         """Test statistics with mixed outcomes"""
@@ -703,13 +685,14 @@ class TestStatisticsEdgeCases:
 
         state = np.array([0.8, 0.7, 0.2, 0.8, 0.15, 0.1, 0.1], dtype=np.float32)
 
-        # 7 successes, 3 failures
+        # 7 successes, 3 failures (bypasses decide(), so set speculations_chosen directly)
         for _ in range(7):
             policy.record_outcome(state, 1, 20.0)
 
         for _ in range(3):
             policy.record_outcome(state, 1, -5.0)
 
+        policy.speculations_chosen = 10  # 10 total action=1 speculations
         stats = policy.get_stats()
 
         print(f"  Success rate: {stats['success_rate']:.1f}%")
@@ -722,7 +705,6 @@ class TestStatisticsEdgeCases:
         assert abs(stats['avg_reward'] - expected_avg) < 0.1, f"Avg should be {expected_avg}"
 
         print("  [PASS] Mixed outcome stats correct")
-        return True
 
 
 def run_all_edge_case_tests():

@@ -93,7 +93,7 @@ class RLSpeculationPolicy:
         if self.model and self.enabled:
             # RL decision
             action, _states = self.model.predict(state, deterministic=True)
-            should_speculate = (action == 1)
+            should_speculate = bool(action == 1)
 
             # Get value estimate as confidence
             try:

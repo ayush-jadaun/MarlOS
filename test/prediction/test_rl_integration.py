@@ -74,7 +74,6 @@ def test_rl_policy_integration():
     assert stats['decisions_made'] == 1, "Should have 1 decision"
 
     print("\n[PASS] RL policy integration works!")
-    return True
 
 
 def test_with_and_without_rl():
@@ -132,7 +131,6 @@ def test_with_and_without_rl():
     print(f"  Both can make good decisions, RL is more adaptive")
 
     print("\n[PASS] Comparison complete!")
-    return True
 
 
 def test_full_system_stats():
@@ -182,7 +180,6 @@ def test_full_system_stats():
     assert stats['decisions_made'] > 0, "Should track decisions"
 
     print("\n[PASS] Stats tracking works!")
-    return True
 
 
 def run_all_tests():
