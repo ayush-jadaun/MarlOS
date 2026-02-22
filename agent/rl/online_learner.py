@@ -9,6 +9,7 @@ INNOVATION: Learns from real-world experiences with fairness integration
 """
 import asyncio
 import numpy as np
+import torch
 from stable_baselines3 import PPO
 from pathlib import Path
 import time
@@ -151,15 +152,56 @@ class OnlineLearner:
             
             # Perform training update
             
-            # Train for a few steps
-            num_updates = min(10, len(experiences) // self.batch_size)
-            
-            for i in range(num_updates):
-                # Sample batch
-                batch_experiences = self.buffer.sample(self.batch_size)
-                
-                # TODO: Actual training update
-                # For PPO, we'd need to compute advantages, update policy, etc.
+            # Behavioral cloning: imitate successful actions
+            # Filter to experiences with positive reward (good decisions to reinforce)
+            successful = [e for e in experiences if e.reward > 0]
+
+            if len(successful) < self.batch_size:
+                print(f"[ONLINE LEARNER] Not enough successful experiences ({len(successful)}), skipping BC update")
+            elif self.training_model is None:
+                print(f"[ONLINE LEARNER] No training model available, skipping update")
+            else:
+                num_updates = min(10, len(successful) // self.batch_size)
+                total_loss = 0.0
+
+                for i in range(num_updates):
+                    batch_experiences = self.buffer.sample(self.batch_size)
+                    good_batch = [e for e in batch_experiences if e.reward > 0]
+                    if not good_batch:
+                        continue
+
+                    states = np.array([e.state for e in good_batch])
+                    actions = np.array([e.action for e in good_batch])
+
+                    try:
+                        from stable_baselines3.common.utils import obs_as_tensor
+                        obs_t = obs_as_tensor(states, self.training_model.device)
+                        act_t = torch.tensor(actions, dtype=torch.long,
+                                             device=self.training_model.device)
+
+                        # Get action log-probs from current policy
+                        distribution = self.training_model.policy.get_distribution(obs_t)
+                        log_probs = distribution.log_prob(act_t)
+
+                        # Behavioral cloning loss: maximize log-prob of good actions
+                        loss = -log_probs.mean()
+                        total_loss += loss.item()
+
+                        self.training_model.policy.optimizer.zero_grad()
+                        loss.backward()
+                        # Gradient clipping to avoid instability
+                        torch.nn.utils.clip_grad_norm_(
+                            self.training_model.policy.parameters(), max_norm=0.5
+                        )
+                        self.training_model.policy.optimizer.step()
+
+                    except Exception as update_err:
+                        print(f"[ONLINE LEARNER] BC update error (step {i}): {update_err}")
+                        break
+
+                if num_updates > 0:
+                    avg_loss = total_loss / num_updates
+                    print(f"[ONLINE LEARNER] BC updates: {num_updates}, avg loss: {avg_loss:.4f}")
             
             # Simpler approach: Retrain model periodically
             if len(experiences) >= 500 and self.updates_performed % 5 == 0:
