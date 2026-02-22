@@ -4,7 +4,6 @@ Tests performance, scalability, fairness, and response times
 Generates professional graphs and metrics
 """
 
-import pytest
 import asyncio
 import time
 import os
