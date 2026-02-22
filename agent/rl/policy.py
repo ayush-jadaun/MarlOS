@@ -105,7 +105,7 @@ class RLPolicy:
                 confidence = 0.5
         
         # Store action for learning
-        self.current_action = action  # ← NEW
+        self.current_action = action
         
         return (action, confidence)
      
@@ -182,11 +182,11 @@ class RLPolicy:
         """Get action dimension"""
         return 3  # BID, FORWARD, DEFER
     
-    def record_outcome(self, success: bool, reward: float, 
+    def record_outcome(self, success: bool, reward: float,
                       new_state: np.ndarray, done: bool = False):
         """
-        Record outcome of decision for learning - NEW METHOD
-        
+        Record outcome of decision for learning.
+
         Args:
             success: Whether action succeeded
             reward: Reward received

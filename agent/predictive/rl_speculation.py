@@ -131,13 +131,10 @@ class RLSpeculationPolicy:
         """
         self.reward_history.append(reward)
 
-        # Track speculation attempts
-        if action == 1:
-            self.speculations_chosen += 1
-
-            # Track successes (positive reward means cache hit)
-            if reward > 0:
-                self.correct_speculations += 1
+        # Track successes (positive reward = cache hit); speculations_chosen
+        # is already incremented in decide() when action is chosen.
+        if action == 1 and reward > 0:
+            self.correct_speculations += 1
 
         # Could be used for online learning later
         # For now, just track statistics

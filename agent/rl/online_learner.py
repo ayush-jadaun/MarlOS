@@ -8,6 +8,8 @@ INNOVATION: Learns from real-world experiences with fairness integration
 - Training data preserves fairness objectives
 """
 import asyncio
+import pickle
+import traceback
 import numpy as np
 import torch
 from stable_baselines3 import PPO
@@ -217,7 +219,6 @@ class OnlineLearner:
         
         except Exception as e:
             print(f"[ONLINE LEARNER] Error during update: {e}")
-            import traceback
             traceback.print_exc()
     
     async def _retrain_model(self, experiences: list):
@@ -230,8 +231,6 @@ class OnlineLearner:
     
     def _save_experiences_for_offline_training(self, experiences: list):
         """Save experiences for offline retraining"""
-        import pickle
-        
         experience_file = self.data_dir / "experiences_for_training.pkl"
         
         with open(experience_file, 'wb') as f:
@@ -252,7 +251,7 @@ class OnlineLearner:
                 self.training_model = None
         else:
             # Copy from inference model
-            if self.policy.model:
+            if self.policy and self.policy.model:
                 self.training_model = self.policy.model
                 print("[ONLINE LEARNER] Using inference model for training")
     
@@ -299,9 +298,6 @@ class OnlineLearner:
         Returns:
             Number of experiences exported
         """
-        import pickle
-        from pathlib import Path
-
         experiences = self.buffer.get_all()
 
         output_file = Path(output_path)
