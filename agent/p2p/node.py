@@ -2,11 +2,11 @@
 P2P Node with ZMQ Gossip Protocol
 Handles peer discovery, message broadcasting, and network communication
 """
+import logging
 import zmq
 import zmq.asyncio
 import asyncio
 import sys
-import asyncio
 
 if sys.platform == 'win32':
     import winloop
@@ -18,6 +18,7 @@ else:
         asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
     except ImportError:
         pass
+logger = logging.getLogger(__name__)
 import json
 import socket
 import time
@@ -314,13 +315,9 @@ class P2PNode:
         message_json = json.dumps(signed_message)
         await self.pub_socket.send_string(message_json)
 
-        # Debug logging for job broadcasts
         if message_type == MessageType.JOB_BROADCAST:
-            print(f"[P2P DEBUG] Broadcasted {message_type} from {self.node_id}: {kwargs.get('job_id')}")
-            # DON'T mark job_broadcasts as seen here - let receiver handle it
-            # This allows the agent to receive and process its own job_broadcast
+            logger.debug("Broadcasted %s from %s: %s", message_type, self.node_id, kwargs.get('job_id'))
         else:
-            # Mark other message types as seen to prevent re-processing
             self.seen_messages[signed_message['message_id']] = time.time()
 
     async def broadcast_reliable(self, message_type: MessageType, **kwargs):
@@ -353,15 +350,12 @@ class P2PNode:
                 message_json = await self.sub_socket.recv_string()
                 message = json.loads(message_json)
 
-                # Debug: Log all received messages with timestamp
                 msg_type = message.get('type')
                 receive_time = time.time()
-                if msg_type == 'job_broadcast':
-                    print(f"[P2P DEBUG] {self.node_id} received {msg_type} from {message.get('node_id')}")
-                elif msg_type == 'job_bid':
+                if msg_type == 'job_bid':
                     bid_sent_time = message.get('timestamp', 0)
                     zmq_latency = (receive_time - bid_sent_time) * 1000
-                    print(f"[P2P DEBUG] {self.node_id} ZMQ received job_bid from {message.get('node_id')} (ZMQ latency: {zmq_latency:.1f}ms)")
+                    logger.debug("ZMQ received job_bid from %s (latency: %.1fms)", message.get('node_id'), zmq_latency)
 
                 # SECURITY CHECK 1: Verify signature BEFORE processing
                 # CRITICAL: Must verify before marking as seen
@@ -392,8 +386,7 @@ class P2PNode:
                 if message.get('node_id') == self.node_id:
                     if msg_type == 'job_broadcast':
                         job_id = message.get('job_id', 'unknown')
-                        print(f"[P2P DEBUG] Processing own job_broadcast {job_id} for fair auction")
-                        # Continue processing - don't skip
+                        logger.debug("Processing own job_broadcast %s for fair auction", job_id)
                     else:
                         # Ignore other message types from self (bids, claims, etc.)
                         continue
@@ -480,7 +473,7 @@ class P2PNode:
         if message_type == MessageType.ACK:
             ack_message_id = message.get('ack_message_id')
             if ack_message_id:
-                print(f"[P2P ACK] Received ACK from {node_id} for message {ack_message_id}")
+                logger.debug("Received ACK from %s for message %s", node_id, ack_message_id)
                 self.reliability.receive_ack(ack_message_id, node_id, len(self.peers))
             return
 
@@ -490,7 +483,7 @@ class P2PNode:
             message_id = message.get('message_id')
             if message_id:
                 # Send ACK back to sender
-                print(f"[P2P ACK] Sending ACK for {message_type} message {message_id} from {node_id}")
+                logger.debug("Sending ACK for %s message %s from %s", message_type, message_id, node_id)
                 await self.broadcast_message(
                     MessageType.ACK,
                     ack_message_id=message_id
