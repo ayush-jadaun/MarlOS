@@ -45,7 +45,7 @@ Complete guide to MarlOS documentation.
   - Peer discovery
   - Security
 
-- **[Cross-Internet Discovery](CROSS_INTERNET_DISCOVERY.md)** - Connect devices across different networks
+- **[Network Design](NETWORK_DESIGN.md)** - Connect devices across different networks
   - NAT traversal
   - Bootstrap servers
   - DHT integration
@@ -56,7 +56,7 @@ Complete guide to MarlOS documentation.
   - Network configuration
   - Firewall rules
 
-- **[Deployment Verification](DEPLOYMENT_VERIFICATION.md)** - Test your setup
+- **[Quick Start](QUICKSTART.md)** - Test your setup
   - Automated test suite
   - Connection validation
   - Performance benchmarks
@@ -123,7 +123,7 @@ Complete guide to MarlOS documentation.
 ## 🔧 Developer Guides
 
 ### Integration
-- **[Integration Guide](INTEGRATION_GUIDE.md)** - Integrate predictive system
+- **[Install Guide](INSTALL.md)** - Integrate predictive system
   - Code modifications
   - Hook integration
   - Testing
@@ -149,13 +149,13 @@ Complete guide to MarlOS documentation.
 #### Install MarlOS
 1. Start with [pip Installation](PIP_INSTALL.md)
 2. If issues, check [PATH Setup](PATH_SETUP_QUICK_REFERENCE.md)
-3. Share with friends: [Install for Friends](../INSTALL_FOR_FRIENDS.md)
+3. Share with friends: [Install Guide](INSTALL.md)
 
 #### Deploy MarlOS on Multiple Devices
 1. Read [Quick Start](QUICKSTART.md)
 2. Follow [Distributed Deployment](DISTRIBUTED_DEPLOYMENT.md)
 3. Choose network mode: [Network Modes Guide](USER_GUIDE_NETWORK_MODES.md)
-4. Verify setup: [Deployment Verification](DEPLOYMENT_VERIFICATION.md)
+4. Verify setup: [Quick Start](QUICKSTART.md)
 
 #### Configure My Nodes
 1. Understand [Configuration Architecture](CONFIG_ARCHITECTURE.md)
@@ -170,7 +170,7 @@ Complete guide to MarlOS documentation.
 #### Customize Behavior
 1. Check [Configuration Usage](FULL_CONFIG_USAGE.md)
 2. Adjust [Predictive Config](PREDICTIVE_CONFIG.md)
-3. Use [Integration Guide](INTEGRATION_GUIDE.md) for code changes
+3. Use [Configuration Management Guide](CONFIG_MANAGEMENT_GUIDE.md) for code changes
 
 ---
 
@@ -182,7 +182,7 @@ Complete guide to MarlOS documentation.
 → See [PATH Setup Reference](PATH_SETUP_QUICK_REFERENCE.md)
 
 **Can't connect nodes across different networks**
-→ Read [Cross-Internet Discovery](CROSS_INTERNET_DISCOVERY.md)
+→ Read [Network Design](NETWORK_DESIGN.md)
 
 **Installation fails**
 → Check [pip Installation](PIP_INSTALL.md) troubleshooting section

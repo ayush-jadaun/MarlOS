@@ -1,3 +1,7 @@
+> **This document has been consolidated. See [CONFIG_MANAGEMENT_GUIDE.md](CONFIG_MANAGEMENT_GUIDE.md) for the complete configuration reference.**
+
+---
+
 # MarlOS Configuration Architecture
 
 ## Overview

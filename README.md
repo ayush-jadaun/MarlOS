@@ -221,7 +221,6 @@ The system automatically discovers peers, elects coordinators, and distributes j
 - **[Quick Start Guide](https://github.com/ayush-jadaun/MarlOS/blob/main/docs/QUICKSTART.md)** - 5-minute manual setup
 - **[Commands Reference](https://github.com/ayush-jadaun/MarlOS/blob/main/docs/COMMANDS.md)** - Complete command guide
 - **[Distributed Deployment](https://github.com/ayush-jadaun/MarlOS/blob/main/docs/DISTRIBUTED_DEPLOYMENT.md)** - Deploy on real devices
-- **[Deployment Verification](https://github.com/ayush-jadaun/MarlOS/blob/main/docs/DEPLOYMENT_VERIFICATION.md)** - Testing your setup
 - **[Share Guide](https://github.com/ayush-jadaun/MarlOS/blob/main/docs/SHARE.md)** - Share with your team
 
 ### Configuration & Network
@@ -229,7 +228,7 @@ The system automatically discovers peers, elects coordinators, and distributes j
 - **[Configuration Architecture](https://github.com/ayush-jadaun/MarlOS/blob/main/docs/CONFIG_ARCHITECTURE.md)** - Two-tier configuration system design
 - **[Configuration Management](https://github.com/ayush-jadaun/MarlOS/blob/main/docs/CONFIG_MANAGEMENT_GUIDE.md)** - Manage node configurations
 - **[Full Configuration Reference](https://github.com/ayush-jadaun/MarlOS/blob/main/docs/FULL_CONFIG_USAGE.md)** - Complete configuration guide
-- **[Cross-Internet Discovery](https://github.com/ayush-jadaun/MarlOS/blob/main/docs/CROSS_INTERNET_DISCOVERY.md)** - Connect nodes across different networks
+- **[Network Design](https://github.com/ayush-jadaun/MarlOS/blob/main/docs/NETWORK_DESIGN.md)** - Connect nodes across different networks
 
 ### Architecture & Design
 - **[Network Design](https://github.com/ayush-jadaun/MarlOS/blob/main/docs/NETWORK_DESIGN.md)** - P2P communication architecture
