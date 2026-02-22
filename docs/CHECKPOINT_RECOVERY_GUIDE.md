@@ -435,15 +435,21 @@ for ckpt in checkpoint_mgr.list_checkpoints():
 
 ## 🧪 Testing
 
-### Run Demo:
+### Test Recovery Manually:
+
+Submit a long-running job and kill the executing node mid-execution:
 
 ```bash
-python demo_checkpoint_recovery.py
+# Submit a job with a delay
+python cli/marlOS.py execute "sleep 60 && echo 'Done'"
+
+# On the winning node, kill the process (simulates failure)
+# The backup node should take over automatically
 ```
 
 This will:
 1. Start a long-running task
-2. Simulate random node failures
+2. Simulate random node failures (via Ctrl+C on executing node)
 3. Automatically resume from checkpoints
 4. Show complete recovery without data loss
 
@@ -599,7 +605,6 @@ Potential improvements:
 ## 📞 Support
 
 Questions? Check:
-- Demo: `demo_checkpoint_recovery.py`
 - Source: `agent/executor/checkpoint.py`
 - Recovery: `agent/executor/recovery.py`
 

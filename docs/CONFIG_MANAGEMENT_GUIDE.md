@@ -396,8 +396,8 @@ marl
 ## 📖 Related Documentation
 
 - [Network Modes Guide](USER_GUIDE_NETWORK_MODES.md)
-- [Cross-Internet Discovery](CROSS_INTERNET_DISCOVERY.md)
-- [Installation Guide](../INSTALL.md)
+- [Distributed Deployment](DISTRIBUTED_DEPLOYMENT.md)
+- [Installation Guide](INSTALL.md)
 
 ---
 

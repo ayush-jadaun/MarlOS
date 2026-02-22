@@ -9,10 +9,6 @@ Complete guide to MarlOS documentation.
   - Quickest method for most users
   - Includes PATH setup guide
 
-- **[Install for Friends](../INSTALL_FOR_FRIENDS.md)** - Simple installation guide to share
-  - Non-technical user friendly
-  - Step-by-step with screenshots
-
 - **[Interactive Installer](INSTALL.md)** - Full system setup with guided wizard
   - Automated dependency installation
   - Network configuration
@@ -44,11 +40,7 @@ Complete guide to MarlOS documentation.
   - ZeroMQ protocol
   - Peer discovery
   - Security
-
-- **[Network Design](NETWORK_DESIGN.md)** - Connect devices across different networks
-  - NAT traversal
-  - Bootstrap servers
-  - DHT integration
+  - NAT traversal, bootstrap servers, DHT integration
 
 ### Deployment
 - **[Distributed Deployment](DISTRIBUTED_DEPLOYMENT.md)** - Deploy on real devices
@@ -133,12 +125,6 @@ Complete guide to MarlOS documentation.
   - Directory layout
   - File naming conventions
   - Quick navigation
-
-### Publishing
-- **[PyPI Publishing Guide](../PYPI_PUBLISHING_GUIDE.md)** - Publish to PyPI
-  - Package preparation
-  - PyPI account setup
-  - Publishing steps
 
 ---
 

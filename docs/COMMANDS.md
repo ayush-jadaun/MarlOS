@@ -353,7 +353,7 @@ MarlOS uses a **two-tier configuration system**:
 
 Built-in defaults for all settings
 
-### 2. Per-Node Configuration (~/.marlos/nodes/{node_id}/config.json)
+### 2. Per-Node Configuration (~/.marlos/nodes/{node_id}/config.yaml)
 
 Each node has its own configuration file
 
@@ -370,37 +370,30 @@ Environment Variables > Node Config > System Defaults
 **Node Config Location:**
 
 ```
-~/.marlos/nodes/{node_id}/config.json
+~/.marlos/nodes/{node_id}/config.yaml
 ```
 
 **Example node config:**
 
-```json
-{
-  "node_id": "production-node-1",
-  "node_name": "Main Compute Node",
-  "created": "2025-11-15T10:30:00",
-  "network": {
-    "mode": "private",
-    "pub_port": 5555,
-    "sub_port": 5556,
-    "dashboard_port": 3001,
-    "bootstrap_peers": [
-      "tcp://192.168.1.100:5555",
-      "tcp://192.168.1.101:5555"
-    ],
-    "dht_enabled": false
-  },
-  "executor": {
-    "max_concurrent_jobs": 5,
-    "docker_enabled": true,
-    "sandbox_enabled": true
-  },
-  "token": {
-    "starting_balance": 100.0,
-    "stake_requirement": 10.0
-  }
-}
+```yaml
+node_id: "production-node-1"
+node_name: "Main Compute Node"
+network:
+  mode: private
+  pub_port: 5555
+  sub_port: 5556
+  dashboard_port: 3001
+  bootstrap_peers:
+    - "tcp://192.168.1.100:5555"
+    - "tcp://192.168.1.101:5555"
+  dht_enabled: false
+executor:
+  max_concurrent_jobs: 5
+  docker_enabled: true
+  sandbox_enabled: true
+token:
+  starting_balance: 100.0
+  stake_requirement: 10.0
 ```
 
 **Managing Nodes:**
