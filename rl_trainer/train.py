@@ -3,6 +3,7 @@ RL Training Script
 Trains PPO policy for MarlOS bidding decisions
 """
 import os
+import pickle
 from stable_baselines3 import PPO
 from stable_baselines3.common.env_util import make_vec_env
 from stable_baselines3.common.callbacks import EvalCallback, CheckpointCallback
@@ -306,53 +307,52 @@ def evaluate_policy(model_path: str, n_episodes: int = 10):
     env.close()
 
 def continue_training_from_experiences(
-        experience_file: str,
-        model_path: str,
-        additional_timesteps: int = 100_000
-    ):
-        """
-        Continue training existing model with new experiences
-        
-        Args:
-            experience_file: Path to saved experiences (.pkl)
-            model_path: Path to existing model
-            additional_timesteps: How many more steps to train
-        """
-        print(f"📚 Loading experiences from {experience_file}")
-        
-        import pickle
-        with open(experience_file, 'rb') as f:
-            experiences = pickle.load(f)
-        
-        print(f"   Loaded {len(experiences)} experiences")
-        
-        # Load existing model
-        print(f"📦 Loading model from {model_path}")
-        model = PPO.load(model_path)
-        
-        # Create environment
-        env = make_vec_env(MarlOSEnv, n_envs=4)
-        
-        # Set environment in model
-        model.set_env(env)
-        
-        # Continue training
-        print(f"🚀 Continuing training for {additional_timesteps:,} steps")
-        model.learn(
-            total_timesteps=additional_timesteps,
-            reset_num_timesteps=False,  # Don't reset counter
-            progress_bar=True
-        )
-        
-        # Save updated model
-        updated_model_path = model_path.replace('.zip', '_updated.zip')
-        model.save(updated_model_path)
-        
-        print(f"✅ Updated model saved to {updated_model_path}")
-        
-        env.close()
-        
-        return model
+    experience_file: str,
+    model_path: str,
+    additional_timesteps: int = 100_000
+):
+    """
+    Continue training existing model with new experiences
+
+    Args:
+        experience_file: Path to saved experiences (.pkl)
+        model_path: Path to existing model
+        additional_timesteps: How many more steps to train
+    """
+    print(f"📚 Loading experiences from {experience_file}")
+
+    with open(experience_file, 'rb') as f:
+        experiences = pickle.load(f)
+
+    print(f"   Loaded {len(experiences)} experiences")
+
+    # Load existing model
+    print(f"📦 Loading model from {model_path}")
+    model = PPO.load(model_path)
+
+    # Create environment
+    env = make_vec_env(MarlOSEnv, n_envs=4)
+
+    # Set environment in model
+    model.set_env(env)
+
+    # Continue training
+    print(f"🚀 Continuing training for {additional_timesteps:,} steps")
+    model.learn(
+        total_timesteps=additional_timesteps,
+        reset_num_timesteps=False,  # Don't reset counter
+        progress_bar=True
+    )
+
+    # Save updated model
+    updated_model_path = model_path.replace('.zip', '_updated.zip')
+    model.save(updated_model_path)
+
+    print(f"✅ Updated model saved to {updated_model_path}")
+
+    env.close()
+
+    return model
 
 
 if __name__ == "__main__":
