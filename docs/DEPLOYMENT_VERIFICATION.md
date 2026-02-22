@@ -9,11 +9,13 @@ You correctly identified that the deployment guide referenced a CLI command (`cl
 ### 1. Added `execute` Command to CLI (`cli/marlOS.py`)
 
 **New command:**
+
 ```bash
 python cli/marlOS.py execute "your-command"
 ```
 
 **Features:**
+
 - Quick shell command execution
 - Automatic job creation with sensible defaults
 - WebSocket submission to dashboard
@@ -21,6 +23,7 @@ python cli/marlOS.py execute "your-command"
 - Configurable payment and priority
 
 **Example usage:**
+
 ```bash
 python cli/marlOS.py execute "echo Hello"
 python cli/marlOS.py execute "python --version" --payment 20
@@ -30,6 +33,7 @@ python cli/marlOS.py execute "ls -la" --wait
 ### 2. Updated Documentation
 
 **Files Updated:**
+
 - `docs/DISTRIBUTED_DEPLOYMENT.md` - Complete deployment guide
   - Fixed CLI commands (was `cli.main`, now `cli/marlOS.py`)
   - Added "Job Execution on Real Devices" section
@@ -47,12 +51,14 @@ python cli/marlOS.py execute "ls -la" --wait
 **New file:** `test_deployment.sh`
 
 Automated test script that:
+
 - Checks agent connectivity
 - Submits 5 different test jobs
 - Verifies swarm status
 - Provides actionable next steps
 
 **Usage:**
+
 ```bash
 ./test_deployment.sh
 # Or with custom port:
@@ -64,6 +70,7 @@ DASHBOARD_PORT=3001 ./test_deployment.sh
 ### What Works WITHOUT Docker
 
 ✅ **Shell Jobs** (most important for real devices)
+
 ```bash
 python cli/marlOS.py execute "echo test"
 python cli/marlOS.py execute "python -c 'print(2+2)'"
@@ -71,17 +78,20 @@ python cli/marlOS.py execute "uname -a"
 ```
 
 ✅ **Security Jobs**
+
 - `malware_scan` - ClamAV malware scanning
 - `port_scan` - nmap network scanning
 - `hash_crack` - hashcat password cracking
 - `threat_intel` - Threat intelligence lookups
 
 ✅ **Hardware Jobs** (if MQTT enabled)
+
 - `led_control` - Arduino/ESP32 control
 
 ### What Requires Docker
 
 ❌ **Docker Jobs** (only if Docker installed)
+
 - `docker` - Run containerized commands
 - `docker_build` - Build Docker images
 
@@ -90,6 +100,7 @@ python cli/marlOS.py execute "uname -a"
 ### Step-by-Step Flow
 
 1. **Job Submission** (from any device with CLI)
+
    ```bash
    python cli/marlOS.py execute "echo test"
    ```
@@ -120,12 +131,14 @@ python cli/marlOS.py execute "uname -a"
 ### Execution Engines
 
 **ShellRunner** (`agent/executor/shell.py`)
+
 - Uses `asyncio.create_subprocess_exec` (NOT shell=True)
 - Security whitelist for allowed commands
 - Timeout protection (default 60s)
 - No injection vulnerabilities
 
 **DockerRunner** (optional)
+
 - Requires Docker daemon
 - Only registered if `docker` command available
 - Safe to skip if not needed
@@ -135,6 +148,7 @@ python cli/marlOS.py execute "uname -a"
 ### Minimal 2-Node Test
 
 **Device 1 (192.168.1.100):**
+
 ```bash
 export NODE_ID="laptop-1"
 export BOOTSTRAP_PEERS="tcp://192.168.1.101:5555"
@@ -142,6 +156,7 @@ export BOOTSTRAP_PEERS="tcp://192.168.1.101:5555"
 ```
 
 **Device 2 (192.168.1.101):**
+
 ```bash
 export NODE_ID="laptop-2"
 export BOOTSTRAP_PEERS="tcp://192.168.1.100:5555"
@@ -149,6 +164,7 @@ export BOOTSTRAP_PEERS="tcp://192.168.1.100:5555"
 ```
 
 **Wait for peer discovery (5-10 seconds):**
+
 ```
 [P2P] Connected to peer: tcp://192.168.1.101:5555
 [P2P] Received PEER_ANNOUNCE from laptop-2
@@ -156,11 +172,13 @@ export BOOTSTRAP_PEERS="tcp://192.168.1.100:5555"
 ```
 
 **Submit test job (from Device 1):**
+
 ```bash
 python cli/marlOS.py execute "echo Hello from Device 1" --port 3001
 ```
 
 **Expected output:**
+
 ```
 ⚡ Executing: echo Hello from Device 1
 ✅ Job submitted via WebSocket: job-abc123
@@ -170,11 +188,13 @@ python cli/marlOS.py execute "echo Hello from Device 1" --port 3001
 ```
 
 **Check execution (Device 1 or Device 2 logs):**
+
 ```bash
 tail -f data/agent.log | grep -E "(AUCTION|EXECUTOR|JOB)"
 ```
 
 You should see:
+
 ```
 [AUCTION] Starting auction for job-abc123
 [BIDDING] Submitted bid: 0.75 for job-abc123
@@ -192,6 +212,7 @@ You should see:
 **Cause:** Docker not installed, but job type is `docker`
 
 **Solution:**
+
 ```bash
 # Use shell jobs instead:
 python cli/marlOS.py execute "your-command"
@@ -204,12 +225,14 @@ export ENABLE_DOCKER=false
 ### Issue: Command not in whitelist
 
 **Error:**
+
 ```
 Command 'rm' not in whitelist
 ```
 
 **Solution:**
 Shell jobs have security restrictions. Allowed commands:
+
 - `ls`, `cat`, `grep`, `find`, `echo`, `pwd`
 - `python`, `node`, `npm`, `pip`, `git`
 - `ping`, `curl`, `wget`
@@ -219,6 +242,7 @@ Use whitelisted commands or create custom job types.
 ### Issue: Jobs not executing
 
 **Checklist:**
+
 1. ✅ Are agents connected? Check `python cli/marlOS.py peers`
 2. ✅ Do nodes have tokens? Check `python cli/marlOS.py wallet`
 3. ✅ Is port correct? Default is 8081 (agent-1) or 3001 (real device)
@@ -227,11 +251,13 @@ Use whitelisted commands or create custom job types.
 ### Issue: Agent can't connect to MQTT
 
 **Error:**
+
 ```
 ⚠️  CRITICAL: Failed to connect to MQTT broker
 ```
 
 **Solution:** MQTT is optional (only for hardware control):
+
 ```bash
 # This warning is safe to ignore if you don't have hardware devices
 # Hardware runner won't be registered, but everything else works fine
@@ -284,6 +310,7 @@ Use whitelisted commands or create custom job types.
 ### Firewall Rules
 
 Required open ports:
+
 - **5555:** ZMQ Publisher
 - **5556:** ZMQ Subscriber
 - **3001:** Dashboard (optional, can restrict to localhost)
@@ -293,6 +320,7 @@ Required open ports:
 ✅ **Job execution works perfectly on real devices**
 
 The system is production-ready for distributed deployment:
+
 - Shell jobs run natively without Docker
 - Security measures protect against malicious commands
 - P2P network handles job distribution automatically
@@ -300,12 +328,14 @@ The system is production-ready for distributed deployment:
 - Fault tolerance via backup nodes
 
 **Next Steps:**
+
 1. Test with your actual devices using `test_deployment.sh`
 2. Monitor execution via dashboard or logs
 3. Scale to more nodes as needed
 4. Deploy cloud bridge if NAT traversal needed
 
 **Documentation:**
+
 - Quick Start: `QUICKSTART.md`
 - Full Guide: `docs/DISTRIBUTED_DEPLOYMENT.md`
 - Network Design: `docs/NETWORK_DESIGN.md`

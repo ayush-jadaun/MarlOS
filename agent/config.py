@@ -209,7 +209,7 @@ def load_config(config_file: str = None) -> AgentConfig:
     """
     Load configuration with two-tier precedence system:
     1. System defaults (from dataclass defaults in this file)
-    2. Node config file (from ~/.marlos/nodes/{node_id}/config.json)
+    2. Node config file (from ~/.marlos/nodes/{node_id}/config.yaml)
     3. Environment variable overrides (highest priority)
 
     Args:
@@ -219,7 +219,7 @@ def load_config(config_file: str = None) -> AgentConfig:
     Returns:
         AgentConfig with all settings merged according to precedence
     """
-    import json
+    import yaml
     from pathlib import Path
 
     # Get NODE_ID from environment
@@ -229,7 +229,7 @@ def load_config(config_file: str = None) -> AgentConfig:
     if config_file is None and node_id:
         # Use node config if NODE_ID is set
         home = Path.home()
-        config_file = home / ".marlos" / "nodes" / node_id / "config.json"
+        config_file = home / ".marlos" / "nodes" / node_id / "config.yaml"
         if not config_file.exists():
             print(f"Warning: Node config not found at {config_file}, using defaults")
             config_file = None
@@ -241,7 +241,27 @@ def load_config(config_file: str = None) -> AgentConfig:
     if config_file and os.path.exists(str(config_file)):
         try:
             with open(config_file) as f:
-                config_dict = json.load(f)
+                yaml_config = yaml.safe_load(f)
+
+            # Convert from YAML structure to flat structure expected by config builder
+            if yaml_config:
+                # Extract node info
+                if 'node' in yaml_config:
+                    config_dict['node_id'] = yaml_config['node'].get('id')
+                    config_dict['node_name'] = yaml_config['node'].get('name')
+
+                # Network config is already in right structure
+                if 'network' in yaml_config:
+                    config_dict['network'] = yaml_config['network']
+
+                # Dashboard config
+                if 'dashboard' in yaml_config:
+                    config_dict['dashboard'] = yaml_config['dashboard']
+
+                # Paths
+                if 'paths' in yaml_config:
+                    config_dict['data_dir'] = yaml_config['paths'].get('data_dir', './data')
+
             print(f"Loaded config from {config_file}")
         except Exception as e:
             print(f"Error loading config from {config_file}: {e}")

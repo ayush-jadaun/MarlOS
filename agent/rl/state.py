@@ -215,8 +215,10 @@ class StateCalculator:
         try:
 
             diversity_factor = self.fairness_engine.diversity.calculate_diversity_factor(self.node_id)
-            # Diversity factor is -0.2 to +0.15, normalize to 0-1
+            # Diversity factor is typically -0.2 to +0.15, normalize to 0-1
             diversity_normalized = (diversity_factor + 0.2) / 0.35  # Map to 0-1 range
+            # Clamp to [0, 1] in case values exceed expected range
+            diversity_normalized = min(1.0, max(0.0, diversity_normalized))
 
             # [1] Tax rate - progressive taxation based on wealth
             tax = self.fairness_engine.taxation.calculate_tax(
@@ -227,6 +229,8 @@ class StateCalculator:
 
             # [2] Gini coefficient - system-wide inequality measure
             gini = self.fairness_engine.get_gini_coefficient()
+            # Clamp to [0, 1] range (theoretical max is 1.0, but implementation may exceed)
+            gini = min(1.0, max(0.0, gini))
 
             # [3] UBI eligibility - binary feature
             ubi_eligible = 1.0 if self.fairness_engine.ubi.is_eligible_for_ubi(

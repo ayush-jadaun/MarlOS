@@ -84,7 +84,7 @@ class TransactionLedger:
             ))
             # Commit and Close handled automatically by 'with'
     
-    def get_entries(self, 
+    def get_entries(self,
                     limit: int = 100,
                     offset: int = 0,
                     job_id: Optional[str] = None,
@@ -95,28 +95,28 @@ class TransactionLedger:
         with sqlite3.connect(self.db_path) as conn:
             conn.row_factory = sqlite3.Row
             cursor = conn.cursor()
-            
+
             query = 'SELECT * FROM ledger WHERE 1=1'
             params = []
-            
+
             if job_id:
                 query += ' AND job_id = ?'
                 params.append(job_id)
-            
+
             if from_node:
                 query += ' AND from_node = ?'
                 params.append(from_node)
-            
+
             if to_node:
                 query += ' AND to_node = ?'
                 params.append(to_node)
-            
+
             query += ' ORDER BY timestamp DESC LIMIT ? OFFSET ?'
             params.extend([limit, offset])
-            
+
             cursor.execute(query, params)
             rows = cursor.fetchall()
-            
+
             entries = []
             for row in rows:
                 entries.append(LedgerEntry(
@@ -131,8 +131,12 @@ class TransactionLedger:
                     balance_after=row['balance_after'],
                     signature=row['signature']
                 ))
-            
+
             return entries
+
+    def get_recent_entries(self, limit: int = 100) -> List[LedgerEntry]:
+        """Get recent ledger entries (alias for get_entries with limit)"""
+        return self.get_entries(limit=limit, offset=0)
     
     def get_balance_at_time(self, timestamp: float) -> float:
         """Get balance at specific timestamp (Using context manager)"""

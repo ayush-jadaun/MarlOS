@@ -19,6 +19,7 @@ Now with v1.0.5, you get a **production-ready two-tier system**:
 3. **Environment Overrides** - Temporary overrides via environment variables
 
 ### Added
+
 - **Two-Tier Configuration System** ⭐
   - Created `agent/node_config.py` for node configuration management
   - Per-node config files at `~/.marlos/nodes/{node_id}/config.json`
@@ -49,6 +50,7 @@ Now with v1.0.5, you get a **production-ready two-tier system**:
   - Updated `docs/COMMANDS.md` with node management commands
 
 ### Changed
+
 - **Updated Configuration Loader** (`agent/config.py`)
   - Rewritten `load_config()` to support three-tier precedence
   - Automatic node config file detection based on NODE_ID
@@ -74,6 +76,7 @@ Now with v1.0.5, you get a **production-ready two-tier system**:
   - Updated README with new config documentation links
 
 ### Removed
+
 - Deleted redundant summary files (COMPLETE_FIX_SUMMARY.md, FINAL_UPDATE_SUMMARY.md, etc.)
 - Removed implementation planning documents
 - Cleaned up outdated guides folder
@@ -81,17 +84,20 @@ Now with v1.0.5, you get a **production-ready two-tier system**:
 ### Migration Guide
 
 **For Users:**
+
 - **Before**: Configure everything via environment variables
 - **After**: Create nodes with `marl start`, configs saved automatically
 - **Managing Nodes**: Use `marl nodes` commands to manage configurations
 - **Updating**: Run `pip install --upgrade marlos`
 
 **For Developers:**
+
 - Node configs stored in `~/.marlos/nodes/{node_id}/config.json`
 - Environment variables still work as overrides
 - Use `node_config` module for programmatic access
 
 ### Benefits
+
 1. **Persistent Configuration** - Node settings saved and reused
 2. **Easy Multi-Node Management** - Run multiple nodes with different configs
 3. **Clear Configuration Hierarchy** - Understand precedence easily
@@ -106,16 +112,19 @@ Now with v1.0.5, you get a **production-ready two-tier system**:
 **MarlOS is now a complete, self-contained package!**
 
 Previously, users had to:
+
 1. `pip install marlos` (get CLI only)
 2. Manually clone the GitHub repository (get agent code)
 3. Set up environment and dependencies
 
 Now with v1.0.5, a single command gives you **EVERYTHING**:
+
 ```bash
 pip install marlos
 ```
 
 This includes:
+
 - ✅ CLI tool (`marl` command)
 - ✅ Complete agent code
 - ✅ RL trainer modules
@@ -125,6 +134,7 @@ This includes:
 - ✅ ALL necessary components to run nodes immediately
 
 ### Added
+
 - **Complete Package Distribution**
   - All source code now included in pip package
   - Added `config/`, `hardware/`, `scripts/`, `examples/` as Python packages
@@ -139,6 +149,7 @@ This includes:
   - Added 4 fallback methods to find installation location
 
 ### Changed
+
 - **Simplified CLI Logic**
   - Replaced `check_source_required()` with simpler `verify_installation()`
   - Removed complex repository cloning logic (no longer needed!)
@@ -146,6 +157,7 @@ This includes:
   - No more "source code not found" errors for pip installations
 
 ### Removed
+
 - **Repository Cloning Feature**
   - Removed `clone_repository()` function (no longer needed)
   - Removed interactive git clone prompts
@@ -154,16 +166,19 @@ This includes:
 ### Migration Guide
 
 **For Users:**
+
 - **Before**: `pip install marlos` → manually clone repo → setup
 - **After**: `pip install marlos` → ready to go!
 - **Updating**: Just run `pip install --upgrade marlos`
 
 **For Developers:**
+
 - Use `pip install -e .` for development (editable mode)
 - Use `pip install git+https://github.com/ayush-jadaun/MarlOS.git` for testing
 - No need to publish to PyPI for every test
 
 ### Benefits
+
 1. **One-Step Installation** - No manual cloning required
 2. **Automatic Updates** - `pip install --upgrade marlos` updates everything
 3. **No Git Required** - Users don't need Git installed
@@ -174,6 +189,7 @@ This includes:
 ## [1.0.5] - 2025-01-11
 
 ### Fixed
+
 - Fixed `marl install` command crashing when MarlOS is installed via pip
 - Fixed installation wizard trying to find `requirements.txt` in site-packages
 - Fixed CLI commands failing to detect pip vs source installations properly
@@ -181,6 +197,7 @@ This includes:
 - Fixed script execution on Windows (added `shell=True` for batch files)
 
 ### Added
+
 - **PATH Setup Documentation**
   - Added comprehensive PATH setup guide for Windows/Mac/Linux (`docs/PATH_SETUP_QUICK_REFERENCE.md`)
   - Added detailed troubleshooting section to `docs/PIP_INSTALL.md`
@@ -211,6 +228,7 @@ This includes:
   - Offers to start agent interactively when needed
 
 ### Changed
+
 - Updated `marl install` to show success message for pip installations instead of crashing
 - Updated all start commands to detect and handle pip installations properly
 - Updated configuration and documentation menus to work with both installation types
@@ -223,6 +241,7 @@ This includes:
   - Clear, helpful messages when requirements not met
 
 ### Documentation
+
 - Updated README.md with prominent PATH setup warning
 - Added "Installing for Friends" section to README
 - Created comprehensive fix summary (`FIX_SUMMARY.md`)
@@ -231,15 +250,18 @@ This includes:
 ## [1.0.5] - 2025-01-09
 
 ### Added
+
 - Published to PyPI for easier installation
 - Added pip installation support
 
 ### Changed
+
 - Updated packaging configuration for PyPI
 
 ## [1.0.5] - 2025-01-08
 
 ### Added
+
 - Initial release
 - Multi-agent reinforcement learning operating system
 - Decentralized P2P architecture using ZeroMQ
@@ -255,6 +277,7 @@ This includes:
 - Comprehensive documentation
 
 ### Core Features
+
 - Autonomous distributed computing without centralized orchestrator
 - PPO-based decision making for job allocation
 - Trust and reputation system
@@ -266,6 +289,7 @@ This includes:
 ---
 
 ## Legend
+
 - **Added** for new features
 - **Changed** for changes in existing functionality
 - **Deprecated** for soon-to-be removed features
@@ -274,6 +298,7 @@ This includes:
 - **Security** for vulnerability fixes
 
 ## Links
+
 - [GitHub Repository](https://github.com/ayush-jadaun/MarlOS)
 - [Issue Tracker](https://github.com/ayush-jadaun/MarlOS/issues)
 - [Documentation](https://github.com/ayush-jadaun/MarlOS/blob/main/README.md)

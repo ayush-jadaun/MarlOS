@@ -9,9 +9,10 @@ MarlOS has **TWO configuration systems**:
 
 ## Current State
 
-### ✅ What Works Now:
+### ✅ What Works Now
 
 **Your `agent-config.yml` (584 lines)** includes:
+
 - Agent identity
 - P2P network with security
 - Token economy (taxation, UBI, fairness engine)
@@ -25,6 +26,7 @@ MarlOS has **TWO configuration systems**:
 - Benchmarking
 
 **The `agent/config.py`** currently parses:
+
 - Basic network settings (ports, peers)
 - Simple token economy
 - Basic trust system
@@ -32,7 +34,7 @@ MarlOS has **TWO configuration systems**:
 - Executor limits
 - Dashboard settings
 
-### ⚠️ Current Limitation:
+### ⚠️ Current Limitation
 
 The `config.py` dataclasses don't fully capture all the rich settings in `agent-config.yml`. Many components read settings directly from the YAML dict or use defaults.
 
@@ -66,7 +68,7 @@ python -m agent.main --config ./agent-config.yml
 
 ## Editing the Full Config
 
-### Via CLI:
+### Via CLI
 
 ```bash
 marl
@@ -76,7 +78,7 @@ marl
 
 This opens the FULL config in your editor (Notepad/VSCode/nano).
 
-### Manual Edit:
+### Manual Edit
 
 ```bash
 # Windows
@@ -93,6 +95,7 @@ nano ~/.marlos/config.yaml
 ### 1. Token Economy (Lines 52-153)
 
 **Progressive Taxation:**
+
 ```yaml
 progressive_tax:
   enabled: true
@@ -105,6 +108,7 @@ progressive_tax:
 ```
 
 **Universal Basic Income (UBI):**
+
 ```yaml
 ubi:
   enabled: true
@@ -113,6 +117,7 @@ ubi:
 ```
 
 **Fairness Engine:**
+
 ```yaml
 fairness:
   diversity_quotas:
@@ -127,6 +132,7 @@ fairness:
 ```
 
 **Job Complexity Multipliers:**
+
 ```yaml
 complexity:
   multipliers:
@@ -140,6 +146,7 @@ complexity:
 ### 2. Trust System (Lines 158-192)
 
 **Trust Decay:**
+
 ```yaml
 decay:
   enabled: true
@@ -148,6 +155,7 @@ decay:
 ```
 
 **Gossip Protocol:**
+
 ```yaml
 gossip:
   enabled: true
@@ -157,6 +165,7 @@ gossip:
 ### 3. Reinforcement Learning (Lines 197-263)
 
 **Detailed State Space:**
+
 ```yaml
 features:
   agent_state:      # [0-4] System resources
@@ -176,6 +185,7 @@ features:
 ```
 
 **Online Learning:**
+
 ```yaml
 online_learning:
   enabled: false         # Disabled by default
@@ -186,6 +196,7 @@ online_learning:
 ### 4. Job Execution (Lines 310-378)
 
 **Multiple Runners:**
+
 ```yaml
 runners:
   shell:
@@ -213,6 +224,7 @@ runners:
 ### 5. Predictive System (Lines 386-424)
 
 **Pattern Detection:**
+
 ```yaml
 pattern_detection:
   min_confidence: 0.75
@@ -221,6 +233,7 @@ pattern_detection:
 ```
 
 **Economic Constraints:**
+
 ```yaml
 economic:
   max_speculation_ratio: 0.20  # Max 20% resources
@@ -230,6 +243,7 @@ economic:
 ### 6. Logging (Lines 454-478)
 
 **Component-Specific Levels:**
+
 ```yaml
 components:
   p2p: "INFO"
@@ -241,6 +255,7 @@ components:
 ### 7. Security (Lines 505-531)
 
 **Rate Limiting:**
+
 ```yaml
 rate_limiting:
   enabled: true
@@ -250,6 +265,7 @@ rate_limiting:
 ```
 
 **Blacklisting:**
+
 ```yaml
 blacklist:
   enabled: true
@@ -261,7 +277,7 @@ blacklist:
 
 ## How Components Use Config
 
-### Direct YAML Access:
+### Direct YAML Access
 
 Many components read the config dict directly:
 
@@ -271,7 +287,7 @@ config_dict = yaml.safe_load(open('config.yaml'))
 fairness_config = config_dict.get('token_economy', {}).get('fairness', {})
 ```
 
-### Through Dataclasses:
+### Through Dataclasses
 
 Basic settings use `agent/config.py`:
 
@@ -283,9 +299,10 @@ print(config.network.pub_port)  # Works
 print(config.token.starting_balance)  # Works
 ```
 
-### Hybrid Approach:
+### Hybrid Approach
 
 Most components use a mix of both:
+
 - Core settings from dataclasses
 - Advanced features from YAML dict
 
@@ -390,6 +407,7 @@ token_economy:
 ### 4. Validate YAML Syntax
 
 Use online validators or:
+
 ```bash
 python -c "import yaml; yaml.safe_load(open('config.yaml'))"
 ```
@@ -398,7 +416,7 @@ python -c "import yaml; yaml.safe_load(open('config.yaml'))"
 
 ## Accessing Config in Code
 
-### For Component Developers:
+### For Component Developers
 
 If you're adding new features:
 
@@ -420,7 +438,7 @@ ubi_amount = config['token_economy']['ubi']['amount']
 
 ## Future Improvements
 
-### Planned:
+### Planned
 
 1. **Full Dataclass Coverage** - Update `config.py` to include ALL settings
 2. **Config Validation** - Validate all fields on load
@@ -428,9 +446,10 @@ ubi_amount = config['token_economy']['ubi']['amount']
 4. **Live Reload** - Change config without restart
 5. **Web UI** - Edit config through dashboard
 
-### You Can Help:
+### You Can Help
 
 The full `agent-config.yml` is the **source of truth**. If you want all settings in dataclasses, we can update `config.py` to add:
+
 - ProgressiveTaxConfig
 - UBIConfig
 - FairnessEngineConfig
@@ -443,18 +462,21 @@ The full `agent-config.yml` is the **source of truth**. If you want all settings
 ## Summary
 
 ✅ **Current State:**
+
 - `agent-config.yml` = Full comprehensive config (584 lines)
 - `config.py` = Simplified dataclasses (basic settings)
 - CLI can copy, edit, and manage full config
 - Most features work by reading YAML directly
 
 ✅ **What You Can Do:**
+
 1. **Copy full template**: `marl → Configuration → Copy Full Template`
 2. **Edit full config**: `marl → Configuration → Edit YAML Config`
 3. **Use full config**: `python -m agent.main --config ~/.marlos/config.yaml`
 4. **Edit ANY setting** in the YAML - it will be used by components
 
 ✅ **All Features Editable:**
+
 - Progressive taxation ✅
 - UBI ✅
 - Fairness engine ✅

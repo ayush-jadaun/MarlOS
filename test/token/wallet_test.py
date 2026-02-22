@@ -8,9 +8,9 @@ import tempfile
 import shutil
 from pathlib import Path
 from unittest.mock import Mock, patch
-import os 
+import os
 import sys
-import sys
+import gc
 sys.path.insert(0, '../')
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
 
@@ -19,15 +19,42 @@ from agent.tokens.ledger import TransactionLedger, LedgerEntry
 from agent.schema.schema import Transaction
 
 
+def safe_rmtree(path, max_attempts=3):
+    """Safely remove directory with retry for Windows file locks"""
+    for attempt in range(max_attempts):
+        try:
+            # Force garbage collection to close any file handles
+            gc.collect()
+            time.sleep(0.1)
+
+            if os.path.exists(path):
+                # On Windows, try to make files writable first
+                if sys.platform == 'win32':
+                    for root, dirs, files in os.walk(path):
+                        for d in dirs:
+                            os.chmod(os.path.join(root, d), 0o777)
+                        for f in files:
+                            os.chmod(os.path.join(root, f), 0o777)
+
+                shutil.rmtree(path)
+            return
+        except PermissionError:
+            if attempt == max_attempts - 1:
+                # Last attempt failed, just warn instead of failing
+                print(f"Warning: Could not remove {path} due to file locks")
+            else:
+                time.sleep(0.2 * (attempt + 1))  # Exponential backoff
+
+
 class TestWalletBasics:
     """Test basic wallet operations"""
-    
+
     @pytest.fixture
     def temp_dir(self):
         """Create temporary directory for test data"""
         temp_path = tempfile.mkdtemp()
         yield temp_path
-        shutil.rmtree(temp_path)
+        safe_rmtree(temp_path)
     
     @pytest.fixture
     def wallet(self, temp_dir):
@@ -65,13 +92,13 @@ class TestWalletBasics:
 
 class TestDeposits:
     """Test deposit (earning) operations"""
-    
+
     @pytest.fixture
     def wallet(self):
         temp_path = tempfile.mkdtemp()
         w = Wallet("test_node", 100.0, temp_path)
         yield w
-        shutil.rmtree(temp_path)
+        safe_rmtree(temp_path)
     
     def test_simple_deposit(self, wallet):
         """Test basic token deposit"""
@@ -131,7 +158,7 @@ class TestDeposits:
         entries = wallet.ledger.get_recent_entries(limit=1)
         assert entries[0].signature == "abcd1234signature"
         
-        shutil.rmtree(temp_path)
+        safe_rmtree(temp_path)
     
     def test_deposit_negative_amount(self, wallet):
         """Test deposit rejects negative amounts"""
@@ -162,7 +189,7 @@ class TestWithdrawals:
         temp_path = tempfile.mkdtemp()
         w = Wallet("test_node", 100.0, temp_path)
         yield w
-        shutil.rmtree(temp_path)
+        safe_rmtree(temp_path)
     
     def test_simple_withdrawal(self, wallet):
         """Test basic token withdrawal"""
@@ -220,7 +247,7 @@ class TestStaking:
         temp_path = tempfile.mkdtemp()
         w = Wallet("test_node", 100.0, temp_path)
         yield w
-        shutil.rmtree(temp_path)
+        safe_rmtree(temp_path)
     
     def test_simple_stake(self, wallet):
         """Test basic token staking"""
@@ -265,7 +292,7 @@ class TestUnstaking:
         w = Wallet("test_node", 100.0, temp_path)
         w.stake(30.0, "job_001")
         yield w
-        shutil.rmtree(temp_path)
+        safe_rmtree(temp_path)
     
     def test_unstake_success(self, wallet_with_stake):
         """Test successful unstake returns tokens"""
@@ -311,7 +338,7 @@ class TestWalletQueries:
         temp_path = tempfile.mkdtemp()
         w = Wallet("test_node", 100.0, temp_path)
         yield w
-        shutil.rmtree(temp_path)
+        safe_rmtree(temp_path)
     
     def test_can_afford_true(self, wallet):
         """Test can_afford with sufficient balance"""
@@ -365,7 +392,7 @@ class TestWalletPersistence:
     def temp_dir(self):
         temp_path = tempfile.mkdtemp()
         yield temp_path
-        shutil.rmtree(temp_path)
+        safe_rmtree(temp_path)
     
     def test_save_and_load_wallet(self, temp_dir):
         """Test wallet persists to disk and reloads"""
@@ -421,7 +448,7 @@ class TestWalletIntegration:
         temp_path = tempfile.mkdtemp()
         w = Wallet("integration_test", 100.0, temp_path)
         yield w
-        shutil.rmtree(temp_path)
+        safe_rmtree(temp_path)
     
     def test_complete_job_lifecycle(self, wallet):
         """Test complete job lifecycle: stake -> complete -> unstake"""

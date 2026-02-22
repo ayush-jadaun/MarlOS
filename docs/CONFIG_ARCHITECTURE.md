@@ -64,6 +64,7 @@ Environment Variables > Node Config > System Config > Defaults
 **Location:** `./agent-config.yml` (in repository)
 
 **Contains:**
+
 - Token economy (taxation, UBI, fairness engine)
 - Trust & reputation system
 - RL algorithm parameters
@@ -75,11 +76,13 @@ Environment Variables > Node Config > System Config > Defaults
 - Experimental features
 
 **Who Edits:**
+
 - Network administrators
 - Core developers
 - Governance process (in production)
 
 **Example:**
+
 ```yaml
 # agent-config.yml - System-wide config
 token_economy:
@@ -110,17 +113,20 @@ reinforcement_learning:
 **Auto-Generated:** When you create a node via CLI
 
 **Contains:**
+
 - Node identity (ID, name)
 - Network settings (mode, peers, ports)
 - Local paths (data dir, log dir)
 - System config overrides (optional)
 
 **Who Edits:**
+
 - Node operators
 - Individual users
 - Automated deployment scripts
 
 **Example:**
+
 ```yaml
 # ~/.marlos/nodes/agent-abc123/config.yaml - Node-specific
 
@@ -262,38 +268,49 @@ def load_config(node_id: str = None):
 ## CLI Configuration Management
 
 ### View System Config
+
 ```bash
 marl → Configuration → View System Config
 ```
+
 Shows: agent-config.yml (network-wide settings)
 
 ### View Node Config
+
 ```bash
 marl → Configuration → View Node Config
 # Select node: agent-abc123
 ```
+
 Shows: ~/.marlos/nodes/agent-abc123/config.yaml
 
 ### Edit System Config
+
 ```bash
 marl → Configuration → Edit System Config
 ```
+
 Opens: agent-config.yml in editor
 Affects: ALL nodes
 
 ### Edit Node Config
+
 ```bash
 marl → Configuration → Edit Node Config
 # Select node: agent-abc123
 ```
+
 Opens: ~/.marlos/nodes/agent-abc123/config.yaml
 Affects: ONLY that node
 
 ### List All Nodes
+
 ```bash
 marl → Configuration → List Nodes
 ```
+
 Output:
+
 ```
 Registered Nodes:
 
@@ -389,23 +406,28 @@ overrides:
 ## Benefits
 
 ✅ **Separation of Concerns**
+
 - System config = network rules
 - Node config = instance settings
 
 ✅ **Easy Multi-Node Management**
+
 - Each node has its own config
 - No conflicts between nodes
 
 ✅ **Flexible Overrides**
+
 - Keep system defaults
 - Override per node as needed
 
 ✅ **Production Ready**
+
 - Clear configuration hierarchy
 - Easy to deploy and manage
 - Supports automation
 
 ✅ **Version Control Friendly**
+
 - System config in git
 - Node configs local (not tracked)
 
@@ -446,11 +468,13 @@ MarlOS/
 For existing installations:
 
 1. **Backup existing config:**
+
    ```bash
    cp ~/.marlos/config.yaml ~/.marlos/config.yaml.backup
    ```
 
 2. **Let CLI detect and migrate:**
+
    ```bash
    marl
    # System detects old config format

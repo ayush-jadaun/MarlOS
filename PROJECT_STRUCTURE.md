@@ -35,6 +35,7 @@ MarlOS/
 ## 📁 Core Directories
 
 ### `agent/` - Core Agent Implementation
+
 ```
 agent/
 ├── __init__.py
@@ -89,6 +90,7 @@ agent/
 ```
 
 ### `cli/` - Command-Line Interface
+
 ```
 cli/
 ├── __init__.py
@@ -97,6 +99,7 @@ cli/
 ```
 
 ### `rl_trainer/` - RL Model Training
+
 ```
 rl_trainer/
 ├── train_policy.py            # Training script
@@ -110,17 +113,20 @@ rl_trainer/
 ## 📖 Documentation (`docs/`)
 
 ### Setup & Installation
+
 - **[PIP_INSTALL.md](docs/PIP_INSTALL.md)** - pip installation guide
 - **[INSTALL.md](docs/INSTALL.md)** - Interactive installer walkthrough
 - **[QUICKSTART.md](docs/QUICKSTART.md)** - 5-minute manual setup
 - **[COMMANDS.md](docs/COMMANDS.md)** - CLI command reference
 
 ### Deployment
+
 - **[DISTRIBUTED_DEPLOYMENT.md](docs/DISTRIBUTED_DEPLOYMENT.md)** - Deploy on real devices
 - **[DEPLOYMENT_VERIFICATION.md](docs/DEPLOYMENT_VERIFICATION.md)** - Testing guide
 - **[SHARE.md](docs/SHARE.md)** - Share with your team
 
 ### Architecture
+
 - **[NETWORK_DESIGN.md](docs/NETWORK_DESIGN.md)** - P2P communication
 - **[ARCHITECTURE_RL.md](docs/ARCHITECTURE_RL.md)** - RL system design
 - **[ARCHITECTURE_TOKEN.md](docs/ARCHITECTURE_TOKEN.md)** - Token economy
@@ -128,6 +134,7 @@ rl_trainer/
 - **[CHECKPOINT_RECOVERY_GUIDE.md](docs/CHECKPOINT_RECOVERY_GUIDE.md)** - Fault tolerance
 
 ### Reference
+
 - **[PIP_INSTALLATION_SUMMARY.md](docs/PIP_INSTALLATION_SUMMARY.md)** - pip setup summary
 
 ---
@@ -135,11 +142,13 @@ rl_trainer/
 ## 🔧 Scripts (`scripts/`)
 
 ### Installation & Setup
+
 - **`install-marlos.sh`** - Interactive installer (Linux/Mac/WSL)
 - **`start-node.sh`** - Launch script template (Linux/Mac)
 - **`start-node.bat`** - Launch script template (Windows)
 
 ### Testing
+
 - **`test_deployment.sh`** - Automated deployment test suite
 
 ---
@@ -232,27 +241,32 @@ logs/                          # Application logs
 
 ## 🚀 Quick Navigation
 
-### Want to...
+### Want to
 
 **Install MarlOS?**
+
 - Start with [README.md](README.md)
 - pip install: [docs/PIP_INSTALL.md](docs/PIP_INSTALL.md)
 - Full setup: [docs/INSTALL.md](docs/INSTALL.md)
 
 **Deploy on real devices?**
+
 - Quick: [docs/QUICKSTART.md](docs/QUICKSTART.md)
 - Complete: [docs/DISTRIBUTED_DEPLOYMENT.md](docs/DISTRIBUTED_DEPLOYMENT.md)
 
 **Understand the architecture?**
+
 - Network: [docs/NETWORK_DESIGN.md](docs/NETWORK_DESIGN.md)
 - RL: [docs/ARCHITECTURE_RL.md](docs/ARCHITECTURE_RL.md)
 - Economy: [docs/ARCHITECTURE_TOKEN.md](docs/ARCHITECTURE_TOKEN.md)
 
 **Use the CLI?**
+
 - Commands: [docs/COMMANDS.md](docs/COMMANDS.md)
 - Interactive: Just run `marl`
 
 **Modify the code?**
+
 - Agent core: `agent/main.py`
 - P2P networking: `agent/p2p/`
 - Job execution: `agent/executor/`
@@ -260,14 +274,17 @@ logs/                          # Application logs
 - CLI interface: `cli/main.py`
 
 **Add a new job type?**
+
 - Create runner in `agent/executor/`
 - Register in `agent/main.py` → `_register_job_runners()`
 
 **Train new RL model?**
+
 - Script: `rl_trainer/train_policy.py`
 - Models: `rl_trainer/models/`
 
 **Share with team?**
+
 - Guide: [docs/SHARE.md](docs/SHARE.md)
 - Installer: `scripts/install-marlos.sh`
 
@@ -276,18 +293,22 @@ logs/                          # Application logs
 ## 📝 File Naming Conventions
 
 ### Documentation
+
 - `UPPERCASE.md` - Major documentation files
 - Descriptive names: `DISTRIBUTED_DEPLOYMENT.md`, `QUICKSTART.md`
 
 ### Scripts
+
 - `kebab-case.sh` - Shell scripts: `install-marlos.sh`
 - `.bat` extension for Windows
 
 ### Code
+
 - `snake_case.py` - Python files: `online_learner.py`
 - `camelCase` - Classes: `MarlOSAgent`, `P2PNode`
 
 ### Configuration
+
 - `kebab-case.yml` - Config files: `agent-config.yml`
 
 ---
@@ -369,6 +390,7 @@ site-packages/
 ```
 
 Entry point creates global command:
+
 ```bash
 marl  # → cli/main.py:cli()
 ```
@@ -404,6 +426,7 @@ data/           varies   (runtime data)
 ## ✨ Clean Root Directory
 
 Before reorganization:
+
 ```
 MarlOS/
 ├── README.md
@@ -422,6 +445,7 @@ MarlOS/
 ```
 
 After reorganization:
+
 ```
 MarlOS/
 ├── README.md                 # Main docs only

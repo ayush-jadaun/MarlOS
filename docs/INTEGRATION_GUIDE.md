@@ -188,7 +188,7 @@ After 3 iterations (about 2.5 minutes), the system will:
 
 **Expected output:**
 
-```
+```bash
  CACHE HIT! Using pre-executed result
    Latency: 0.08s (would have been 2.3s)
    Saved: 2.22s of compute time!

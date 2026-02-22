@@ -180,12 +180,21 @@ class P2PNode:
         self.sub_socket.connect(self_address)
         print(f"[P2P] Subscribed to self: {self_address}")
 
-        # Connect to bootstrap peers if specified
+        # Connect to bootstrap peers if specified (from config or env)
         import os
-        bootstrap_peers = os.getenv('BOOTSTRAP_PEERS', '')
-        if bootstrap_peers:
-            for peer_addr in bootstrap_peers.split(','):
+        bootstrap_peers_str = os.getenv('BOOTSTRAP_PEERS', '')
+        bootstrap_peers_list = self.config.bootstrap_peers if self.config.bootstrap_peers else []
+
+        # Add environment variable peers to list
+        if bootstrap_peers_str:
+            for peer_addr in bootstrap_peers_str.split(','):
                 peer_addr = peer_addr.strip()
+                if peer_addr and peer_addr not in bootstrap_peers_list:
+                    bootstrap_peers_list.append(peer_addr)
+
+        # Connect to all bootstrap peers
+        if bootstrap_peers_list:
+            for peer_addr in bootstrap_peers_list:
                 if peer_addr:
                     self.connect_to_peer(peer_addr)
                     print(f"[P2P] Connected to bootstrap peer: {peer_addr}")

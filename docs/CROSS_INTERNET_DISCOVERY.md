@@ -3,6 +3,7 @@
 ## Current State
 
 **MarlOS currently uses manual bootstrap configuration** - you need to know the IP address of at least one peer to join the network. This works for:
+
 - ✅ Same LAN (local network)
 - ✅ Same WiFi network
 - ⚠️ Different networks (requires manual IP configuration)
@@ -19,6 +20,7 @@ Computer A (Home WiFi)          Computer B (Office Network)
 ```
 
 **Problem:** Computer A can't directly connect to `192.168.1.100` because:
+
 1. Private IPs only work on local network
 2. NAT routers block incoming connections
 3. Firewalls filter traffic
@@ -30,6 +32,7 @@ Computer A (Home WiFi)          Computer B (Office Network)
 A **bootstrap server** acts as a meeting point for peers.
 
 **How it works:**
+
 ```
 1. All peers connect to bootstrap server on startup
 2. Bootstrap server maintains a registry of active peers
@@ -40,6 +43,7 @@ A **bootstrap server** acts as a meeting point for peers.
 **Setup:**
 
 1. **Deploy a Bootstrap Server** (on a VPS with public IP):
+
    ```python
    # bootstrap_server.py
    import asyncio
@@ -81,6 +85,7 @@ A **bootstrap server** acts as a meeting point for peers.
    ```
 
 2. **Configure MarlOS to use bootstrap server:**
+
    ```bash
    # Add to requirements.txt already has bootstrap support
    # Just need to set environment variable:
@@ -88,6 +93,7 @@ A **bootstrap server** acts as a meeting point for peers.
    ```
 
 3. **Update agent config** to use bootstrap:
+
    ```python
    # In agent/config.py
    bootstrap_servers: List[str] = [
@@ -96,11 +102,13 @@ A **bootstrap server** acts as a meeting point for peers.
    ```
 
 **Pros:**
+
 - ✅ Easy to implement
 - ✅ Works behind NAT
 - ✅ Reliable peer discovery
 
 **Cons:**
+
 - ❌ Requires a server with public IP (costs ~$5/month)
 - ❌ Single point of failure (can have multiple bootstrap servers)
 
@@ -111,6 +119,7 @@ A **bootstrap server** acts as a meeting point for peers.
 Use STUN/TURN servers to establish direct connections through NAT.
 
 **Technologies:**
+
 - **STUN** (Session Traversal Utilities for NAT): Discovers public IP
 - **TURN** (Traversal Using Relays around NAT): Relays traffic when direct connection fails
 - **ICE** (Interactive Connectivity Establishment): Combines STUN/TURN
@@ -118,11 +127,13 @@ Use STUN/TURN servers to establish direct connections through NAT.
 **Setup:**
 
 1. **Add NAT traversal dependencies:**
+
    ```bash
    pip install aiortc aioice
    ```
 
 2. **Use public STUN servers:**
+
    ```python
    STUN_SERVERS = [
        "stun.l.google.com:19302",
@@ -134,11 +145,13 @@ Use STUN/TURN servers to establish direct connections through NAT.
 3. **Implement hole punching** (complex, requires significant changes)
 
 **Pros:**
+
 - ✅ Direct P2P connections
 - ✅ No central server needed
 - ✅ Free STUN servers available
 
 **Cons:**
+
 - ❌ Complex implementation
 - ❌ May not work with symmetric NAT
 - ❌ Requires TURN server for relay (fallback)
@@ -159,22 +172,26 @@ Forward ports on your router to allow incoming connections.
    - Port 3001 (TCP) - Dashboard
 
 3. **Share your public IP:**
+
    ```bash
    curl ifconfig.me  # Get your public IP
    ```
 
 4. **Other peers connect using:**
+
    ```bash
    export BOOTSTRAP_PEERS="tcp://your-public-ip:5555"
    marl
    ```
 
 **Pros:**
+
 - ✅ Simple concept
 - ✅ Direct connections
 - ✅ No extra software needed
 
 **Cons:**
+
 - ❌ Security risk (opens ports to internet)
 - ❌ Manual configuration per user
 - ❌ Dynamic IPs change
@@ -187,14 +204,16 @@ Forward ports on your router to allow incoming connections.
 Use a VPN to create a virtual local network.
 
 **Tools:**
+
 - **ZeroTier** (easiest): Creates virtual LAN, free for <50 devices
 - **Tailscale**: WireGuard-based, very secure
 - **Nebula**: Self-hosted mesh VPN
 
 **Setup with ZeroTier:**
 
-1. **Create network at** https://my.zerotier.com
+1. **Create network at** <https://my.zerotier.com>
 2. **Install ZeroTier on all computers:**
+
    ```bash
    # Windows
    Download from https://www.zerotier.com/download/
@@ -204,11 +223,13 @@ Use a VPN to create a virtual local network.
    ```
 
 3. **Join network:**
+
    ```bash
    sudo zerotier-cli join YOUR_NETWORK_ID
    ```
 
 4. **Use ZeroTier IPs for bootstrap:**
+
    ```bash
    # Each computer gets a virtual IP like 10.147.18.x
    export BOOTSTRAP_PEERS="tcp://10.147.18.1:5555"
@@ -216,12 +237,14 @@ Use a VPN to create a virtual local network.
    ```
 
 **Pros:**
+
 - ✅ Most secure
 - ✅ Works like a LAN
 - ✅ Easy to use
 - ✅ No port forwarding needed
 
 **Cons:**
+
 - ❌ All users need VPN software
 - ❌ Slight latency overhead
 - ❌ Limited to VPN network size
@@ -230,20 +253,26 @@ Use a VPN to create a virtual local network.
 
 ## Recommended Setup
 
-### For Testing/Development (2-5 peers):
+### For Testing/Development (2-5 peers)
+
 **Use ZeroTier VPN**
+
 - Easiest setup
 - No server costs
 - Works reliably
 
-### For Production (5-100 peers):
+### For Production (5-100 peers)
+
 **Use Bootstrap Server + NAT Traversal**
+
 - Deploy 2-3 bootstrap servers for redundancy
 - Implement STUN for direct connections
 - Use TURN as fallback
 
-### For Large Scale (100+ peers):
+### For Large Scale (100+ peers)
+
 **Use DHT (Distributed Hash Table)**
+
 - Like BitTorrent's peer discovery
 - Fully decentralized
 - Complex to implement
