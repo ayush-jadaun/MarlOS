@@ -37,7 +37,7 @@ def is_pip_installed():
         # If we can get package info, it's pip installed
         dist = pkg_resources.get_distribution('marlos')
         return True
-    except:
+    except Exception:
         return False
 
 
@@ -81,7 +81,7 @@ def get_source_root():
         # Verify agent.main exists
         if (agent_path / "main.py").exists():
             return install_root
-    except:
+    except Exception:
         pass
 
     # Method 4: Try using __file__ relative path from cli package
@@ -92,7 +92,7 @@ def get_source_root():
         # Verify agent exists at sibling location
         if (install_root / "agent" / "main.py").exists():
             return install_root
-    except:
+    except Exception:
         pass
 
     return None
@@ -177,7 +177,7 @@ def check_agent_running(port=3001):
         result = sock.connect_ex(('localhost', port))
         sock.close()
         return result == 0
-    except:
+    except Exception:
         return False
 
 
@@ -953,7 +953,7 @@ def view_current_config():
                 data = json.load(f)
                 peer_count = len(data.get('peers', []))
             console.print(f"[green]✓[/green] Saved Peers: {peer_count} peers")
-        except:
+        except Exception:
             console.print(f"[yellow]⚠[/yellow] Saved Peers: Error reading file")
     else:
         console.print(f"[dim]Saved Peers: No peers saved[/dim]")
@@ -1404,12 +1404,12 @@ def show_documentation():
         root_dir = MARLOS_ROOT
 
     docs = [
-        ("Quick Start", "QUICKSTART.md"),
-        ("Installation Guide", "INSTALL.md"),
+        ("Quick Start", "docs/QUICKSTART.md"),
+        ("Installation Guide", "docs/INSTALL.md"),
         ("Deployment Guide", "docs/DISTRIBUTED_DEPLOYMENT.md"),
         ("Network Design", "docs/NETWORK_DESIGN.md"),
         ("RL Architecture", "docs/ARCHITECTURE_RL.md"),
-        ("Share Guide", "SHARE.md"),
+        ("Share Guide", "docs/SHARE.md"),
     ]
 
     table = Table(box=box.ROUNDED)
@@ -1648,25 +1648,24 @@ def list_nodes():
 @click.argument('node_id')
 def show_node(node_id):
     """Show detailed configuration for a node"""
-    import json
+    import yaml
     from pathlib import Path
 
-    config_path = Path.home() / ".marlos" / "nodes" / node_id / "config.json"
+    config_path = Path.home() / ".marlos" / "nodes" / node_id / "config.yaml"
 
     if not config_path.exists():
         console.print(f"\n[red]Error:[/red] Node '{node_id}' not found\n")
         return
 
     with open(config_path) as f:
-        config = json.load(f)
+        config_text = f.read()
 
     console.print(f"\n[bold cyan]Node: {node_id}[/bold cyan]")
     console.print(f"[dim]Config: {config_path}[/dim]\n")
 
     # Pretty print the config
     from rich.syntax import Syntax
-    config_json = json.dumps(config, indent=2)
-    syntax = Syntax(config_json, "json", theme="monokai", line_numbers=True)
+    syntax = Syntax(config_text, "yaml", theme="monokai", line_numbers=True)
     console.print(syntax)
     console.print()
 
@@ -1678,7 +1677,7 @@ def edit_node(node_id):
     import subprocess
     from pathlib import Path
 
-    config_path = Path.home() / ".marlos" / "nodes" / node_id / "config.json"
+    config_path = Path.home() / ".marlos" / "nodes" / node_id / "config.yaml"
 
     if not config_path.exists():
         console.print(f"\n[red]Error:[/red] Node '{node_id}' not found\n")

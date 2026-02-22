@@ -104,7 +104,7 @@ def start(nodes, port, config):
 
 @cli.command()
 @click.argument('job_file', type=click.Path(exists=True))
-@click.option('--port', '-p', default=8081, help='WebSocket dashboard port (default: 8081 for agent-1)')
+@click.option('--port', '-p', default=3001, help='WebSocket dashboard port (default: 3001)')
 @click.option('--method', '-m', default='ws', type=click.Choice(['zmq', 'ws']), help='Submission method (ws recommended)')
 @click.option('--wait', '-w', is_flag=True, help='Wait for job completion')
 def submit(job_file, port, method, wait):
@@ -218,7 +218,7 @@ async def submit_via_websocket(job, dashboard_port, wait):
 
 
 @cli.command()
-@click.option('--port', '-p', default=8081, help='Dashboard WebSocket port (default: 8081 for agent-1)')
+@click.option('--port', '-p', default=3001, help='Dashboard WebSocket port (default: 3001)')
 @click.option('--json-output', '-j', is_flag=True, help='Output as JSON')
 def status(port, json_output):
     """Check swarm status"""
@@ -299,7 +299,7 @@ def status(port, json_output):
 
 
 @cli.command()
-@click.option('--port', '-p', default=8081, help='Dashboard WebSocket port (default: 8081 for agent-1)')
+@click.option('--port', '-p', default=3001, help='Dashboard WebSocket port (default: 3001)')
 def peers(port):
     """List connected peers"""
 
@@ -329,7 +329,7 @@ def peers(port):
 
 
 @cli.command()
-@click.option('--port', '-p', default=8081, help='Dashboard WebSocket port (default: 8081 for agent-1)')
+@click.option('--port', '-p', default=3001, help='Dashboard WebSocket port (default: 3001)')
 @click.option('--interval', '-i', default=2, help='Update interval (seconds)')
 def watch(port, interval):
     """Real-time monitoring dashboard"""
@@ -402,7 +402,7 @@ def watch(port, interval):
 
 
 @cli.command()
-@click.option('--port', '-p', default=8081, help='Dashboard WebSocket port (default: 8081 for agent-1)')
+@click.option('--port', '-p', default=3001, help='Dashboard WebSocket port (default: 3001)')
 def wallet(port):
     """Show wallet balance and transaction history"""
 
@@ -450,7 +450,7 @@ def jobs():
 
 @cli.command()
 @click.argument('command')
-@click.option('--port', '-p', default=8081, help='Dashboard WebSocket port (default: 8081 for agent-1)')
+@click.option('--port', '-p', default=3001, help='Dashboard WebSocket port (default: 3001)')
 @click.option('--payment', default=10.0, help='Payment amount in AC (default: 10)')
 @click.option('--priority', default=0.5, help='Job priority 0-1 (default: 0.5)')
 @click.option('--wait', '-w', is_flag=True, help='Wait for job completion')
