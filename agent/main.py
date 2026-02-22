@@ -200,7 +200,10 @@ class MarlOSAgent:
         
         # Register job runners
         self._register_job_runners()
-        
+
+        # Advertise this node's capabilities to peers via PEER_ANNOUNCE
+        self.p2p.capabilities = self.executor.get_capabilities()
+
         # Register message handlers
         self._register_message_handlers()
         
@@ -249,9 +252,14 @@ class MarlOSAgent:
         async def on_peer_announce(message: dict):
             peer_id = message['node_id']
             peer_address = f"tcp://{message['ip']}:{message['port']}"
-            
+
             self.p2p.connect_to_peer(peer_address)
-            
+
+            # Store peer capabilities so the job router can make forwarding decisions
+            capabilities = message.get('capabilities', [])
+            if peer_id in self.p2p.peers:
+                self.p2p.peers[peer_id]['capabilities'] = capabilities
+
             if peer_id not in self.reputation.peer_trust_scores:
                 self.reputation.update_peer_trust(
                     peer_id,
@@ -259,8 +267,8 @@ class MarlOSAgent:
                     "discovery",
                     "New peer discovered"
                 )
-            
-            print(f"👋 Peer discovered: {peer_id}")
+
+            print(f"👋 Peer discovered: {peer_id} (caps: {capabilities})")
         
         @self.p2p.on_message(MessageType.JOB_BROADCAST)
         async def on_job_broadcast(message: dict):

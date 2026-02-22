@@ -22,7 +22,7 @@ logger = logging.getLogger(__name__)
 import json
 import socket
 import time
-from typing import Dict, Set, Callable, Any, Deque
+from typing import Dict, Set, Callable, Any, Deque, Optional
 from collections import defaultdict, deque
 
 from ..config import NetworkConfig
@@ -129,6 +129,9 @@ class P2PNode:
 
         # Encryption (optional - for sensitive payloads)
         self.encryption: Optional[AsymmetricEncryption] = None
+
+        # Capabilities advertised to peers via PEER_ANNOUNCE
+        self.capabilities: list = []
 
         # Peer synchronization
         self.peers_ready = asyncio.Event()
@@ -513,7 +516,8 @@ class P2PNode:
                 MessageType.PEER_ANNOUNCE,
                 node_name=f"agent-{self.node_id}",
                 ip=self.local_ip,
-                port=self.config.pub_port
+                port=self.config.pub_port,
+                capabilities=self.capabilities
             )
             await asyncio.sleep(self.config.discovery_interval)
     
