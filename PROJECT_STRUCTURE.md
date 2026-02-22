@@ -15,6 +15,10 @@ MarlOS/
 ├── requirements-docker.txt        # Docker-specific dependencies
 ├── docker-compose.yml             # Docker orchestration
 ├── agent-config.yml               # Agent configuration template
+├── CLAUDE.md                      # Claude Code project context and workflow instructions
+│
+├── .claude/                       # Claude Code project configuration
+│   └── commands/                  # Custom slash commands (/run-tests, /start-agent, etc.)
 │
 ├── agent/                         # Core agent implementation
 ├── cli/                           # Command-line interface

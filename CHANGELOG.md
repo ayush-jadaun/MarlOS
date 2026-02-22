@@ -5,6 +5,28 @@ All notable changes to MarlOS will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.5/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased] - 2026-02-22
+
+### Fixed
+- Removed duplicate `import asyncio` in `agent/p2p/node.py`
+- Replaced debug `print()` calls in P2P layer with `logging.debug()`
+- Added missing `Optional` to typing imports in `node.py`
+- Wired real P2P RTT (`HealthMonitor.get_p99_latency()`) into RL state vector index 3 — was hardcoded `0.1`
+- Online learner update loop was a no-op TODO — now runs behavioral cloning on successful experiences
+- Fixed `record_transition` in `policy.py` to forward experiences to online learner
+- Fixed `_retrain_model` dead print — now logs path to saved experiences
+- `PEER_ANNOUNCE` messages now include node capabilities; received capabilities stored in peer info for routing
+- Wired `executor.get_capabilities()` into `p2p.capabilities` so peers know what jobs this node handles
+
+### Removed
+- Deleted stale root files: `demo_checkpoint_recovery.py`, `demo_recovery_with_checkpoint.py`, `test_submit.py`, `test_job.json`, `real_throughput_benchmark.py`, `INSTALL_FOR_FRIENDS.md`, `PYPI_PUBLISHING_GUIDE.md`
+- Deleted redundant docs: `CROSS_INTERNET_DISCOVERY.md`, `DEPLOYMENT_VERIFICATION.md`, `INTEGRATION_GUIDE.md`, `PIP_INSTALLATION_SUMMARY.md`
+
+### Added
+- `CLAUDE.md` and `.claude/commands/` — Claude Code project context and slash commands (`/run-tests`, `/start-agent`, `/submit-job`, `/audit`, `/fix`)
+
+---
+
 ## [1.0.5] - 2025-11-15 ⭐ CONFIGURATION SYSTEM UPDATE
 
 ### 🎉 Revolutionary Change: Production-Grade Two-Tier Configuration
