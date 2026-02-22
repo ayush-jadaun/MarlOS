@@ -112,11 +112,12 @@ class ReplayProtection:
         ]
 
         for msg_id in old_messages:
+            # Remove nonce before dropping the message record
+            metadata = self.message_history.get(msg_id)
+            if metadata and metadata.nonce:
+                self.seen_nonces.discard(metadata.nonce)
             del self.seen_messages[msg_id]
             self.message_history.pop(msg_id, None)
-
-        # Note: Nonces are kept longer to prevent replay
-        # They're cleaned up based on timestamp
 
 
 class ClockSync:
@@ -450,36 +451,3 @@ def add_security_fields(message: dict) -> dict:
     if 'timestamp' not in message:
         message['timestamp'] = time.time()
     return message
-
-
-# Example usage
-if __name__ == "__main__":
-    # Test replay protection
-    replay = ReplayProtection(timestamp_tolerance=30.0)
-
-    message = {
-        'message_id': 'test-123',
-        'timestamp': time.time(),
-        'nonce': generate_nonce(),
-        'node_id': 'node-1'
-    }
-
-    is_valid, reason = replay.validate_message(message)
-    print(f"Message valid: {is_valid} ({reason})")
-
-    replay.mark_message_seen(message)
-
-    # Try replay
-    is_valid, reason = replay.validate_message(message)
-    print(f"Replay valid: {is_valid} ({reason})")
-
-    # Test with old timestamp
-    old_message = {
-        'message_id': 'test-456',
-        'timestamp': time.time() - 100,  # 100s ago
-        'nonce': generate_nonce(),
-        'node_id': 'node-1'
-    }
-
-    is_valid, reason = replay.validate_message(old_message)
-    print(f"Old message valid: {is_valid} ({reason})")

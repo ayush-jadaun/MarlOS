@@ -19,6 +19,8 @@ else:
     except ImportError:
         pass
 logger = logging.getLogger(__name__)
+import os
+import traceback
 import json
 import socket
 import time
@@ -185,7 +187,6 @@ class P2PNode:
         print(f"[P2P] Subscribed to self: {self_address}")
 
         # Connect to bootstrap peers if specified (from config or env)
-        import os
         bootstrap_peers_str = os.getenv('BOOTSTRAP_PEERS', '')
         bootstrap_peers_list = self.config.bootstrap_peers if self.config.bootstrap_peers else []
 
@@ -498,7 +499,6 @@ class P2PNode:
                     await handler(message)
                 except Exception as e:
                     print(f"[P2P] Handler error for {message_type}: {e}")
-                    import traceback
                     traceback.print_exc()
     
     def on_message(self, message_type: MessageType):
@@ -511,13 +511,16 @@ class P2PNode:
     async def _discovery_loop(self):
         """Periodically announce presence"""
         while self.running:
-            await self.broadcast_message(
-                MessageType.PEER_ANNOUNCE,
-                node_name=f"agent-{self.node_id}",
-                ip=self.local_ip,
-                port=self.config.pub_port,
-                capabilities=self.capabilities
-            )
+            try:
+                await self.broadcast_message(
+                    MessageType.PEER_ANNOUNCE,
+                    node_name=f"agent-{self.node_id}",
+                    ip=self.local_ip,
+                    port=self.config.pub_port,
+                    capabilities=self.capabilities
+                )
+            except Exception as e:
+                logger.debug("[P2P] Discovery announce failed: %s", e)
             await asyncio.sleep(self.config.discovery_interval)
     
     async def _cleanup_loop(self):

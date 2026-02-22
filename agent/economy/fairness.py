@@ -14,6 +14,9 @@ INNOVATIONS:
 """
 import time
 import math
+import random
+import hashlib
+import json
 from typing import Dict, List, Tuple, Optional
 from collections import deque, defaultdict
 
@@ -276,15 +279,10 @@ class DiversityQuotas:
         if n == 0 or sum(earnings) == 0:
             return 0.0
 
-        # Calculate Gini coefficient
-        cumulative_earnings = 0
-        gini_sum = 0
-
-        for i, earning in enumerate(earnings):
-            cumulative_earnings += earning
-            gini_sum += cumulative_earnings
-
+        # Calculate Gini coefficient using rank-weighted sum formula:
+        # G = (2 * Σ (i+1)*x_i) / (n * total) - (n+1)/n  (sorted ascending)
         total_earnings = sum(earnings)
+        gini_sum = sum((i + 1) * earning for i, earning in enumerate(earnings))
         gini = (2 * gini_sum) / (n * total_earnings) - (n + 1) / n
 
         return gini
@@ -425,7 +423,6 @@ class ProofOfWorkVerification:
             return True
 
         # Otherwise, random sampling
-        import random
         return random.random() < self.verification_probability
 
     def create_verification_challenge(self, job_id: str, result: dict) -> dict:
@@ -482,8 +479,6 @@ class ProofOfWorkVerification:
 
     def _hash_result(self, result: dict) -> str:
         """Hash job result for verification"""
-        import hashlib
-        import json
         result_str = json.dumps(result, sort_keys=True)
         return hashlib.sha256(result_str.encode()).hexdigest()
 
@@ -645,47 +640,3 @@ class EconomicFairnessEngine:
             'total_jobs_tracked': len(self.diversity.recent_winners),
             'total_nodes_tracked': len(self.diversity.node_stats)
         }
-
-
-# Example usage
-if __name__ == "__main__":
-    engine = EconomicFairnessEngine()
-
-    # Test case: Rich node vs poor node
-    rich_score = engine.calculate_fair_bid_score(
-        base_score=0.9,
-        node_id='rich-node',
-        trust_score=0.95
-    )
-
-    poor_score = engine.calculate_fair_bid_score(
-        base_score=0.6,
-        node_id='poor-node',
-        trust_score=0.3
-    )
-
-    print(f"Rich node score: {rich_score:.3f}")
-    print(f"Poor node score: {poor_score:.3f}")
-
-    # Test payment
-    job = {
-        'job_type': 'malware_scan',
-        'payment': 100.0,
-        'priority': 0.8,
-        'payload': {'file': 'test.exe' * 100}  # Large payload
-    }
-
-    net_payment, tax, reason = engine.calculate_fair_payment(
-        base_payment=100.0,
-        job=job,
-        node_id='rich-node',
-        wealth=5000.0,  # Rich
-        completion_time=time.time()
-    )
-
-    print(f"\nPayment calculation: {net_payment:.2f} AC (tax: {tax:.2f})")
-    print(f"Reason: {reason}")
-
-    # Metrics
-    metrics = engine.get_fairness_metrics()
-    print(f"\nFairness metrics: {metrics}")
