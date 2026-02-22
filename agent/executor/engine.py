@@ -193,8 +193,9 @@ class ExecutionEngine:
                 start_time = metadata.get('start_time', time.time())
                 elapsed = time.time() - start_time
                 
-                # Simple progress estimation (TODO: improve)
-                progress = min(0.95, elapsed / 60.0)  # Assume 60s jobs
+                # Progress estimation based on job timeout
+                job_timeout = metadata.get('timeout', 60.0)
+                progress = min(0.95, elapsed / job_timeout)
                 
                 # Call heartbeat callbacks
                 for callback in self.heartbeat_callbacks:

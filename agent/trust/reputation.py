@@ -134,13 +134,15 @@ class ReputationSystem:
 
         INNOVATION: Trust naturally decays - must stay active to maintain
         """
-        # Apply decay if enabled
+        # Apply decay if enabled — only persist if score actually changed
         if self.trust_decay:
-            self.my_trust_score = self.trust_decay.apply_decay(
+            new_score = self.trust_decay.apply_decay(
                 node_id=self.node_id,
                 current_trust=self.my_trust_score
             )
-            self._save_reputation()
+            if new_score != self.my_trust_score:
+                self.my_trust_score = new_score
+                self._save_reputation()
 
         return self.my_trust_score
     

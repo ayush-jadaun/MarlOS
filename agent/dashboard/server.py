@@ -200,7 +200,7 @@ class DashboardServer:
         """Send message to specific client"""
         try:
             await websocket.send(json.dumps(message))
-        except:
+        except Exception:
             pass
     
     async def broadcast(self, message: dict):

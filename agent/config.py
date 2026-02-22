@@ -46,7 +46,7 @@ class PredictiveConfig:
 class RLConfig:
     """Reinforcement learning configuration"""
     model_path: str = "rl_trainer/models/policy_v1.zip"
-    state_dim: int = 35  # Extended for prediction features
+    state_dim: int = 25  # 5 agent + 5 job + 5 historical + 3 network + 7 fairness
     action_dim: int = 3  # BID, FORWARD, DEFER
 
     # Learning
@@ -170,7 +170,7 @@ class AgentConfig:
     executor: ExecutorConfig = None
     dashboard: DashboardConfig = None
     predictive: PredictiveConfig = None
-    mqtt_broker_host: str = "mosquitto"
+    mqtt_broker_host: str = field(default_factory=lambda: os.getenv('MQTT_BROKER_HOST', 'localhost'))
     mqtt_broker_port: int = 1883
 
     # Storage
@@ -345,7 +345,7 @@ def load_config(config_file: str = None) -> AgentConfig:
         rl_dict = config_dict.get('rl', {})
         rl = RLConfig(
             model_path=rl_dict.get('model_path', 'rl_trainer/models/policy_v1.zip'),
-            state_dim=rl_dict.get('state_dim', 35),
+            state_dim=rl_dict.get('state_dim', 25),
             action_dim=rl_dict.get('action_dim', 3),
             online_learning=rl_dict.get('online_learning', False),
             exploration_rate=rl_dict.get('exploration_rate', 0.1),

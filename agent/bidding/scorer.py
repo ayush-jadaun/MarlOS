@@ -126,10 +126,7 @@ class BidScorer:
         """Call this when agent wins an auction"""
         self.jobs_since_last_win = 0
 
-        # Record in fairness engine
-        if self.fairness_engine and job_id:
-            # Will be called with losers list separately
-            pass
+        # Full outcome (with loser list) is recorded via record_job_outcome()
 
     def mark_lost_auction(self, job_id: str = None):
         """Call this when agent loses/skips an auction"""
@@ -244,7 +241,7 @@ class BidScorer:
             # Combine load factors
             return (load_factor * 0.6) + (resource_factor * 0.4)
         
-        except:
+        except Exception:
             return load_factor
     
     def _score_urgency(self, job: dict) -> float:
