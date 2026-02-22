@@ -68,6 +68,7 @@ class SigningKey:
         
         with open(filepath, 'w') as f:
             json.dump(key_data, f, indent=2)
+
     @classmethod
     def generate(cls) -> 'SigningKey':
         """Generate a new random signing key"""
@@ -173,27 +174,5 @@ def verify_message(message: dict) -> bool:
 
         return verifying_key.verify(message_bytes, signature)
 
-    except Exception as e:
-        # print(f"DEBUG: Verification failed: {e}") 
+    except Exception:
         return False
-
-
-# Example usage
-if __name__ == "__main__":
-    # Generate key
-    key = SigningKey()
-    print(f"Public key: {key.public_key_hex()}")
-    
-    # Sign message
-    message = {"type": "test", "data": "hello world"}
-    signed_message = sign_message(key, message)
-    print(f"Signed message: {signed_message}")
-    
-    # Verify
-    is_valid = verify_message(signed_message)
-    print(f"Valid: {is_valid}")
-    
-    # Tamper with message
-    signed_message['data'] = "tampered"
-    is_valid = verify_message(signed_message)
-    print(f"Valid after tampering: {is_valid}")

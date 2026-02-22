@@ -106,8 +106,8 @@ class AsymmetricEncryption:
             enc.save_to_file(filepath)
             return enc
 
-    @classmethod
-    def from_public_key_hex(cls, public_key_hex: str) -> nacl.public.PublicKey:
+    @staticmethod
+    def from_public_key_hex(public_key_hex: str) -> nacl.public.PublicKey:
         """Create public key from hex"""
         return nacl.public.PublicKey(bytes.fromhex(public_key_hex))
 
@@ -234,31 +234,3 @@ def decrypt_message_field(message: dict, field: str,
     message.pop(f'{field}_encrypted', None)
 
     return message
-
-
-# Example usage
-if __name__ == "__main__":
-    # Create sender and recipient
-    sender = AsymmetricEncryption()
-    recipient = AsymmetricEncryption()
-
-    print(f"Sender public key: {sender.public_key_hex()}")
-    print(f"Recipient public key: {recipient.public_key_hex()}")
-
-    # Encrypt a job payload
-    job_payload = {
-        'command': 'secret_command',
-        'api_key': 'super_secret_key_12345',
-        'data': 'confidential data'
-    }
-
-    encrypted = encrypt_job_payload(job_payload, recipient.public_key_hex(), sender)
-    print(f"\nEncrypted payload: {encrypted[:50]}...")
-
-    # Decrypt
-    decrypted = decrypt_job_payload(encrypted, sender.public_key_hex(), recipient)
-    print(f"Decrypted payload: {decrypted}")
-
-    # Verify
-    assert decrypted == job_payload
-    print("\n✅ Encryption/decryption successful!")
