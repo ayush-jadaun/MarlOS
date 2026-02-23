@@ -34,6 +34,9 @@ class RecoveryManager:
 
         # Task function registry (job_id -> task_func)
         self.task_registry: Dict[str, Callable] = {}
+
+        # Takeover notification callback: called with (job_id, new_primary, taken_from)
+        self.on_takeover: Optional[Callable] = None
     
     async def start(self):
         """Start recovery monitoring"""
@@ -135,6 +138,8 @@ class RecoveryManager:
                     attempt=current_attempt
                 )
                 print(f"[SUCCESS] [RECOVERY] Takeover successful - job {job_id} completed")
+                if self.on_takeover:
+                    await self.on_takeover(job_id, self.node_id, backup.primary_node)
                 return result
             except Exception as e:
                 print(f"[FAILED] [RECOVERY] Takeover failed for job {job_id}: {e}")
@@ -146,6 +151,8 @@ class RecoveryManager:
                 print(f"[RECOVERY] Using legacy executor callback for job {job_id}")
                 result = await self.executor_callback(job)
                 print(f"[SUCCESS] [RECOVERY] Takeover successful - job {job_id} completed")
+                if self.on_takeover:
+                    await self.on_takeover(job_id, self.node_id, backup.primary_node)
                 return result
             except Exception as e:
                 print(f"[FAILED] [RECOVERY] Takeover failed for job {job_id}: {e}")

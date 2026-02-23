@@ -271,22 +271,39 @@ class BiddingAuction:
             if self.coordinator:
                 self.coordinator.record_job_won(self.node_id)
 
-            # Broadcast claim with quorum requirement
+            # Broadcast claim with quorum requirement — up to 3 attempts with backoff
             claim_time = time.time()
             print(f"📤 [CLAIM SENT] Broadcasting job claim at {claim_time:.3f}")
-            claim_success = await p2p_node.broadcast_reliable(
-                MessageType.JOB_CLAIM,
-                job_id=job_id,
-                winner_node_id=self.node_id,
-                backup_node_id=self._select_backup(job_id),
-                stake_amount=stake_amount,
-                winning_score=score
-            )
+            claim_success = False
+            backup_node = self._select_backup(job_id)
+            for attempt in range(3):
+                claim_success = await p2p_node.broadcast_reliable(
+                    MessageType.JOB_CLAIM,
+                    job_id=job_id,
+                    winner_node_id=self.node_id,
+                    backup_node_id=backup_node,
+                    stake_amount=stake_amount,
+                    winning_score=score
+                )
+                if claim_success:
+                    break
+                if attempt < 2:
+                    wait = 2 ** attempt  # 1s, 2s
+                    print(f"⚠️  [AUCTION] Claim attempt {attempt + 1} failed, retrying in {wait}s...")
+                    await asyncio.sleep(wait)
 
             if not claim_success:
-                print(f"⚠️  [AUCTION] Failed to get quorum for claim broadcast")
+                print(f"⚠️  [AUCTION] Failed to get quorum for claim broadcast after 3 attempts")
                 print(f"[AUCTION] Network partition detected - aborting execution")
-                return False
+                # Clean up and notify caller so it is not left hanging
+                self.active_auctions.pop(job_id, None)
+                self.my_bids.pop(job_id, None)
+                self.claimed_jobs.pop(job_id, None)
+                self.job_coordinators.pop(job_id, None)
+                callback = self.auction_callbacks.pop(job_id, None)
+                if callback:
+                    callback(False)
+                return
 
             # Grace period: Wait for conflicting claims
             # CRITICAL: Use polling loop instead of sleep to allow message processing

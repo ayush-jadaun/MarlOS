@@ -22,6 +22,7 @@ class MessageType(str, Enum):
     JOB_FORWARD = "job_forward"
     JOB_RESULT = "job_result"
     JOB_HEARTBEAT = "job_heartbeat"
+    JOB_TAKEOVER = "job_takeover"
     AUCTION_COORDINATE = "auction_coordinate"  # Coordinator announcement
 
     # Reputation
@@ -205,6 +206,32 @@ class AckMessage(BaseMessage):
 
 
 @dataclass
+class JobForwardMessage(BaseMessage):
+    """Forward a job to a better-suited peer"""
+    job_id: str = None
+    from_node: str = None
+    to_node: str = None
+    job: dict = None
+    reason: str = None
+
+    def __post_init__(self):
+        super().__post_init__()
+        self.type = MessageType.JOB_FORWARD
+
+
+@dataclass
+class JobTakeoverMessage(BaseMessage):
+    """Announce that a backup node has taken over a failed primary's job"""
+    job_id: str = None
+    new_primary: str = None
+    taken_from: str = None
+
+    def __post_init__(self):
+        super().__post_init__()
+        self.type = MessageType.JOB_TAKEOVER
+
+
+@dataclass
 class AuctionCoordinateMessage(BaseMessage):
     """Coordinator announcement for auction"""
     job_id: str = None
@@ -223,6 +250,8 @@ def create_message(message_type: MessageType, **kwargs) -> BaseMessage:
         MessageType.JOB_BROADCAST: JobBroadcastMessage,
         MessageType.JOB_BID: JobBidMessage,
         MessageType.JOB_CLAIM: JobClaimMessage,
+        MessageType.JOB_FORWARD: JobForwardMessage,
+        MessageType.JOB_TAKEOVER: JobTakeoverMessage,
         MessageType.JOB_RESULT: JobResultMessage,
         MessageType.JOB_HEARTBEAT: JobHeartbeatMessage,
         MessageType.AUCTION_COORDINATE: AuctionCoordinateMessage,

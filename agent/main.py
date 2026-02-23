@@ -26,7 +26,7 @@ from .executor.hardware import HardwareRunner
 from .config import AgentConfig, load_config
 from .crypto.signing import SigningKey, sign_message, verify_message
 from .p2p.node import P2PNode
-from .p2p.protocol import MessageType, JobBroadcastMessage
+from .p2p.protocol import MessageType, JobBroadcastMessage, JobForwardMessage, JobTakeoverMessage
 from .tokens.wallet import Wallet
 from .tokens.economy import TokenEconomy
 from .trust.reputation import ReputationSystem
@@ -251,14 +251,32 @@ class MarlOSAgent:
         @self.p2p.on_message(MessageType.PEER_ANNOUNCE)
         async def on_peer_announce(message: dict):
             peer_id = message['node_id']
-            peer_address = f"tcp://{message['ip']}:{message['port']}"
+            peer_ip = message.get('ip', '')
+            capabilities = message.get('capabilities', [])
 
+            # Sybil resistance — enforced in public mode only
+            if self.config.network.mode == NetworkMode.PUBLIC:
+                peer_stake = message.get('token_balance', 0.0)
+                if peer_stake < self.config.network.min_peer_stake:
+                    print(f"[SYBIL] Rejected {peer_id}: stake {peer_stake:.1f} < {self.config.network.min_peer_stake}")
+                    return
+                if peer_ip:
+                    subnet = '.'.join(peer_ip.split('.')[:3])
+                    subnet_count = sum(
+                        1 for pid, pinfo in self.p2p.peers.items()
+                        if pid != peer_id and '.'.join(pinfo.get('ip', '').split('.')[:3]) == subnet
+                    )
+                    if subnet_count >= self.config.network.max_peers_per_subnet:
+                        print(f"[SYBIL] Rejected {peer_id}: subnet {subnet}.0/24 full ({subnet_count} peers)")
+                        return
+
+            peer_address = f"tcp://{peer_ip}:{message['port']}"
             self.p2p.connect_to_peer(peer_address)
 
             # Store peer capabilities so the job router can make forwarding decisions
-            capabilities = message.get('capabilities', [])
             if peer_id in self.p2p.peers:
                 self.p2p.peers[peer_id]['capabilities'] = capabilities
+                self.p2p.peers[peer_id]['ip'] = peer_ip
 
             if peer_id not in self.reputation.peer_trust_scores:
                 self.reputation.update_peer_trust(
@@ -267,6 +285,17 @@ class MarlOSAgent:
                     "discovery",
                     "New peer discovered"
                 )
+
+            # Feed newly seen peer into DHT so PEX loop propagates knowledge (public mode)
+            if self.config.network.mode == NetworkMode.PUBLIC and self.dht and self.dht.running:
+                peer_info = {
+                    'node_id': peer_id,
+                    'ip': peer_ip,
+                    'port': message.get('port', 0),
+                    'capabilities': capabilities,
+                    'timestamp': time.time(),
+                }
+                asyncio.create_task(self.dht.update_peer_list([peer_info]))
 
             print(f"👋 Peer discovered: {peer_id} (caps: {capabilities})")
         
@@ -296,7 +325,15 @@ class MarlOSAgent:
             if is_backup:
                 job_id = message['job_id']
                 print(f"🔄 Registered as backup for job {job_id}")
-        
+
+        @self.p2p.on_message(MessageType.JOB_FORWARD)
+        async def on_job_forward(message: dict):
+            await self._handle_job_forward(message)
+
+        @self.p2p.on_message(MessageType.JOB_TAKEOVER)
+        async def on_job_takeover(message: dict):
+            await self._handle_job_takeover(message)
+
         @self.p2p.on_message(MessageType.JOB_HEARTBEAT)
         async def on_job_heartbeat(message: dict):
             job_id = message['job_id']
@@ -384,6 +421,17 @@ class MarlOSAgent:
             return result
 
         self.recovery.set_executor_callback(on_takeover_job)
+
+        async def on_takeover_notify(job_id: str, new_primary: str, taken_from: str):
+            print(f"[RECOVERY] Broadcasting takeover: {new_primary} took {job_id} from {taken_from}")
+            await self.p2p.broadcast_message(
+                MessageType.JOB_TAKEOVER,
+                job_id=job_id,
+                new_primary=new_primary,
+                taken_from=taken_from,
+            )
+
+        self.recovery.on_takeover = on_takeover_notify
     
     async def start(self):
         """Start the agent"""
@@ -643,6 +691,43 @@ class MarlOSAgent:
                 done=True
             )
     
+    async def _handle_job_forward(self, message: dict):
+        """Handle an incoming JOB_FORWARD message.
+
+        If this node is the intended recipient, re-enter the normal job handling
+        pipeline.  Messages addressed to other nodes are ignored (the router
+        broadcasts, so every node receives the message).
+        """
+        to_node = message.get('to_node')
+        if to_node != self.node_id:
+            return
+
+        job = message.get('job')
+        if not job:
+            print(f"[ROUTER] Received JOB_FORWARD with missing job payload")
+            return
+
+        reason = message.get('reason', 'forwarded')
+        print(f"[ROUTER] Received forwarded job {job.get('job_id')} ({reason})")
+        await self._handle_new_job(job)
+
+    async def _handle_job_takeover(self, message: dict):
+        """Handle a JOB_TAKEOVER broadcast.
+
+        Clear any backup state we were holding for the job and penalise the
+        failed node's trust score so the network learns about unreliable nodes.
+        """
+        job_id = message.get('job_id')
+        new_primary = message.get('new_primary')
+        taken_from = message.get('taken_from')
+
+        if job_id:
+            self.recovery.remove_backup(job_id)
+            print(f"[RECOVERY] Job {job_id} taken over by {new_primary} (failed: {taken_from})")
+
+        if taken_from and taken_from != self.node_id:
+            self.watchdog.report_job_failure(taken_from, job_id or 'unknown', "Primary node failed")
+
     async def _execute_job(self, job: dict, stake_amount: float):
         """Execute a job we won"""
         job_id = job['job_id'] # This is the REAL job_id

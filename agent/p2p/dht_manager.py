@@ -49,6 +49,9 @@ class DHTManager:
         # Discovered peers
         self.discovered_peers: Dict[str, dict] = {}
 
+        # Track node IDs we have already notified via on_peer_discovered
+        self.known_peer_ids: set = set()
+
         # Callbacks
         self.on_peer_discovered: Optional[Callable] = None
 
@@ -188,10 +191,12 @@ class DHTManager:
                 self.discovery_count += len(discovered)
                 print(f"[DHT] Discovered {len(discovered)} peers")
 
-                # Notify callback
+                # Notify callback only for peers we haven't seen before
                 if self.on_peer_discovered:
                     for peer in discovered:
-                        if peer['node_id'] != self.node_id:
+                        pid = peer.get('node_id')
+                        if pid and pid != self.node_id and pid not in self.known_peer_ids:
+                            self.known_peer_ids.add(pid)
                             await self.on_peer_discovered(peer)
 
         except Exception as e:
