@@ -1,0 +1,119 @@
+
+● Based on the full codebase I've read, here's my honest, prioritized take:
+
+  ---
+  What Would Actually Move the Needle
+
+  Priority 1 — Make It Pluggable (1-2 days each)
+
+  Plugin system for job runners.
+  Right now runners are hardcoded in agent/main.py::_register_job_runners(). Nobody can extend MarlOS without forking it. The fix
+   is a pyproject.toml entry point:
+
+  [project.entry-points."marlos.runners"]
+  my_runner = "mypackage.runner:run"
+
+  Then the community can publish pip install marlos-pytorch-runner and it automatically registers on node startup. This is how   
+  you get ecosystem growth without managing PRs.
+
+  Job type schema / validation.
+  Currently jobs are untyped dicts passed around. A Pydantic schema per job type means runners can advertise exactly what they   
+  accept, submitters get instant validation errors, and the router can make smarter forwarding decisions.
+
+  ---
+  Priority 2 — MCP Server (3-5 days, highest leverage)
+
+  This is the one thing that would put MarlOS on the map in 2026.
+
+  The dashboard already has a WebSocket server on port 3001. Wrapping it as an MCP server means any Claude/GPT/AutoGen agent can:
+
+  # In any AI agent
+  use_mcp_server("marlos://localhost:3001")
+  submit_job(type="shell", command="python train.py", payment=50)
+
+  The three MCP tools would be:
+  - marlos_submit_job — broadcast a job to the network
+  - marlos_get_result — poll for job completion
+  - marlos_list_nodes — see what nodes are available and their capabilities
+
+  This turns every MarlOS network into a distributed AI compute marketplace accessible from any AI framework. No other project   
+  has this.
+
+  ---
+  Priority 3 — REST API (2-3 days)
+
+  The only way to submit a job today is either the CLI or raw ZMQ. A simple FastAPI layer:
+
+  POST /jobs          — submit a job, returns job_id
+  GET  /jobs/{id}     — poll result
+  GET  /nodes         — list peers and capabilities
+  GET  /metrics       — Prometheus-compatible stats
+
+  This makes MarlOS accessible from any language. A Go service, a JS frontend, a curl command. The absence of this is the single 
+  biggest friction point for adoption.
+
+  ---
+  Priority 4 — GitHub Actions CI (1 day, required for serious OSS)
+
+  Right now there's no CI. Anyone opening a PR has no way to know if they broke something. This kills contributor confidence.    
+
+  # .github/workflows/test.yml
+  on: [push, pull_request]
+  jobs:
+    test:
+      runs-on: ubuntu-latest
+      steps:
+        - run: pip install -e ".[dev]"
+        - run: pytest test/ --ignore=test/integration -q
+
+  Add a badge to the README. Instant credibility signal.
+
+  ---
+  Priority 5 — Fix Multi-Node Integration Tests (ongoing)
+
+  1/10 integration tests pass. This is the trust gap. Before you ask anyone to run MarlOS on real hardware, you need to be able  
+  to demonstrate two nodes finding each other, auctioning a job, and completing it — in a reproducible test. Everything else is  
+  secondary to this.
+
+  The Docker Compose setup already spins up 3 nodes. The integration tests just need to be rewritten to use that setup properly  
+  instead of mocking everything.
+
+  ---
+  Priority 6 — Persistent Job Queue
+
+  Right now if a node restarts during an auction, the job is gone. A SQLite-backed job queue (the wallet already uses SQLite, so 
+  the pattern exists) means:
+
+  - Jobs survive node restarts
+  - You can inspect pending/failed jobs after the fact
+  - Retry logic becomes possible at the protocol level
+
+  ---
+  What NOT to Do (common OSS traps)
+
+  Don't put MarlCredits on a real blockchain. The token economy you have works fine as internal accounting. Adding
+  Ethereum/Solana means regulatory risk, smart contract bugs, gas fees, and it instantly makes the project look like a crypto    
+  project rather than a compute project. The community you want (AI engineers, platform teams) will walk away.
+
+  Don't add a GUI dashboard before the API works. A pretty web UI is appealing but has zero leverage. Fix the REST API first —   
+  the dashboard can be built by contributors once the data contract is stable.
+
+  Don't try to compete with Kubernetes head-on. Kubernetes wins for stateful, long-running services. MarlOS wins for ephemeral   
+  compute tasks where you don't control the infrastructure. Stay in that lane.
+
+  ---
+  The Realistic 30-Day OSS Launch Plan
+
+  ┌──────┬───────────────────────────────────────────────────┬───────────────────────────────────────┐
+  │ Week │                       Work                        │                Outcome                │
+  ├──────┼───────────────────────────────────────────────────┼───────────────────────────────────────┤
+  │ 1    │ REST API + GitHub CI + Docker Hub image           │ Anyone can try it with docker run     │
+  ├──────┼───────────────────────────────────────────────────┼───────────────────────────────────────┤
+  │ 2    │ Plugin system for runners + Pydantic job schemas  │ Community can extend it               │
+  ├──────┼───────────────────────────────────────────────────┼───────────────────────────────────────┤
+  │ 3    │ MCP server (3 tools) + example Claude agent       │ "Claude uses MarlOS for compute" demo │
+  ├──────┼───────────────────────────────────────────────────┼───────────────────────────────────────┤
+  │ 4    │ Fix 2-3 integration tests + write CONTRIBUTING.md │ Ready for first external PR           │
+  └──────┴───────────────────────────────────────────────────┴───────────────────────────────────────┘
+
+  Post the MCP demo on Hacker News. That's the moment.
