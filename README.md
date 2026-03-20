@@ -21,7 +21,7 @@ The whole thing runs without asking permission from anyone.
 
 Centralized compute infrastructure (AWS, Kubernetes, Ray) has a fundamental problem: there is always a single point of control. That control can be taken away, rate-limited, or priced out of reach.
 
-MarlOS is the opposite. Any device — a laptop, a server, a Raspberry Pi, even an Arduino via MQTT — can join the network, earn tokens by completing jobs, and participate as a first-class compute node. No registration. No approval. Cryptographic identity is self-generated on first start.
+MarlOS is the opposite. Any device — a laptop, a server, a Raspberry Pi — can join the network, earn tokens by completing jobs, and participate as a first-class compute node. No registration. No approval. Cryptographic identity is self-generated on first start.
 
 This architecture is particularly relevant for the current shift toward **agentic AI**: when AI agents (Claude, GPT, AutoGen crews) need to execute code, run containers, scan networks, or process files, they need a compute layer that is cheap, decentralized, and programmable. MarlOS is designed to be exactly that layer.
 
@@ -55,7 +55,6 @@ Job Submitted
                                     ▼
                            [Execution Engine]
                            Shell / Docker / Security
-                           Hardware (MQTT/Arduino)
                                     │
                               ┌─────┴─────┐
                               ▼           ▼
@@ -95,8 +94,8 @@ See [`docs/ARCHITECTURE_RL.md`](docs/ARCHITECTURE_RL.md) for full state vector s
 │  │ Ed25519  │  │ PPO      │  │ Scorer   │  │ Shell    │   │
 │  │ Gossip   │  │ 25D state│  │ Router   │  │ Docker   │   │
 │  └────┬─────┘  └────┬─────┘  └────┬─────┘  │ Security │   │
-│       │             │             │         │ Hardware │   │
-│       └─────────────┴─────────────┘         └──────────┘   │
+│       │             │             │         └──────────┘   │
+│       └─────────────┴─────────────┘                        │
 │                           │                                 │
 │  ┌──────────┐  ┌──────────┴──┐  ┌──────────┐  ┌────────┐  │
 │  │  Token   │  │   Trust /   │  │Predictive│  │ Dash-  │  │
@@ -165,7 +164,6 @@ The execution engine is extensible. Currently registered runners:
 - `docker` — containerised workloads
 - `docker_build` — container builds
 - `malware_scan`, `port_scan`, `hash_crack`, `threat_intel` — security tools
-- `led_control` — hardware control via MQTT (Arduino/Raspberry Pi)
 
 Adding a new runner is registering a single async function. See `agent/main.py::_register_job_runners()`.
 
@@ -203,10 +201,6 @@ MarlOS was built as a hackathon project. The infrastructure is real. Here is wha
 The BID/FORWARD/DEFER action space maps directly to how AI orchestrators (LangGraph, AutoGen, CrewAI) route tasks. A MarlOS network becomes a **P2P compute marketplace for AI agents**: Claude submits a job via MCP, the network auctions it, the winning node executes it, payment flows in MarlCredits. No AWS, no fixed pricing, no single provider.
 
 The WebSocket dashboard on port 3001 is one layer away from becoming an MCP server. The `ai_task` job type can be added as a runner in the same way `shell` or `docker` was added.
-
-### Edge + IoT Compute Mesh
-
-The hardware runner already handles MQTT/Arduino. A MarlOS mesh where a Raspberry Pi bids on sensor-reading jobs and a GPU node bids on inference jobs — same auction, same token economy — is a realistic near-term capability. No other distributed compute project unifies edge hardware and cloud-class compute in the same job market.
 
 ### Private Compute Mesh for Teams
 
@@ -254,7 +248,7 @@ curl -sSL https://raw.githubusercontent.com/ayush-jadaun/MarlOS/main/scripts/ins
 ### Run with Docker (local multi-node testing)
 
 ```bash
-docker-compose up -d   # starts 3 nodes + MQTT broker
+docker-compose up -d   # starts 3 nodes
 ```
 
 ### Manual setup (real devices)
@@ -286,7 +280,7 @@ Configuration is resolved in three layers (highest priority wins):
 | 2 | YAML file at `~/.marlos/nodes/{NODE_ID}/config.yaml` | custom node config |
 | 3 (highest) | Environment variables | `PUB_PORT=6000` |
 
-Key env vars: `NODE_ID`, `PUB_PORT`, `SUB_PORT`, `DASHBOARD_PORT`, `NETWORK_MODE`, `BOOTSTRAP_PEERS`, `DHT_ENABLED`, `DHT_BOOTSTRAP`, `ENABLE_HARDWARE_RUNNER`.
+Key env vars: `NODE_ID`, `PUB_PORT`, `SUB_PORT`, `DASHBOARD_PORT`, `NETWORK_MODE`, `BOOTSTRAP_PEERS`, `DHT_ENABLED`, `DHT_BOOTSTRAP`.
 
 See [`docs/CONFIG_ARCHITECTURE.md`](docs/CONFIG_ARCHITECTURE.md) and [`docs/FULL_CONFIG_USAGE.md`](docs/FULL_CONFIG_USAGE.md).
 
@@ -347,7 +341,6 @@ python -m pytest test/ -k "rl or fairness or auction" -v
 | Cryptography | Ed25519 (PyNaCl) |
 | RL framework | PyTorch + Stable-Baselines3 (PPO) |
 | Job isolation | Docker |
-| Hardware control | paho-mqtt (MQTT) |
 | Token storage | SQLite (wallet), JSON (ledger) |
 | Event loop | winloop (Windows) / uvloop (Linux/macOS) |
 | Dashboard | WebSockets (aiohttp) |

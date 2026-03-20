@@ -42,7 +42,6 @@ That's it! The P2P network, ZeroMQ communication, and all other systems work ide
 **Docker Compose Configuration** (`docker-compose.yml`):
 
 - 3 agent containers (agent-1, agent-2, agent-3)
-- 1 Mosquitto MQTT broker
 - Custom bridge network (`marlos-net`)
 - Internal DNS resolution (e.g., `marlos-agent-2:5555`)
 
@@ -169,7 +168,6 @@ BOOTSTRAP_PEERS=tcp://192.168.1.101:5555,tcp://192.168.1.102:5555
 **Optional:**
 
 - Docker (if you want job isolation)
-- MQTT broker (for hardware device control)
 
 ### Operating System Support
 
@@ -450,7 +448,6 @@ python -m agent.main
 sudo ufw allow 5555/tcp comment "MarlOS PUB"
 sudo ufw allow 5556/tcp comment "MarlOS SUB"
 sudo ufw allow 3001/tcp comment "MarlOS Dashboard"
-sudo ufw allow 1883/tcp comment "MQTT Broker (optional)"
 
 # Enable firewall
 sudo ufw enable
@@ -934,7 +931,6 @@ MarlOS supports multiple job types. Here's what works with and without Docker:
 | **port_scan** | ❌ No | Network port scanning using nmap |
 | **hash_crack** | ❌ No | Password hash cracking using hashcat |
 | **threat_intel** | ❌ No | Threat intelligence lookups |
-| **led_control** | ❌ No | Hardware control via MQTT (requires hardware agent) |
 | **docker** | ✅ Yes | Run commands in Docker containers |
 | **docker_build** | ✅ Yes | Build Docker images |
 

@@ -25,9 +25,7 @@ MarlOS/
 ├── rl_trainer/                    # Reinforcement learning models
 ├── docs/                          # All documentation
 ├── scripts/                       # Installation and utility scripts
-├── config/                        # Configuration files (MQTT, etc.)
 ├── docker/                        # Dockerfiles
-├── hardware/                      # Hardware control (Arduino/ESP32)
 ├── examples/                      # Example scripts
 ├── test/                          # Test suites
 ├── data/                          # Runtime data (generated)
@@ -63,7 +61,6 @@ agent/
 │   ├── shell.py               # Shell command runner
 │   ├── docker.py              # Docker job runner
 │   ├── security.py            # Security tools (malware, port scan)
-│   ├── hardware.py            # Hardware control (MQTT)
 │   └── recovery.py            # Checkpoint & recovery
 │
 ├── tokens/                    # Token economy
@@ -163,24 +160,6 @@ rl_trainer/
 docker/
 ├── Dockerfile.agent           # Standard agent image
 └── Dockerfile.agent.optimized # Optimized image (CPU-only PyTorch)
-```
-
----
-
-## ⚙️ Configuration (`config/`)
-
-```
-config/
-└── mosquitto.conf             # MQTT broker configuration
-```
-
----
-
-## 🔌 Hardware (`hardware/`)
-
-```
-hardware/
-└── arduino/                   # Arduino sketches for LED control
 ```
 
 ---

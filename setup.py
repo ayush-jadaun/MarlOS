@@ -65,7 +65,6 @@ setup(
         'agent': ['*.yml', '*.json'],
         'rl_trainer': ['*.zip', '*.pkl', '*.pt', '*.pth', 'models/*.zip'],
         'config': ['*.conf', '*.yml', '*.yaml', '*.json'],
-        'hardware': ['**/*.ino', '**/*.cpp', '**/*.h'],
         'scripts': ['*.sh', '*.bat', '*.py'],
         'examples': ['*.py', '*.md'],
         '': ['*.md', '*.txt', '*.yml'],  # Root level files

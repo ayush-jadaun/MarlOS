@@ -336,8 +336,6 @@ export BOOTSTRAP_PEERS="tcp://192.168.1.100:5555"
 
 # Feature flags
 export ENABLE_DOCKER=true
-export ENABLE_HARDWARE_RUNNER=false
-export MQTT_BROKER_HOST="localhost"
 
 # Logging
 export LOG_LEVEL=DEBUG

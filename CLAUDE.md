@@ -29,7 +29,7 @@ P2P (ZMQ) → Auction/Bidding → RL Decision (PPO) → Executor → Token Econo
 ## Config (3-tier precedence, lowest → highest)
 1. Dataclass defaults in `agent/config.py`
 2. YAML file: `~/.marlos/nodes/{NODE_ID}/config.yaml`
-3. Env vars: `NODE_ID`, `PUB_PORT`, `SUB_PORT`, `DASHBOARD_PORT`, `NETWORK_MODE`, `BOOTSTRAP_PEERS`, `ENABLE_HARDWARE_RUNNER`
+3. Env vars: `NODE_ID`, `PUB_PORT`, `SUB_PORT`, `DASHBOARD_PORT`, `NETWORK_MODE`, `BOOTSTRAP_PEERS`
 
 ## Running Tests
 ```bash
