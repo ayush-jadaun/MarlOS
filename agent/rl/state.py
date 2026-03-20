@@ -20,8 +20,9 @@ class StateCalculator:
     Calculates RL state vector from current context
     """
     
-    def __init__(self, node_id: str, enable_fairness: bool = True):
+    def __init__(self, node_id: str, enable_fairness: bool = True, health_monitor=None):
         self.node_id = node_id
+        self.health_monitor = health_monitor  # HealthMonitor from P2PNode
 
         # Historical tracking
         self.job_type_history: Dict[str, int] = {}  # job_type -> count completed
@@ -99,7 +100,12 @@ class StateCalculator:
             memory = psutil.virtual_memory().percent / 100.0  # 0-1
             disk = psutil.disk_usage('/').percent / 100.0  # 0-1
 
-            network_latency = 0.1  # TODO: Implement actual network measurement
+            if self.health_monitor:
+                raw_latency = self.health_monitor.get_p99_latency()
+                # Normalize: clamp to [0, 1] where 1.0 = 1 second latency
+                network_latency = min(1.0, raw_latency)
+            else:
+                network_latency = 0.1
 
             # Normalize active jobs (assume max 10 concurrent)
             jobs_normalized = min(1.0, active_jobs / 10.0)
@@ -215,8 +221,9 @@ class StateCalculator:
         try:
 
             diversity_factor = self.fairness_engine.diversity.calculate_diversity_factor(self.node_id)
-            # Diversity factor is -0.2 to +0.15, normalize to 0-1
-            diversity_normalized = (diversity_factor + 0.2) / 0.35  # Map to 0-1 range
+            # Diversity factor is in [0.5, 1.5]; normalize to [0, 1]
+            diversity_normalized = (diversity_factor - 0.5) / 1.0
+            diversity_normalized = min(1.0, max(0.0, diversity_normalized))
 
             # [1] Tax rate - progressive taxation based on wealth
             tax = self.fairness_engine.taxation.calculate_tax(
@@ -227,6 +234,8 @@ class StateCalculator:
 
             # [2] Gini coefficient - system-wide inequality measure
             gini = self.fairness_engine.get_gini_coefficient()
+            # Clamp to [0, 1] range (theoretical max is 1.0, but implementation may exceed)
+            gini = min(1.0, max(0.0, gini))
 
             # [3] UBI eligibility - binary feature
             ubi_eligible = 1.0 if self.fairness_engine.ubi.is_eligible_for_ubi(
@@ -285,26 +294,3 @@ class StateCalculator:
         """Get state vector dimension (INNOVATION: extended from 18 to 25)"""
         return 25
 
-
-# Example usage
-if __name__ == "__main__":
-    calc = StateCalculator("test-node")
-    
-    job = {
-        'job_type': 'malware_scan',
-        'priority': 0.8,
-        'deadline': time.time() + 120,
-        'payment': 150.0,
-        'payload': {'file': 'suspicious.exe'}
-    }
-    
-    state = calc.calculate_state(
-        job=job,
-        wallet_balance=250.0,
-        trust_score=0.75,
-        peer_count=8,
-        active_jobs=2
-    )
-    
-    print(f"State vector shape: {state.shape}")
-    print(f"State vector: {state}")

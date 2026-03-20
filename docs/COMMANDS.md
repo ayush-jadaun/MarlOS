@@ -129,6 +129,7 @@ command             Command to execute (required)
 ```
 
 **Examples:**
+
 ```bash
 marl execute "echo test"
 marl execute "curl https://api.github.com" --port 3002
@@ -146,6 +147,7 @@ marl execute "python script.py" --payment 50 --wait
 ```
 
 **Examples:**
+
 ```bash
 marl create --name shell --command "echo test"
 marl create --name malware_scan --payment 150 --output scan.json
@@ -161,6 +163,7 @@ job_file            Path to job JSON file (required)
 ```
 
 **Examples:**
+
 ```bash
 marl submit job.json
 marl submit my-task.json --port 3002
@@ -175,6 +178,7 @@ marl submit critical-job.json --wait
 ```
 
 **Examples:**
+
 ```bash
 marl status
 marl status --port 3002
@@ -188,6 +192,7 @@ marl status --json > status.json
 ```
 
 **Examples:**
+
 ```bash
 marl peers
 marl peers --port 3002
@@ -200,6 +205,7 @@ marl peers --port 3002
 ```
 
 **Examples:**
+
 ```bash
 marl wallet
 marl wallet --port 3002
@@ -213,6 +219,7 @@ marl wallet --port 3002
 ```
 
 **Examples:**
+
 ```bash
 marl watch
 marl watch --port 3002 --interval 1
@@ -225,6 +232,7 @@ marl watch --port 3002 --interval 1
 ```
 
 **Examples:**
+
 ```bash
 marl nodes list
 ```
@@ -236,6 +244,7 @@ node_id    Node ID to show (required)
 ```
 
 **Examples:**
+
 ```bash
 marl nodes show node-abc123
 marl nodes show my-laptop-node
@@ -248,6 +257,7 @@ node_id    Node ID to edit (required)
 ```
 
 **Examples:**
+
 ```bash
 marl nodes edit node-abc123
 # Opens config in your default editor (EDITOR env var or notepad/nano)
@@ -261,6 +271,7 @@ node_id         Node ID to delete (required)
 ```
 
 **Examples:**
+
 ```bash
 marl nodes delete node-abc123
 marl nodes delete old-node --force  # No confirmation
@@ -339,55 +350,54 @@ export LOG_LEVEL=DEBUG
 MarlOS uses a **two-tier configuration system**:
 
 ### 1. System Defaults (agent/config.py)
+
 Built-in defaults for all settings
 
-### 2. Per-Node Configuration (~/.marlos/nodes/{node_id}/config.json)
+### 2. Per-Node Configuration (~/.marlos/nodes/{node_id}/config.yaml)
+
 Each node has its own configuration file
 
 ### 3. Environment Variable Overrides
+
 Temporary overrides using environment variables
 
 **Configuration Precedence:**
+
 ```
 Environment Variables > Node Config > System Defaults
 ```
 
 **Node Config Location:**
+
 ```
-~/.marlos/nodes/{node_id}/config.json
+~/.marlos/nodes/{node_id}/config.yaml
 ```
 
 **Example node config:**
 
-```json
-{
-  "node_id": "production-node-1",
-  "node_name": "Main Compute Node",
-  "created": "2025-11-15T10:30:00",
-  "network": {
-    "mode": "private",
-    "pub_port": 5555,
-    "sub_port": 5556,
-    "dashboard_port": 3001,
-    "bootstrap_peers": [
-      "tcp://192.168.1.100:5555",
-      "tcp://192.168.1.101:5555"
-    ],
-    "dht_enabled": false
-  },
-  "executor": {
-    "max_concurrent_jobs": 5,
-    "docker_enabled": true,
-    "sandbox_enabled": true
-  },
-  "token": {
-    "starting_balance": 100.0,
-    "stake_requirement": 10.0
-  }
-}
+```yaml
+node_id: "production-node-1"
+node_name: "Main Compute Node"
+network:
+  mode: private
+  pub_port: 5555
+  sub_port: 5556
+  dashboard_port: 3001
+  bootstrap_peers:
+    - "tcp://192.168.1.100:5555"
+    - "tcp://192.168.1.101:5555"
+  dht_enabled: false
+executor:
+  max_concurrent_jobs: 5
+  docker_enabled: true
+  sandbox_enabled: true
+token:
+  starting_balance: 100.0
+  stake_requirement: 10.0
 ```
 
 **Managing Nodes:**
+
 ```bash
 marl nodes list          # List all nodes
 marl nodes show <id>     # View node config
@@ -396,6 +406,7 @@ marl nodes delete <id>   # Delete node
 ```
 
 **See also:**
+
 - [Configuration Architecture](CONFIG_ARCHITECTURE.md)
 - [Configuration Management Guide](CONFIG_MANAGEMENT_GUIDE.md)
 - [Full Configuration Usage](FULL_CONFIG_USAGE.md)
@@ -508,6 +519,7 @@ alias mm='marl watch'
 ```
 
 Usage:
+
 ```bash
 ms              # Check status
 mp              # List peers
@@ -518,6 +530,7 @@ mm              # Watch live
 ### 2. Default Port
 
 Set once, use everywhere:
+
 ```bash
 export MARLOS_PORT=3002
 marl status      # Uses 3002
@@ -529,12 +542,14 @@ marl execute ""  # Uses 3002
 Create wrapper scripts:
 
 **`~/bin/marlos-job`:**
+
 ```bash
 #!/bin/bash
 marl execute "$1" --payment "${2:-10}" --wait
 ```
 
 Usage:
+
 ```bash
 marlos-job "python script.py" 50  # Payment 50 AC
 ```
@@ -615,9 +630,10 @@ marl
 ```
 
 **Online Resources:**
-- Documentation: https://github.com/ayush-jadaun/MarlOS
-- Issues: https://github.com/ayush-jadaun/MarlOS/issues
-- Discussions: https://github.com/ayush-jadaun/MarlOS/discussions
+
+- Documentation: <https://github.com/ayush-jadaun/MarlOS>
+- Issues: <https://github.com/ayush-jadaun/MarlOS/issues>
+- Discussions: <https://github.com/ayush-jadaun/MarlOS/discussions>
 
 ---
 

@@ -34,6 +34,7 @@ The Configuration Management menu provides:
 **Location:** `~/.marlos/config.yaml`
 
 Edit directly or generate sample:
+
 ```bash
 marl
 # Select: Configuration → Generate Sample Config
@@ -42,6 +43,7 @@ marl
 ### Method 3: Environment Variables
 
 Set before starting node:
+
 ```bash
 export NODE_ID="my-node"
 export NETWORK_MODE="private"
@@ -52,6 +54,7 @@ marl
 ### Method 4: Launch Scripts
 
 Edit your launch script:
+
 ```bash
 marl
 # Select: Configuration → Edit Launch Script
@@ -69,6 +72,7 @@ marl
 ```
 
 Shows:
+
 - Environment variables
 - YAML config status
 - Saved peers count
@@ -82,6 +86,7 @@ marl
 ```
 
 This will:
+
 1. Generate sample if doesn't exist
 2. Open in your default editor (Notepad on Windows, nano on Linux)
 3. Save automatically
@@ -94,6 +99,7 @@ marl
 ```
 
 Options:
+
 - **List peers** - View all saved peers
 - **Add peer** - Add new device
 - **Remove peer** - Remove device
@@ -109,6 +115,7 @@ marl
 ```
 
 Or edit launch script:
+
 ```bash
 # For Private Mode
 set NETWORK_MODE=private
@@ -337,6 +344,7 @@ trust:
 **Problem:** Changes not taking effect
 
 **Solution:**
+
 1. Check file location: `~/.marlos/config.yaml`
 2. Verify YAML syntax (use online validator)
 3. Restart node
@@ -349,11 +357,13 @@ trust:
 **Solution:**
 
 **Windows:**
+
 ```bash
 notepad %USERPROFILE%\.marlos\config.yaml
 ```
 
 **Linux/Mac:**
+
 ```bash
 nano ~/.marlos/config.yaml
 ```
@@ -363,6 +373,7 @@ nano ~/.marlos/config.yaml
 **Problem:** Saved peers don't connect on startup
 
 **Solution:**
+
 1. Check `~/.marlos/peers.json`
 2. Verify `auto_connect: true`
 3. Check network mode is `private`
@@ -373,6 +384,7 @@ nano ~/.marlos/config.yaml
 **Problem:** Config disappeared
 
 **Solution:**
+
 ```bash
 marl
 # Configuration → Generate Sample Config
@@ -384,19 +396,21 @@ marl
 ## 📖 Related Documentation
 
 - [Network Modes Guide](USER_GUIDE_NETWORK_MODES.md)
-- [Cross-Internet Discovery](CROSS_INTERNET_DISCOVERY.md)
-- [Installation Guide](../INSTALL.md)
+- [Distributed Deployment](DISTRIBUTED_DEPLOYMENT.md)
+- [Installation Guide](INSTALL.md)
 
 ---
 
 ## 💡 Tips
 
 1. **Backup your config:**
+
    ```bash
    cp ~/.marlos/config.yaml ~/.marlos/config.yaml.backup
    ```
 
 2. **Version control your config:**
+
    ```bash
    git init ~/.marlos
    cd ~/.marlos
@@ -405,6 +419,7 @@ marl
    ```
 
 3. **Share config with team:**
+
    ```bash
    # Export (remove sensitive data first!)
    cp ~/.marlos/config.yaml team-config.yaml
@@ -416,6 +431,7 @@ marl
    - Then update all nodes
 
 5. **Use comments in YAML:**
+
    ```yaml
    # This is my home laptop config
    # Updated: 2025-01-15

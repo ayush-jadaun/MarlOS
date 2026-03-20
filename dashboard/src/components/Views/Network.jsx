@@ -37,7 +37,7 @@ const Network = ({ agentState }) => {
         {agentState.watchdog_stats && (
           <div className="bg-black border border-gray-800 p-4 rounded">
             <div className="text-gray-400 text-sm mb-1">Quarantined</div>
-            <div className="text-2xl font-bold text-orange-400">{agentState.watchdog_stats.quarantined_count || 0}</div>
+            <div className="text-2xl font-bold text-orange-400">{agentState.watchdog_stats.quarantined_peers || 0}</div>
           </div>
         )}
       </div>

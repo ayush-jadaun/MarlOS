@@ -85,7 +85,7 @@ class BenchmarkSuite:
         # Plotting
         df = pd.DataFrame(times)
         plt.figure(figsize=(10, 6))
-        ax = sns.barplot(data=df, x='Config', y='Messages/Sec', palette='viridis')
+        ax = sns.barplot(data=df, x='Config', y='Messages/Sec', hue='Config', palette='viridis', legend=False)
         ax.set_title('The "Security Tax": Max Theoretical Throughput per CPU Core', fontsize=14)
         ax.bar_label(ax.containers[0], fmt='%.0f')
         plt.ylabel("Messages Processed per Second")

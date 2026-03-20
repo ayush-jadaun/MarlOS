@@ -23,7 +23,7 @@ This guide explains how to deploy MarlOS across actual physical devices (laptops
 
 ## Overview
 
-### Good News: MarlOS is Already Ready for Real Devices!
+### Good News: MarlOS is Already Ready for Real Devices
 
 Your current Docker setup is essentially **simulating** what real distributed nodes would do. The architecture is fully decentralized with no Docker-specific dependencies. You only need to:
 
@@ -40,12 +40,14 @@ That's it! The P2P network, ZeroMQ communication, and all other systems work ide
 ### Current Docker Setup
 
 **Docker Compose Configuration** (`docker-compose.yml`):
+
 - 3 agent containers (agent-1, agent-2, agent-3)
 - 1 Mosquitto MQTT broker
 - Custom bridge network (`marlos-net`)
 - Internal DNS resolution (e.g., `marlos-agent-2:5555`)
 
 **Key Components:**
+
 - **ZeroMQ PUB/SUB**: Primary P2P communication layer
 - **Publisher Socket**: Binds to `tcp://*:5555` (broadcasts to all peers)
 - **Subscriber Socket**: Connects to all peer publishers
@@ -57,6 +59,7 @@ That's it! The P2P network, ZeroMQ communication, and all other systems work ide
 #### 1. ZeroMQ Protocol (`agent/p2p/node.py`)
 
 **Publisher Socket:**
+
 - Binds to `tcp://*:5555` (configurable via `PUB_PORT`)
 - Broadcasts messages to all subscribers
 - Optimized socket options:
@@ -65,11 +68,13 @@ That's it! The P2P network, ZeroMQ communication, and all other systems work ide
   - `IMMEDIATE`: No queuing for slow subscribers
 
 **Subscriber Socket:**
+
 - Connects to all peer publishers via `BOOTSTRAP_PEERS`
 - Subscribes to all message types
 - Connects to own publisher for loopback (enables fair auction participation)
 
 **Message Flow:**
+
 ```
 Node A → Broadcast via PUB socket → All subscribers receive → Validate signature → Process
 ```
@@ -77,12 +82,14 @@ Node A → Broadcast via PUB socket → All subscribers receive → Validate sig
 #### 2. Network Discovery
 
 **Bootstrap Peer Discovery** (Primary Method):
+
 - Environment variable `BOOTSTRAP_PEERS` provides initial peer addresses
 - Example: `tcp://marlos-agent-2:5555,tcp://marlos-agent-3:5555`
 - On startup, nodes connect subscriber socket to bootstrap peers
 - Docker's internal DNS resolves container names to IPs
 
 **For Real Devices, simply replace with actual IPs:**
+
 ```bash
 # Docker (internal DNS):
 BOOTSTRAP_PEERS=tcp://marlos-agent-2:5555,tcp://marlos-agent-3:5555
@@ -92,6 +99,7 @@ BOOTSTRAP_PEERS=tcp://192.168.1.101:5555,tcp://192.168.1.102:5555
 ```
 
 **Gossip Protocol:**
+
 - Periodic `PEER_ANNOUNCE` broadcasts every 5 seconds
 - Contains: node_id, IP, port, capabilities, trust_score
 - Peers automatically connect upon receiving announcement
@@ -100,12 +108,14 @@ BOOTSTRAP_PEERS=tcp://192.168.1.101:5555,tcp://192.168.1.102:5555
 #### 3. Security Features
 
 **Cryptographic Authentication:**
+
 - Ed25519 signature on every message
 - Public key verification before processing
 - Timestamp validation (30s tolerance)
 - Nonce tracking to prevent replay attacks
 
 **Rate Limiting:**
+
 - Token bucket algorithm per peer
 - Max 10 messages burst, refill 2 tokens/second
 - Blacklisting after 3 violations
@@ -121,6 +131,7 @@ BOOTSTRAP_PEERS=tcp://192.168.1.101:5555,tcp://192.168.1.102:5555
 7. Token economy handles payments, trust scores update
 
 **Fault Tolerance:**
+
 - Backup nodes assigned during claim
 - Heartbeat monitoring during execution
 - Automatic job takeover on failure
@@ -133,12 +144,14 @@ BOOTSTRAP_PEERS=tcp://192.168.1.101:5555,tcp://192.168.1.102:5555
 ### Hardware Requirements (Per Device)
 
 **Minimum:**
+
 - 2 CPU cores
 - 2 GB RAM
 - 10 GB disk space
 - Network interface (WiFi/Ethernet)
 
 **Recommended:**
+
 - 4+ CPU cores
 - 8+ GB RAM
 - 50+ GB disk space (for job data/checkpoints)
@@ -147,12 +160,14 @@ BOOTSTRAP_PEERS=tcp://192.168.1.101:5555,tcp://192.168.1.102:5555
 ### Software Requirements
 
 **All Devices:**
+
 - Python 3.11+ (`python --version`)
 - pip package manager
 - Git (for cloning repository)
 - Network connectivity between devices
 
 **Optional:**
+
 - Docker (if you want job isolation)
 - MQTT broker (for hardware device control)
 
@@ -188,6 +203,7 @@ pip install -r requirements.txt
 Create a launch script on each device:
 
 **Device 1 (192.168.1.100)** - `start-node.sh`:
+
 ```bash
 #!/bin/bash
 # MarlOS Node Configuration
@@ -216,6 +232,7 @@ python -m agent.main
 ```
 
 **Device 2 (192.168.1.101)** - `start-node.sh`:
+
 ```bash
 #!/bin/bash
 export NODE_ID="laptop-2"
@@ -229,6 +246,7 @@ python -m agent.main
 ```
 
 **Device 3 (192.168.1.102)** - `start-node.sh`:
+
 ```bash
 #!/bin/bash
 export NODE_ID="desktop-1"
@@ -251,6 +269,7 @@ chmod +x start-node.sh
 ### Step 4: Verify Network Discovery
 
 **Check logs for peer discovery:**
+
 ```
 [P2P] Starting node laptop-1
 [P2P] Publisher bound to tcp://*:5555
@@ -261,6 +280,7 @@ chmod +x start-node.sh
 ```
 
 **Access dashboard:**
+
 ```
 http://192.168.1.100:3001  # Device 1
 http://192.168.1.101:3001  # Device 2
@@ -276,6 +296,7 @@ http://192.168.1.102:3001  # Device 3
 **Use Case:** All devices on same WiFi/Ethernet network (e.g., home lab, university network)
 
 **Configuration:**
+
 ```bash
 # Find each device's local IP
 ip addr show      # Linux/Mac
@@ -292,6 +313,7 @@ export BOOTSTRAP_PEERS="tcp://192.168.1.100:5555,tcp://192.168.1.101:5555"
 ```
 
 **Verification:**
+
 ```bash
 # Test connectivity from Device 1
 ping 192.168.1.101
@@ -309,6 +331,7 @@ nc -zv 192.168.1.102 5555
 **Use Case:** Devices in different locations (home, office, cloud)
 
 **Requirements:**
+
 - Public IP addresses or domain names
 - Port forwarding on routers (ports 5555, 5556)
 - Or use cloud server as bridge node
@@ -316,11 +339,13 @@ nc -zv 192.168.1.102 5555
 **Configuration:**
 
 **Device 1 (Public IP: 203.0.113.45):**
+
 ```bash
 export BOOTSTRAP_PEERS="tcp://198.51.100.89:5555,tcp://cloud-server.example.com:5555"
 ```
 
 **Device 2 (Public IP: 198.51.100.89):**
+
 ```bash
 export BOOTSTRAP_PEERS="tcp://203.0.113.45:5555,tcp://cloud-server.example.com:5555"
 ```
@@ -328,12 +353,14 @@ export BOOTSTRAP_PEERS="tcp://203.0.113.45:5555,tcp://cloud-server.example.com:5
 **Port Forwarding Setup:**
 
 On your router:
+
 ```
 External Port 5555 → Internal IP 192.168.1.100:5555
 External Port 5556 → Internal IP 192.168.1.100:5556
 ```
 
 **Dynamic DNS (Optional):**
+
 ```bash
 # If your public IP changes frequently
 # Use services like: No-IP, DuckDNS, Cloudflare DDNS
@@ -348,11 +375,13 @@ export BOOTSTRAP_PEERS="tcp://ayush-home.ddns.net:5555,tcp://arnav-lab.ddns.net:
 **Use Case:** Mix of local devices and cloud servers
 
 **Architecture:**
+
 ```
 Local Devices (behind NAT) → Cloud Bridge Node (public IP) ← Remote Devices
 ```
 
 **Cloud Server (203.0.113.45):**
+
 ```bash
 export NODE_ID="cloud-bridge"
 export BOOTSTRAP_PEERS=""  # No peers needed, acts as bootstrap point
@@ -360,6 +389,7 @@ python -m agent.main
 ```
 
 **Local Devices (all NAT'd):**
+
 ```bash
 # All local devices connect to cloud bridge
 export BOOTSTRAP_PEERS="tcp://203.0.113.45:5555"
@@ -367,6 +397,7 @@ python -m agent.main
 ```
 
 **Benefits:**
+
 - No port forwarding needed on local routers
 - Cloud server relays messages between NAT'd nodes
 - Always-on availability
@@ -378,6 +409,7 @@ python -m agent.main
 **Use Case:** Dedicated compute cluster (edge computing, home lab)
 
 **Hardware:**
+
 - 4x Raspberry Pi 4 (4GB+ RAM recommended)
 - Gigabit switch
 - Static IP addresses
@@ -385,6 +417,7 @@ python -m agent.main
 **Configuration:**
 
 **Pi 1 (Coordinator) - 192.168.1.201:**
+
 ```bash
 export NODE_ID="pi-coordinator"
 export BOOTSTRAP_PEERS="tcp://192.168.1.202:5555,tcp://192.168.1.203:5555,tcp://192.168.1.204:5555"
@@ -392,6 +425,7 @@ python -m agent.main
 ```
 
 **Pi 2-4 (Workers):**
+
 ```bash
 # All workers bootstrap to Pi 1
 export BOOTSTRAP_PEERS="tcp://192.168.1.201:5555"
@@ -399,6 +433,7 @@ python -m agent.main
 ```
 
 **Performance Tips:**
+
 - Use wired Ethernet (not WiFi) for stability
 - Overclock RPi if needed (`/boot/config.txt`)
 - Mount USB SSD for faster I/O
@@ -434,6 +469,7 @@ sudo iptables-save > /etc/iptables/rules.v4
 ### Windows Firewall
 
 **PowerShell (Run as Administrator):**
+
 ```powershell
 New-NetFirewallRule -DisplayName "MarlOS Ports" `
   -Direction Inbound `
@@ -443,6 +479,7 @@ New-NetFirewallRule -DisplayName "MarlOS Ports" `
 ```
 
 **Or via GUI:**
+
 1. Windows Security → Firewall & network protection
 2. Advanced settings → Inbound Rules → New Rule
 3. Port → TCP → 5555, 5556, 3001 → Allow
@@ -459,11 +496,13 @@ sudo /usr/libexec/ApplicationFirewall/socketfilterfw --unblockapp /usr/bin/pytho
 ### Security Best Practices
 
 1. **Use SSH tunnels for sensitive networks:**
+
    ```bash
    ssh -L 5555:localhost:5555 user@remote-host
    ```
 
 2. **Restrict to specific IPs (if possible):**
+
    ```bash
    sudo ufw allow from 192.168.1.0/24 to any port 5555
    ```
@@ -473,6 +512,7 @@ sudo /usr/libexec/ApplicationFirewall/socketfilterfw --unblockapp /usr/bin/pytho
    - TLS encryption for sensitive data (future enhancement)
 
 4. **Monitor unauthorized access:**
+
    ```bash
    # Watch for suspicious connections
    watch -n 1 "netstat -tn | grep :5555"
@@ -495,6 +535,7 @@ DASHBOARD_PORT=3001 ./test_deployment.sh
 ```
 
 This will:
+
 1. Check agent connectivity
 2. Submit test jobs (echo, system info, python version)
 3. Verify job execution
@@ -552,6 +593,7 @@ python cli/marlOS.py execute "echo 'Hello from distributed MarlOS!'"
 ```
 
 **Check job execution in agent logs or dashboard:**
+
 ```bash
 # Watch agent logs for auction and execution
 tail -f data/agent.log | grep -E "(AUCTION|EXECUTOR|JOB)"
@@ -592,6 +634,7 @@ python -m cli.main execute "sleep 60 && echo Done"
 **Symptoms:** No `PEER_ANNOUNCE` messages in logs
 
 **Solutions:**
+
 ```bash
 # 1. Verify network connectivity
 ping <peer-ip>
@@ -614,6 +657,7 @@ netstat -tulpn | grep 5555
 **Symptoms:** `zmq.error.ZMQError: Connection refused`
 
 **Solutions:**
+
 ```bash
 # 1. Ensure node is actually running on target device
 ps aux | grep "agent.main"
@@ -635,6 +679,7 @@ sudo ufw status verbose
 **Symptoms:** Jobs take longer than expected
 
 **Solutions:**
+
 ```bash
 # 1. Check network latency
 ping -c 10 <peer-ip>
@@ -660,6 +705,7 @@ executor:
 **Symptoms:** `[WARN] Peer laptop-2 not responding to PING`
 
 **Solutions:**
+
 ```bash
 # 1. Check if peer is still running
 ssh user@peer-ip "ps aux | grep agent.main"
@@ -682,6 +728,7 @@ ssh user@peer-ip "pkill -f agent.main && ./start-node.sh"
 **Symptoms:** Job never gets executed
 
 **Solutions:**
+
 ```bash
 # 1. Check if any nodes are bidding
 # In logs: [BIDDING] No bids received for job_12345678
@@ -705,6 +752,7 @@ python -m agent.main
 **Symptoms:** `docker.errors.DockerException: Error while fetching server API`
 
 **Solutions:**
+
 ```bash
 # 1. Add user to docker group
 sudo usermod -aG docker $USER
@@ -724,6 +772,7 @@ dockerd-rootless-setuptool.sh install
 ### Static IP Configuration
 
 **Ubuntu/Debian (netplan):**
+
 ```yaml
 # /etc/netplan/01-netcfg.yaml
 network:
@@ -745,6 +794,7 @@ Apply: `sudo netplan apply`
 ### Systemd Service (Auto-start on Boot)
 
 **Create service file:** `/etc/systemd/system/marlos.service`
+
 ```ini
 [Unit]
 Description=MarlOS Distributed Agent
@@ -765,6 +815,7 @@ WantedBy=multi-user.target
 ```
 
 **Enable and start:**
+
 ```bash
 sudo systemctl daemon-reload
 sudo systemctl enable marlos
@@ -777,6 +828,7 @@ sudo systemctl status marlos
 ### Monitoring & Observability
 
 **Prometheus Metrics (Future Enhancement):**
+
 ```python
 # Add to agent/main.py
 from prometheus_client import start_http_server, Counter, Gauge
@@ -790,6 +842,7 @@ start_http_server(9090)
 ```
 
 **Logging Best Practices:**
+
 ```bash
 # Structured logging with rotation
 python -m agent.main 2>&1 | tee -a logs/agent-$(date +%Y%m%d).log
@@ -805,6 +858,7 @@ journalctl -u marlos -f
 For devices behind strict NAT without port forwarding:
 
 **Option 1: Use a relay server**
+
 ```python
 # Deploy relay node on cloud with public IP
 # All NAT'd nodes connect through relay
@@ -812,6 +866,7 @@ For devices behind strict NAT without port forwarding:
 ```
 
 **Option 2: Implement hole punching**
+
 ```python
 # Use STUN servers to discover public endpoints
 # Coordinate simultaneous connection attempts
@@ -819,6 +874,7 @@ For devices behind strict NAT without port forwarding:
 ```
 
 **Option 3: Use VPN mesh network**
+
 ```bash
 # Tailscale (easiest)
 sudo tailscale up
@@ -834,6 +890,7 @@ export BOOTSTRAP_PEERS="tcp://100.64.0.2:5555,tcp://100.64.0.3:5555"
 **Deploy on different cloud providers:**
 
 **AWS EC2:**
+
 ```bash
 # Launch t3.medium instance
 # Security group: Allow 5555, 5556, 3001
@@ -841,6 +898,7 @@ export BOOTSTRAP_PEERS="tcp://<gcp-ip>:5555,tcp://<azure-ip>:5555"
 ```
 
 **Google Cloud Compute:**
+
 ```bash
 # Launch e2-medium instance
 # Firewall rules: Allow tcp:5555-5556,3001
@@ -848,6 +906,7 @@ export BOOTSTRAP_PEERS="tcp://<aws-ip>:5555,tcp://<azure-ip>:5555"
 ```
 
 **Azure VM:**
+
 ```bash
 # Launch Standard_B2s instance
 # Network security group: Allow 5555, 5556, 3001
@@ -855,6 +914,7 @@ export BOOTSTRAP_PEERS="tcp://<aws-ip>:5555,tcp://<gcp-ip>:5555"
 ```
 
 **Benefits:**
+
 - Geographic redundancy
 - No single cloud vendor lock-in
 - Reduced latency for global users
@@ -881,29 +941,34 @@ MarlOS supports multiple job types. Here's what works with and without Docker:
 ### Shell Job Examples
 
 **Basic command:**
+
 ```bash
 python cli/marlOS.py execute "echo Hello World"
 ```
 
 **System info:**
+
 ```bash
 python cli/marlOS.py execute "uname -a"
 python cli/marlOS.py execute "python --version"
 ```
 
 **File operations:**
+
 ```bash
 python cli/marlOS.py execute "ls -la /tmp"
 python cli/marlOS.py execute "cat /etc/hosts"
 ```
 
 **Network tests:**
+
 ```bash
 python cli/marlOS.py execute "ping -c 3 google.com"
 python cli/marlOS.py execute "curl https://api.github.com"
 ```
 
 **Run Python code:**
+
 ```bash
 python cli/marlOS.py execute "python -c 'print(2+2)'"
 ```
@@ -913,6 +978,7 @@ python cli/marlOS.py execute "python -c 'print(2+2)'"
 For non-shell jobs, create a job file:
 
 **malware_scan.json:**
+
 ```json
 {
   "job_type": "malware_scan",
@@ -926,11 +992,13 @@ For non-shell jobs, create a job file:
 ```
 
 Submit:
+
 ```bash
 python cli/marlOS.py submit malware_scan.json
 ```
 
 **port_scan.json:**
+
 ```json
 {
   "job_type": "port_scan",
@@ -952,13 +1020,16 @@ python cli/marlOS.py submit malware_scan.json
    - Dev tools: `python`, `node`, `npm`, `pip`, `git`
 
 2. **Disable Docker (Optional):** If Docker is not installed:
+
    ```bash
    export ENABLE_DOCKER=false
    python -m agent.main
    ```
+
    This prevents Docker runner registration and avoids errors.
 
 3. **Job Timeouts:** Default timeout is 60 seconds. Increase for long-running jobs:
+
    ```bash
    python cli/marlOS.py execute "sleep 120" --payment 20
    # Add timeout in job payload if using submit

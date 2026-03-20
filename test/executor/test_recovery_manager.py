@@ -95,10 +95,12 @@ async def test_recovery_manager_no_takeover_with_heartbeats(manager, mock_job_ba
     mock_executor_cb = AsyncMock()
     manager.set_executor_callback(mock_executor_cb)
     
-    # 3. Register job
+    # 3. Register job — reset timestamp to now so async fixture overhead
+    #    doesn't make the heartbeat look stale before monitoring even starts
     job_id = mock_job_backup.job_id
+    mock_job_backup.last_heartbeat = time.time()
     manager.backup_jobs[job_id] = mock_job_backup
-    
+
     # 4. Start monitoring
     await manager.start()
     

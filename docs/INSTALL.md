@@ -261,6 +261,7 @@ Bootstrap Peers: tcp://198.51.100.89:5555,tcp://203.0.114.22:5555
 After installation, you'll have:
 
 ### Directory Structure
+
 ```
 ~/MarlOS/
 ├── agent/                  # Core agent code
@@ -277,6 +278,7 @@ After installation, you'll have:
 ### Launch Script
 
 **Linux/Mac: `start-<node-id>.sh`**
+
 ```bash
 #!/bin/bash
 # Node Configuration
@@ -291,6 +293,7 @@ python -m agent.main
 ```
 
 **Windows: `start-<node-id>.bat`**
+
 ```batch
 @echo off
 set NODE_ID=laptop-ayush
@@ -305,6 +308,7 @@ python -m agent.main
 ### Systemd Service (Linux Only)
 
 **`/etc/systemd/system/marlos-<node-id>.service`**
+
 ```ini
 [Unit]
 Description=MarlOS Distributed Agent - laptop-ayush
@@ -325,6 +329,7 @@ WantedBy=multi-user.target
 ```
 
 **Manage with:**
+
 ```bash
 sudo systemctl start marlos-laptop-ayush
 sudo systemctl stop marlos-laptop-ayush
@@ -341,17 +346,20 @@ If you prefer manual installation or the script doesn't work:
 ### 1. Install Dependencies
 
 **Ubuntu/Debian:**
+
 ```bash
 sudo apt-get update
 sudo apt-get install -y python3 python3-pip python3-venv git curl build-essential libzmq3-dev nmap
 ```
 
 **Fedora/RHEL:**
+
 ```bash
 sudo dnf install -y python3 python3-pip git curl gcc zeromq-devel nmap
 ```
 
 **macOS:**
+
 ```bash
 brew install python3 git zeromq nmap
 ```
@@ -374,6 +382,7 @@ pip install -r requirements.txt
 ### 4. Configure Node
 
 Edit `start-node.sh` or create your own:
+
 ```bash
 export NODE_ID="my-node"
 export BOOTSTRAP_PEERS="tcp://192.168.1.101:5555"
@@ -384,6 +393,7 @@ python -m agent.main
 ### 5. Setup Firewall
 
 **Linux (UFW):**
+
 ```bash
 sudo ufw allow 5555/tcp
 sudo ufw allow 5556/tcp
@@ -391,6 +401,7 @@ sudo ufw allow 3001/tcp
 ```
 
 **Windows:**
+
 ```powershell
 New-NetFirewallRule -DisplayName "MarlOS" -Direction Inbound -Protocol TCP -LocalPort 5555,5556,3001 -Action Allow
 ```
@@ -402,6 +413,7 @@ New-NetFirewallRule -DisplayName "MarlOS" -Direction Inbound -Protocol TCP -Loca
 ### "Command not found: curl"
 
 Install curl first:
+
 ```bash
 # Ubuntu/Debian
 sudo apt-get install curl
@@ -416,6 +428,7 @@ brew install curl
 ### "Permission denied" when running script
 
 Make script executable:
+
 ```bash
 chmod +x install-marlos.sh
 ./install-marlos.sh
@@ -424,6 +437,7 @@ chmod +x install-marlos.sh
 ### Python version too old
 
 MarlOS requires Python 3.11+. Update Python:
+
 ```bash
 # Ubuntu (using deadsnakes PPA)
 sudo add-apt-repository ppa:deadsnakes/ppa
@@ -436,6 +450,7 @@ sudo apt-get install python3.11 python3.11-venv
 ### Firewall rules fail
 
 If automatic firewall configuration fails, add rules manually:
+
 ```bash
 # Check current firewall
 sudo ufw status    # or: sudo firewall-cmd --list-all
@@ -524,7 +539,7 @@ sudo ufw delete allow 3001/tcp
 ## Getting Help
 
 - **Documentation:** Check `docs/` folder
-- **Issues:** https://github.com/ayush-jadaun/MarlOS/issues
+- **Issues:** <https://github.com/ayush-jadaun/MarlOS/issues>
 - **Logs:** `tail -f data/agent.log`
 - **Status:** `python cli/marlOS.py status`
 

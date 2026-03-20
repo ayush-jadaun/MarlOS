@@ -49,6 +49,9 @@ class DHTManager:
         # Discovered peers
         self.discovered_peers: Dict[str, dict] = {}
 
+        # Track node IDs we have already notified via on_peer_discovered
+        self.known_peer_ids: set = set()
+
         # Callbacks
         self.on_peer_discovered: Optional[Callable] = None
 
@@ -122,6 +125,9 @@ class DHTManager:
 
             await self.server.set(key, value)
 
+            # Also register in the shared global peer list so others can discover us
+            await self.update_peer_list([announcement])
+
             self.announce_count += 1
             print(f"[DHT] Announced to network (#{self.announce_count})")
 
@@ -135,18 +141,15 @@ class DHTManager:
             await self.announce(my_ip, my_port, capabilities)
 
     async def _periodic_discovery(self):
-        """Continuously discover new peers"""
+        """Continuously discover new peers from the global DHT peer list"""
         while self.running:
             try:
                 # Sleep first to allow network to stabilize
                 await asyncio.sleep(60)  # Check every minute
 
-                # Discover peers
-                # Note: This is a simplified version
-                # Real implementation would crawl the DHT more thoroughly
-
-                # For now, we rely on direct DHT lookups
-                # In future, implement iterative DHT crawling
+                peers = await self.discover_peers()
+                if peers:
+                    print(f"[DHT] Periodic discovery found {len(peers)} peers")
 
             except Exception as e:
                 print(f"[DHT] Discovery error: {e}")
@@ -188,10 +191,12 @@ class DHTManager:
                 self.discovery_count += len(discovered)
                 print(f"[DHT] Discovered {len(discovered)} peers")
 
-                # Notify callback
+                # Notify callback only for peers we haven't seen before
                 if self.on_peer_discovered:
                     for peer in discovered:
-                        if peer['node_id'] != self.node_id:
+                        pid = peer.get('node_id')
+                        if pid and pid != self.node_id and pid not in self.known_peer_ids:
+                            self.known_peer_ids.add(pid)
                             await self.on_peer_discovered(peer)
 
         except Exception as e:

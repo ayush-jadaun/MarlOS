@@ -149,23 +149,3 @@ class JobRouter:
             'success_rate': success_rate,
             'known_peers': len(self.peer_capabilities)
         }
-
-
-# Integration with main agent
-# In agent/main.py, add this to _handle_new_job():
-
-"""
-elif action == Action.FORWARD:
-    # Forward to better peer
-    best_peer = await self.router.forward_job(job_message, "RL decided to forward")
-    
-    if best_peer:
-        # Record for RL learning
-        self.rl_policy.record_transition(
-            state=current_state,
-            action=Action.FORWARD,
-            reward=0.2,  # Small reward for smart forwarding
-            next_state=next_state,
-            done=False
-        )
-"""

@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 
-const WEBSOCKET_URL = import.meta.env.VITE_WS_URL || 'ws://localhost:3002';
+const WEBSOCKET_URL = import.meta.env.VITE_WS_URL || 'ws://localhost:3001';
 const RECONNECT_DELAY = 3000;
 const MAX_RECONNECT_ATTEMPTS = 10;
 const INITIAL_CONNECT_DELAY = 1000; // Wait 1 second before first connection

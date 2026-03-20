@@ -4,6 +4,7 @@ Uses RL policy + economic game theory to balance speculation vs waste
 """
 
 import asyncio
+import psutil
 from collections import defaultdict
 from typing import Optional, List
 from ..config import PredictiveConfig
@@ -166,8 +167,6 @@ class SpeculationEngine:
         Returns dict with features like CPU idle, balance, cache state, etc.
         """
         try:
-            import psutil
-
             # Get CPU idle
             cpu_idle = 100.0 - psutil.cpu_percent(interval=None)
             cpu_idle_pct = cpu_idle / 100.0
@@ -303,7 +302,7 @@ class SpeculationEngine:
                         try:
                             # Convert '[('command', 'echo hello')]' back to a dict
                             params = dict(eval(most_common_param_str))
-                        except:
+                        except Exception:
                             print(f"⚠️  [SPECULATE] Could not eval params: {most_common_param_str}")
                             params = {} # Fallback to empty
 

@@ -547,9 +547,9 @@ class MarlOSEnv(gym.Env):
             return np.array([0.5, 0.0, 0.5, 0.0, 0.0, 0.5, 0.0])
 
         try:
-            # [0] Diversity factor
+            # [0] Diversity factor — range [0.5, 1.5], normalize to [0, 1]
             diversity_factor = self.fairness_engine.diversity.calculate_diversity_factor(self.node_id)
-            diversity_normalized = (diversity_factor + 0.2) / 0.35
+            diversity_normalized = min(1.0, max(0.0, (diversity_factor - 0.5) / 1.0))
 
             # [1] Tax rate
             tax = self.fairness_engine.taxation.calculate_tax(

@@ -8,7 +8,10 @@ INNOVATION: Learns from real-world experiences with fairness integration
 - Training data preserves fairness objectives
 """
 import asyncio
+import pickle
+import traceback
 import numpy as np
+import torch
 from stable_baselines3 import PPO
 from pathlib import Path
 import time
@@ -151,15 +154,56 @@ class OnlineLearner:
             
             # Perform training update
             
-            # Train for a few steps
-            num_updates = min(10, len(experiences) // self.batch_size)
-            
-            for i in range(num_updates):
-                # Sample batch
-                batch_experiences = self.buffer.sample(self.batch_size)
-                
-                # TODO: Actual training update
-                # For PPO, we'd need to compute advantages, update policy, etc.
+            # Behavioral cloning: imitate successful actions
+            # Filter to experiences with positive reward (good decisions to reinforce)
+            successful = [e for e in experiences if e.reward > 0]
+
+            if len(successful) < self.batch_size:
+                print(f"[ONLINE LEARNER] Not enough successful experiences ({len(successful)}), skipping BC update")
+            elif self.training_model is None:
+                print(f"[ONLINE LEARNER] No training model available, skipping update")
+            else:
+                num_updates = min(10, len(successful) // self.batch_size)
+                total_loss = 0.0
+
+                for i in range(num_updates):
+                    batch_experiences = self.buffer.sample(self.batch_size)
+                    good_batch = [e for e in batch_experiences if e.reward > 0]
+                    if not good_batch:
+                        continue
+
+                    states = np.array([e.state for e in good_batch])
+                    actions = np.array([e.action for e in good_batch])
+
+                    try:
+                        from stable_baselines3.common.utils import obs_as_tensor
+                        obs_t = obs_as_tensor(states, self.training_model.device)
+                        act_t = torch.tensor(actions, dtype=torch.long,
+                                             device=self.training_model.device)
+
+                        # Get action log-probs from current policy
+                        distribution = self.training_model.policy.get_distribution(obs_t)
+                        log_probs = distribution.log_prob(act_t)
+
+                        # Behavioral cloning loss: maximize log-prob of good actions
+                        loss = -log_probs.mean()
+                        total_loss += loss.item()
+
+                        self.training_model.policy.optimizer.zero_grad()
+                        loss.backward()
+                        # Gradient clipping to avoid instability
+                        torch.nn.utils.clip_grad_norm_(
+                            self.training_model.policy.parameters(), max_norm=0.5
+                        )
+                        self.training_model.policy.optimizer.step()
+
+                    except Exception as update_err:
+                        print(f"[ONLINE LEARNER] BC update error (step {i}): {update_err}")
+                        break
+
+                if num_updates > 0:
+                    avg_loss = total_loss / num_updates
+                    print(f"[ONLINE LEARNER] BC updates: {num_updates}, avg loss: {avg_loss:.4f}")
             
             # Simpler approach: Retrain model periodically
             if len(experiences) >= 500 and self.updates_performed % 5 == 0:
@@ -175,23 +219,18 @@ class OnlineLearner:
         
         except Exception as e:
             print(f"[ONLINE LEARNER] Error during update: {e}")
-            import traceback
             traceback.print_exc()
     
     async def _retrain_model(self, experiences: list):
         """
-        Retrain model from scratch on accumulated experiences
-        This is the "nuclear option" - rebuild model with new data
+        Save accumulated experiences for offline retraining.
+        Called every 5th update cycle once 500+ experiences are collected.
         """
         self._save_experiences_for_offline_training(experiences)
-        
-        print("[ONLINE LEARNER] Experiences saved for offline retraining")
-        print("[ONLINE LEARNER] Run: python rl_trainer/train.py --continue-from experiences.pkl")
+        print(f"[ONLINE LEARNER] {len(experiences)} experiences saved for offline retraining at {self.data_dir}/experiences_for_training.pkl")
     
     def _save_experiences_for_offline_training(self, experiences: list):
         """Save experiences for offline retraining"""
-        import pickle
-        
         experience_file = self.data_dir / "experiences_for_training.pkl"
         
         with open(experience_file, 'wb') as f:
@@ -212,7 +251,7 @@ class OnlineLearner:
                 self.training_model = None
         else:
             # Copy from inference model
-            if self.policy.model:
+            if self.policy and self.policy.model:
                 self.training_model = self.policy.model
                 print("[ONLINE LEARNER] Using inference model for training")
     
@@ -259,9 +298,6 @@ class OnlineLearner:
         Returns:
             Number of experiences exported
         """
-        import pickle
-        from pathlib import Path
-
         experiences = self.buffer.get_all()
 
         output_file = Path(output_path)

@@ -195,8 +195,7 @@ switch ($choice) {
     }
 
     default {
-        Write-Warning "Invalid choice. Showing manual instructions..."
-        & $MyInvocation.MyCommand.Path
+        Write-Warning "Invalid choice. Please enter 1, 2, or 3."
     }
 }
 

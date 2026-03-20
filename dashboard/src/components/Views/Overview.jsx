@@ -147,11 +147,7 @@ const Overview = ({ agentState }) => {
             <>
               <div>
                 <div className="text-gray-400 text-sm mb-1">Quarantined Peers</div>
-                <div className="text-2xl font-bold text-orange-400">{agentState.watchdog_stats.quarantined_count || 0}</div>
-              </div>
-              <div>
-                <div className="text-gray-400 text-sm mb-1">Blacklisted</div>
-                <div className="text-2xl font-bold text-red-400">{agentState.watchdog_stats.blacklisted_count || 0}</div>
+                <div className="text-2xl font-bold text-orange-400">{agentState.watchdog_stats.quarantined_peers || 0}</div>
               </div>
             </>
           )}

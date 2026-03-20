@@ -2,6 +2,7 @@
 Bid Score Calculator
 Calculates competitive score for job bidding with economic fairness
 """
+import math
 import psutil
 import time
 import random
@@ -126,10 +127,7 @@ class BidScorer:
         """Call this when agent wins an auction"""
         self.jobs_since_last_win = 0
 
-        # Record in fairness engine
-        if self.fairness_engine and job_id:
-            # Will be called with losers list separately
-            pass
+        # Full outcome (with loser list) is recorded via record_job_outcome()
 
     def mark_lost_auction(self, job_id: str = None):
         """Call this when agent loses/skips an auction"""
@@ -179,7 +177,6 @@ class BidScorer:
 
         # Sigmoid-like function: 1 / (1 + e^(-k*(score - 0.5)))
         # Maps [0, inf) -> [0, 1) with smooth transition
-        import math
         try:
             # Center sigmoid around score=0.8 to preserve low scores
             centered_score = score - 0.8
@@ -235,7 +232,7 @@ class BidScorer:
         
         # Consider system resources
         try:
-            cpu = psutil.cpu_percent(interval=0.1) / 100.0
+            cpu = psutil.cpu_percent(interval=None) / 100.0
             memory = psutil.virtual_memory().percent / 100.0
             
             # Average resource usage
@@ -244,7 +241,7 @@ class BidScorer:
             # Combine load factors
             return (load_factor * 0.6) + (resource_factor * 0.4)
         
-        except:
+        except Exception:
             return load_factor
     
     def _score_urgency(self, job: dict) -> float:

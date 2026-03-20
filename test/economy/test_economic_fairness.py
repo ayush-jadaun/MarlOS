@@ -130,8 +130,8 @@ plt.show() #
 # Figure 2: Revenue Comparison (Best Policy Determination)
 revenue_df = pd.DataFrame(list(revenue_data.items()), columns=['Policy', 'Total_Revenue'])
 plt.figure(figsize=(10, 6))
-sns.barplot(data=revenue_df.sort_values(by='Total_Revenue', ascending=False), 
-            x='Policy', y='Total_Revenue', palette='viridis')
+sns.barplot(data=revenue_df.sort_values(by='Total_Revenue', ascending=False),
+            x='Policy', y='Total_Revenue', hue='Policy', palette='viridis', legend=False)
 plt.title(f'Total Tax Revenue Generated (N={N_AGENTS} Agents, Earnings={EARNINGS} AC)')
 plt.ylabel('Total Tax Revenue (AC)')
 plt.xlabel('')

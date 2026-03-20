@@ -46,7 +46,7 @@ class PredictiveConfig:
 class RLConfig:
     """Reinforcement learning configuration"""
     model_path: str = "rl_trainer/models/policy_v1.zip"
-    state_dim: int = 35  # Extended for prediction features
+    state_dim: int = 25  # 5 agent + 5 job + 5 historical + 3 network + 7 fairness
     action_dim: int = 3  # BID, FORWARD, DEFER
 
     # Learning
@@ -130,6 +130,10 @@ class NetworkConfig:
     dht_port: int = 5559  # DHT listens on separate port
     dht_bootstrap_nodes: List[tuple] = field(default_factory=list)  # Global DHT bootstrap nodes
 
+    # Sybil resistance (enforced in public mode only)
+    min_peer_stake: float = 10.0   # Minimum token balance to accept a peer announcement
+    max_peers_per_subnet: int = 3  # Max peers allowed from the same /24 subnet
+
 
 
 
@@ -170,7 +174,7 @@ class AgentConfig:
     executor: ExecutorConfig = None
     dashboard: DashboardConfig = None
     predictive: PredictiveConfig = None
-    mqtt_broker_host: str = "mosquitto"
+    mqtt_broker_host: str = field(default_factory=lambda: os.getenv('MQTT_BROKER_HOST', 'localhost'))
     mqtt_broker_port: int = 1883
 
     # Storage
@@ -209,7 +213,7 @@ def load_config(config_file: str = None) -> AgentConfig:
     """
     Load configuration with two-tier precedence system:
     1. System defaults (from dataclass defaults in this file)
-    2. Node config file (from ~/.marlos/nodes/{node_id}/config.json)
+    2. Node config file (from ~/.marlos/nodes/{node_id}/config.yaml)
     3. Environment variable overrides (highest priority)
 
     Args:
@@ -219,7 +223,7 @@ def load_config(config_file: str = None) -> AgentConfig:
     Returns:
         AgentConfig with all settings merged according to precedence
     """
-    import json
+    import yaml
     from pathlib import Path
 
     # Get NODE_ID from environment
@@ -229,7 +233,7 @@ def load_config(config_file: str = None) -> AgentConfig:
     if config_file is None and node_id:
         # Use node config if NODE_ID is set
         home = Path.home()
-        config_file = home / ".marlos" / "nodes" / node_id / "config.json"
+        config_file = home / ".marlos" / "nodes" / node_id / "config.yaml"
         if not config_file.exists():
             print(f"Warning: Node config not found at {config_file}, using defaults")
             config_file = None
@@ -241,7 +245,27 @@ def load_config(config_file: str = None) -> AgentConfig:
     if config_file and os.path.exists(str(config_file)):
         try:
             with open(config_file) as f:
-                config_dict = json.load(f)
+                yaml_config = yaml.safe_load(f)
+
+            # Convert from YAML structure to flat structure expected by config builder
+            if yaml_config:
+                # Extract node info
+                if 'node' in yaml_config:
+                    config_dict['node_id'] = yaml_config['node'].get('id')
+                    config_dict['node_name'] = yaml_config['node'].get('name')
+
+                # Network config is already in right structure
+                if 'network' in yaml_config:
+                    config_dict['network'] = yaml_config['network']
+
+                # Dashboard config
+                if 'dashboard' in yaml_config:
+                    config_dict['dashboard'] = yaml_config['dashboard']
+
+                # Paths
+                if 'paths' in yaml_config:
+                    config_dict['data_dir'] = yaml_config['paths'].get('data_dir', './data')
+
             print(f"Loaded config from {config_file}")
         except Exception as e:
             print(f"Error loading config from {config_file}: {e}")
@@ -267,6 +291,19 @@ def load_config(config_file: str = None) -> AgentConfig:
         peers_str = os.getenv('BOOTSTRAP_PEERS', '')
         peers = [p.strip() for p in peers_str.split(',') if p.strip()]
         config_dict.setdefault('network', {})['bootstrap_peers'] = peers
+    if os.getenv('DHT_BOOTSTRAP'):
+        # Format: "host1:port1,host2:port2"
+        dht_nodes = []
+        for entry in os.getenv('DHT_BOOTSTRAP', '').split(','):
+            entry = entry.strip()
+            if ':' in entry:
+                host, port_str = entry.rsplit(':', 1)
+                try:
+                    dht_nodes.append((host.strip(), int(port_str.strip())))
+                except ValueError:
+                    pass
+        if dht_nodes:
+            config_dict.setdefault('network', {})['dht_bootstrap_nodes'] = dht_nodes
 
     # Build config from merged dictionary
     try:
@@ -291,7 +328,10 @@ def load_config(config_file: str = None) -> AgentConfig:
             max_peers=network_dict.get('max_peers', 50),
             bootstrap_peers=network_dict.get('bootstrap_peers', []),
             dht_enabled=network_dict.get('dht_enabled', False),
-            dht_port=network_dict.get('dht_port', 5559)
+            dht_port=network_dict.get('dht_port', 5559),
+            dht_bootstrap_nodes=network_dict.get('dht_bootstrap_nodes', []),
+            min_peer_stake=network_dict.get('min_peer_stake', 10.0),
+            max_peers_per_subnet=network_dict.get('max_peers_per_subnet', 3),
         )
 
         # Token config
@@ -325,7 +365,7 @@ def load_config(config_file: str = None) -> AgentConfig:
         rl_dict = config_dict.get('rl', {})
         rl = RLConfig(
             model_path=rl_dict.get('model_path', 'rl_trainer/models/policy_v1.zip'),
-            state_dim=rl_dict.get('state_dim', 35),
+            state_dim=rl_dict.get('state_dim', 25),
             action_dim=rl_dict.get('action_dim', 3),
             online_learning=rl_dict.get('online_learning', False),
             exploration_rate=rl_dict.get('exploration_rate', 0.1),

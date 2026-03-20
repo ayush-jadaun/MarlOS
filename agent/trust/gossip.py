@@ -44,7 +44,10 @@ class ReputationGossip:
         """Periodically share reputation updates"""
         while self.running:
             await asyncio.sleep(self.gossip_interval)
-            await self._broadcast_reputation_digest()
+            try:
+                await self._broadcast_reputation_digest()
+            except Exception as e:
+                print(f"[GOSSIP] Broadcast failed: {e}")
     
     async def _broadcast_reputation_digest(self):
         """Broadcast reputation digest to peers"""

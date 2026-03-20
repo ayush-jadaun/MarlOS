@@ -153,15 +153,6 @@ export default function Jobs({ agentState }) {
         </div>
       </div>
 
-      {/* Debug Info (remove in production) */}
-      <details className="bg-zinc-900 border border-zinc-800 rounded-lg p-4">
-        <summary className="cursor-pointer text-sm text-gray-400 hover:text-white">
-          Debug: Raw Job Data
-        </summary>
-        <pre className="mt-4 text-xs text-gray-500 overflow-auto">
-          {JSON.stringify(agentState.jobs, null, 2)}
-        </pre>
-      </details>
     </div>
   );
 }

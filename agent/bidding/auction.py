@@ -98,6 +98,7 @@ class BiddingAuction:
         # If we're already past the deadline (due to network delays), skip bidding
         if time_until_deadline <= 0:
             print(f"[AUCTION] Too late to bid on {job_id} (deadline passed)")
+            self.my_bids.pop(job_id, None)
             if callback:
                 callback(False)
             return
@@ -142,6 +143,34 @@ class BiddingAuction:
         Background task: Handles backoff delay, coordinator announcement, bid broadcast, and auction monitoring
         This runs independently without blocking the main message receiver
         """
+        try:
+            await self._bid_and_monitor_auction_inner(
+                job=job, job_id=job_id, score=score, stake_amount=stake_amount,
+                estimated_time=estimated_time, auction_deadline=auction_deadline,
+                delay=delay, p2p_node=p2p_node
+            )
+        except Exception as e:
+            print(f"❌ [AUCTION] Background task crashed for {job_id}: {e}")
+            # Ensure callback is always called so callers are not left hanging
+            callback = self.auction_callbacks.pop(job_id, None)
+            if callback:
+                callback(False)
+            # Clean up tracking state
+            self.my_bids.pop(job_id, None)
+            self.active_auctions.pop(job_id, None)
+            self.claimed_jobs.pop(job_id, None)
+            self.job_coordinators.pop(job_id, None)
+
+    async def _bid_and_monitor_auction_inner(self,
+                                             job: dict,
+                                             job_id: str,
+                                             score: float,
+                                             stake_amount: float,
+                                             estimated_time: float,
+                                             auction_deadline: float,
+                                             delay: float,
+                                             p2p_node):
+        """Inner implementation, called by the error-guarded wrapper."""
         # COORDINATOR ELECTION: All nodes independently elect same coordinator
         if self.coordinator:
             coordinator_id = self.coordinator.elect_coordinator_for_job(job_id)
@@ -242,22 +271,39 @@ class BiddingAuction:
             if self.coordinator:
                 self.coordinator.record_job_won(self.node_id)
 
-            # Broadcast claim with quorum requirement
+            # Broadcast claim with quorum requirement — up to 3 attempts with backoff
             claim_time = time.time()
             print(f"📤 [CLAIM SENT] Broadcasting job claim at {claim_time:.3f}")
-            claim_success = await p2p_node.broadcast_reliable(
-                MessageType.JOB_CLAIM,
-                job_id=job_id,
-                winner_node_id=self.node_id,
-                backup_node_id=self._select_backup(job_id),
-                stake_amount=stake_amount,
-                winning_score=score
-            )
+            claim_success = False
+            backup_node = self._select_backup(job_id)
+            for attempt in range(3):
+                claim_success = await p2p_node.broadcast_reliable(
+                    MessageType.JOB_CLAIM,
+                    job_id=job_id,
+                    winner_node_id=self.node_id,
+                    backup_node_id=backup_node,
+                    stake_amount=stake_amount,
+                    winning_score=score
+                )
+                if claim_success:
+                    break
+                if attempt < 2:
+                    wait = 2 ** attempt  # 1s, 2s
+                    print(f"⚠️  [AUCTION] Claim attempt {attempt + 1} failed, retrying in {wait}s...")
+                    await asyncio.sleep(wait)
 
             if not claim_success:
-                print(f"⚠️  [AUCTION] Failed to get quorum for claim broadcast")
+                print(f"⚠️  [AUCTION] Failed to get quorum for claim broadcast after 3 attempts")
                 print(f"[AUCTION] Network partition detected - aborting execution")
-                return False
+                # Clean up and notify caller so it is not left hanging
+                self.active_auctions.pop(job_id, None)
+                self.my_bids.pop(job_id, None)
+                self.claimed_jobs.pop(job_id, None)
+                self.job_coordinators.pop(job_id, None)
+                callback = self.auction_callbacks.pop(job_id, None)
+                if callback:
+                    callback(False)
+                return
 
             # Grace period: Wait for conflicting claims
             # CRITICAL: Use polling loop instead of sleep to allow message processing
@@ -297,9 +343,13 @@ class BiddingAuction:
                     callback(False)
                 return
 
-            # Victory confirmed!
+            # Victory confirmed! Clean up all tracking state for this auction.
             print(f"✅ [AUCTION] Victory confirmed for {job_id}")
-            # Call callback with win
+            self.active_auctions.pop(job_id, None)
+            self.my_bids.pop(job_id, None)
+            self.claimed_jobs.pop(job_id, None)
+            self.job_coordinators.pop(job_id, None)
+            self.claim_confirmations.pop(job_id, None)
             callback = self.auction_callbacks.pop(job_id, None)
             if callback:
                 callback(True)
@@ -366,7 +416,6 @@ class BiddingAuction:
         # Check if we also claimed this job (conflict!)
         if job_id in self.claimed_jobs:
             my_score = self.claimed_jobs[job_id]
-            print(f"")
             print(f"🚨 [AUCTION] CONFLICT DETECTED!")
             print(f"   Job: {job_id}")
             print(f"   My claim: {self.node_id} with score {my_score:.3f}")
@@ -390,15 +439,12 @@ class BiddingAuction:
 
             if should_back_down:
                 print(f"   ✅ Revoking claim and backing down")
-                # Revoke our claim
                 self.claimed_jobs.pop(job_id, None)
                 self.active_auctions.pop(job_id, None)
                 self.my_bids.pop(job_id, None)
-                print(f"")
                 return False
             else:
                 print(f"   ✅ Maintaining claim - will continue execution")
-                print(f"")
 
         # Add claim as a bid for conflict resolution during grace period
         if job_id in self.active_auctions:

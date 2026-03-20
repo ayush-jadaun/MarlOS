@@ -105,7 +105,7 @@ class RLPolicy:
                 confidence = 0.5
         
         # Store action for learning
-        self.current_action = action  # ← NEW
+        self.current_action = action
         
         return (action, confidence)
      
@@ -159,10 +159,15 @@ class RLPolicy:
                 'done': done
             }
             self.current_episode.append(transition)
-            
+
+            # Forward to online learner
+            if self.online_learner:
+                self.online_learner.record_experience(
+                    state, int(action), reward, next_state, done
+                )
+
             if done:
                 self.episode_count += 1
-                # TODO: Implement online learning update
                 self.current_episode = []
     
     def update_job_history(self, job_type: str, success: bool, completion_time: float):
@@ -177,11 +182,11 @@ class RLPolicy:
         """Get action dimension"""
         return 3  # BID, FORWARD, DEFER
     
-    def record_outcome(self, success: bool, reward: float, 
+    def record_outcome(self, success: bool, reward: float,
                       new_state: np.ndarray, done: bool = False):
         """
-        Record outcome of decision for learning - NEW METHOD
-        
+        Record outcome of decision for learning.
+
         Args:
             success: Whether action succeeded
             reward: Reward received

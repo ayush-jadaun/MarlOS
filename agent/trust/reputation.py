@@ -134,13 +134,15 @@ class ReputationSystem:
 
         INNOVATION: Trust naturally decays - must stay active to maintain
         """
-        # Apply decay if enabled
+        # Apply decay if enabled — only persist if score actually changed
         if self.trust_decay:
-            self.my_trust_score = self.trust_decay.apply_decay(
+            new_score = self.trust_decay.apply_decay(
                 node_id=self.node_id,
                 current_trust=self.my_trust_score
             )
-            self._save_reputation()
+            if new_score != self.my_trust_score:
+                self.my_trust_score = new_score
+                self._save_reputation()
 
         return self.my_trust_score
     
@@ -197,6 +199,7 @@ class ReputationSystem:
         if peer_id in self.quarantined_nodes:
             self.quarantined_nodes.remove(peer_id)
             self.rehabilitation_progress.pop(peer_id, None)
+            self._save_reputation()
             print(f"✅ [TRUST] Unquarantined peer {peer_id}")
     
     def record_rehabilitation_progress(self, peer_id: str, success: bool):

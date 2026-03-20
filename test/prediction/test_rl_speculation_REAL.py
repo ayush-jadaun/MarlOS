@@ -39,7 +39,6 @@ def test_environment_basic():
     assert isinstance(terminated, bool), "Terminated should be bool"
 
     print("[PASS] Environment works correctly!")
-    return True
 
 
 def test_reward_logic():
@@ -84,7 +83,6 @@ def test_reward_logic():
     assert speculate_wrong > 0, "Should have some wrong speculations"
 
     print("[PASS] Reward logic is correct!")
-    return True
 
 
 def test_rl_actually_learns():
@@ -104,7 +102,6 @@ def test_rl_actually_learns():
         from stable_baselines3.common.vec_env import DummyVecEnv
     except ImportError:
         print("[SKIP] stable-baselines3 not installed")
-        return True
 
     # Create environment
     def make_env():
@@ -184,7 +181,6 @@ def test_rl_actually_learns():
     env.close()
     eval_env.close()
 
-    return True
 
 
 def test_policy_class():
@@ -229,7 +225,6 @@ def test_policy_class():
     assert stats['decisions_made'] == 1, "Should have 1 decision"
 
     print("[PASS] Policy class works!")
-    return True
 
 
 def test_state_calculation():
@@ -270,7 +265,6 @@ def test_state_calculation():
         assert len(state) == 7, f"State must be 7D, got {len(state)}"
 
     print("\n[PASS] State calculation is correct!")
-    return True
 
 
 def test_learning_convergence():
@@ -292,7 +286,6 @@ def test_learning_convergence():
         from stable_baselines3.common.callbacks import BaseCallback
     except ImportError:
         print("[SKIP] stable-baselines3 not installed")
-        return True
 
     # Track rewards during training
     class RewardCallback(BaseCallback):
@@ -352,7 +345,6 @@ def test_learning_convergence():
     env.close()
     eval_env.close()
 
-    return True
 
 
 def run_all_tests():

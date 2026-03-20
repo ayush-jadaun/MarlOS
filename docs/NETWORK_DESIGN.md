@@ -656,14 +656,17 @@ network:
 
 ## Future Enhancements
 
+### Implemented
+
+1. **DHT-based Discovery**: Kademlia DHT for public-mode peer discovery (`agent/p2p/dht_manager.py`)
+
 ### Planned Features
 
-1. **DHT-based Discovery**: Kademlia DHT for scalable peer discovery
-2. **Gossip Optimization**: Epidemic broadcast trees
-3. **NAT Traversal**: STUN/TURN for cross-NAT communication
-4. **IPv6 Support**: Full IPv6 compatibility
-5. **Hierarchical Topology**: Hub-and-spoke for 100+ nodes
-6. **Bandwidth Optimization**: Message batching and compression
+1. **Gossip Optimization**: Epidemic broadcast trees
+2. **NAT Traversal**: STUN/TURN for cross-NAT communication
+3. **IPv6 Support**: Full IPv6 compatibility
+4. **Hierarchical Topology**: Hub-and-spoke for 100+ nodes
+5. **Bandwidth Optimization**: Message batching and compression
 
 ---
 

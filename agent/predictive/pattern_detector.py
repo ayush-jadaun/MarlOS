@@ -209,8 +209,6 @@ class PatternDetector:
             Compute unique fingerprint for a job
             Jobs with same type and parameters get same fingerprint
             """
-            global IGNORE_KEYS # Use the list from top of file
-            
             job_type = job.get('job_type', 'unknown')
             
             # Get all *other* keys as the parameters
