@@ -9,8 +9,6 @@ import sys
 from pathlib import Path
 import time
 from typing import Dict, List
-import paho.mqtt.client as mqtt
-
 # Fix Windows console encoding for emojis
 if sys.platform == 'win32':
     try:
@@ -22,7 +20,6 @@ if sys.platform == 'win32':
         import io
         sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8', errors='replace')
         sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding='utf-8', errors='replace')
-from .executor.hardware import HardwareRunner
 from .config import AgentConfig, load_config
 from .crypto.signing import SigningKey, sign_message, verify_message
 from .p2p.node import P2PNode
@@ -52,7 +49,7 @@ from .predictive.integration import PredictiveExtension
 from .p2p.peer_manager import PeerManager
 from .p2p.dht_manager import DHTManager
 from .config import NetworkMode
-import os  # <-- ADD THIS
+import os
 
 class MarlOSAgent:
     """
@@ -67,8 +64,6 @@ class MarlOSAgent:
         self.config = config
         self.node_id = config.node_id
         self.node_name = config.node_name
-
-        self.has_hardware = os.getenv('ENABLE_HARDWARE_RUNNER', 'false').lower() == 'true'
 
         print(f"🌌 Initializing MarlOS Agent: {self.node_name}")
 
@@ -118,25 +113,6 @@ class MarlOSAgent:
         self.executor = ExecutionEngine(self.node_id, config.executor)
         self.recovery = RecoveryManager(self.node_id)
 
-       # 3. ADD MQTT CLIENT (near the end of __init__)
-        self.mqtt_client = mqtt.Client(mqtt.CallbackAPIVersion.VERSION1)
-        mqtt_host = getattr(config, 'mqtt_broker_host', 'mosquitto')
-        mqtt_port = getattr(config, 'mqtt_broker_port', 1883)
-        self.mqtt_connected = False
-        
-        try:
-            # The healthcheck should make this connect on the first try
-            print(f"[MQTT] Attempting to connect to broker at {mqtt_host}:{mqtt_port}...")
-            self.mqtt_client.connect(mqtt_host, mqtt_port, 60)
-            self.mqtt_client.loop_start() # Start background loop
-            self.mqtt_connected = True
-            print(f"🛰️  MQTT client connected.")
-        
-        except Exception as e:
-            # This will catch any error, including ConnectionRefused
-            print(f"⚠️  CRITICAL: Failed to connect to MQTT broker: {e}")
-            print("   Hardware runner will NOT be registered.")
-        
         # Dashboard
         self.dashboard = DashboardServer(
             self.node_id,
@@ -235,14 +211,6 @@ class MarlOSAgent:
         threat_intel_runner = ThreatIntelRunner()
         self.executor.register_runner('threat_intel', threat_intel_runner.run)
         
-       # 4. REGISTER THE HARDWARE RUNNER (ONLY IF ENABLED)
-        if self.has_hardware:
-            print("✨ This is a HARDWARE AGENT. Registering led_control...")
-            hardware_command_topic = "marlos/devices/uno-01/command"
-            hardware_runner = HardwareRunner(self.mqtt_client, hardware_command_topic)
-            self.executor.register_runner('led_control', hardware_runner.run)
-        else:
-            print("Standard agent. Skipping hardware runner.")
         print(f"✅ Registered {len(self.executor.get_capabilities())} job runners")
     
     def _register_message_handlers(self):

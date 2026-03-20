@@ -16,7 +16,7 @@ P2P (ZMQ) → Auction/Bidding → RL Decision (PPO) → Executor → Token Econo
 - `agent/p2p/` — ZMQ gossip, Ed25519 auth, replay protection, quorum consensus, rate limiting
 - `agent/rl/` — PPO policy (35-dim state), 3 actions: BID=0 FORWARD=1 DEFER=2
 - `agent/bidding/` — auction.py (non-blocking bids), scorer.py, router.py
-- `agent/executor/` — shell, docker, security (malware_scan/port_scan/hash_crack/threat_intel), hardware (MQTT)
+- `agent/executor/` — shell, docker, security (malware_scan/port_scan/hash_crack/threat_intel)
 - `agent/tokens/` — wallet.py (SQLite-backed), ledger.py, economy.py
 - `agent/trust/` — reputation.py (0.0–1.0 scores, quarantine < 0.2), watchdog.py
 - `agent/predictive/` — speculation cache, pattern learning, pre-execution

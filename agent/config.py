@@ -174,9 +174,6 @@ class AgentConfig:
     executor: ExecutorConfig = None
     dashboard: DashboardConfig = None
     predictive: PredictiveConfig = None
-    mqtt_broker_host: str = field(default_factory=lambda: os.getenv('MQTT_BROKER_HOST', 'localhost'))
-    mqtt_broker_port: int = 1883
-
     # Storage
     data_dir: str = "./data"
     

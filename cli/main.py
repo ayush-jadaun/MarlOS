@@ -432,7 +432,7 @@ def start_docker_mode():
         console.print("Install Docker: https://docs.docker.com/get-docker/")
         return
 
-    if Confirm.ask("Start 3 agent nodes + MQTT broker?", default=True):
+    if Confirm.ask("Start 3 agent nodes?", default=True):
         with console.status("[bold green]Starting Docker containers..."):
             result = subprocess.run(
                 ["docker-compose", "up", "-d"],
