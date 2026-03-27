@@ -1,10 +1,10 @@
 <h1 align="center">MarlOS</h1>
 <p align="center"><strong>Decentralized, self-organizing compute network powered by Multi-Agent Reinforcement Learning</strong></p>
 <p align="center">
+  <a href="https://github.com/ayush-jadaun/MarlOS/actions/workflows/ci.yml"><img src="https://github.com/ayush-jadaun/MarlOS/actions/workflows/ci.yml/badge.svg" alt="CI" /></a>
   <a href="https://youtu.be/EGv7Z3kXv30"><img src="https://img.shields.io/badge/YouTube-Demo-red?style=flat-square&logo=youtube" /></a>
   <img src="https://img.shields.io/badge/Python-3.11+-blue?style=flat-square&logo=python" />
   <img src="https://img.shields.io/badge/License-MIT-green?style=flat-square" />
-  <img src="https://img.shields.io/badge/Built%20at-Hack36-orange?style=flat-square" />
 </p>
 
 ---

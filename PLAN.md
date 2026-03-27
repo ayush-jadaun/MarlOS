@@ -195,6 +195,19 @@ Throughput:         8.2 jobs/min
 - Target: at least 5/10 passing
 - Use same infrastructure as demo script
 
+### 1.8 Multi-machine local network test (4-5 laptops)
+- Set up MarlOS on 4-5 real laptops on the same LAN
+- Verify:
+  - Peer discovery works across machines (ZMQ PUB/SUB over real network)
+  - Job auction happens across physical nodes
+  - Token transfers and wallet balances stay consistent
+  - Trust/reputation updates propagate correctly
+  - Fault tolerance: kill a node mid-job, backup takes over
+  - Dashboard shows all peers from any node
+- Document setup steps so anyone can reproduce (IP addresses, ports, env vars)
+- Fix any bugs found — this is the real stress test before going public
+- This is the final Phase 1 gate: if it works on 5 laptops, it works for the world
+
 ---
 
 ## Phase 2: AI-Native (Next 2 Weeks)
