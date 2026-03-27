@@ -9,6 +9,14 @@ import sys
 import subprocess
 from pathlib import Path
 
+# Fix Windows console encoding for emoji/unicode
+if sys.platform == 'win32':
+    try:
+        sys.stdout.reconfigure(encoding='utf-8')
+        sys.stderr.reconfigure(encoding='utf-8')
+    except Exception:
+        pass
+
 import click
 from rich.console import Console
 from rich.panel import Panel
@@ -111,8 +119,8 @@ def print_banner():
 ║   ██║ ╚═╝ ██║██║  ██║██║  ██║███████╗╚██████╔╝███████║      ║
 ║   ╚═╝     ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝ ╚═════╝ ╚══════╝      ║
 ║                                                               ║
-║        Autonomous Distributed Computing OS                   ║
-║        v1.0.5 | Team async_await                             ║
+║        Decentralized Compute Network                         ║
+║        v1.1.0 | Multi-Agent Reinforcement Learning           ║
 ║                                                               ║
 ╚═══════════════════════════════════════════════════════════════╝
 [/bold cyan]
@@ -308,15 +316,17 @@ def show_main_menu():
         table.add_column("Description", style="white")
 
         table.add_row("1", "🚀 Start MarlOS (choose mode)")
-        table.add_row("2", "⚡ Quick Execute (run a command)")
-        table.add_row("3", "📊 Check Status")
-        table.add_row("4", "👥 List Peers")
-        table.add_row("5", "💰 View Wallet")
-        table.add_row("6", "📺 Live Monitor")
-        table.add_row("7", "📝 Create Job")
-        table.add_row("8", "📤 Submit Job")
-        table.add_row("9", "⚙️  Configuration")
-        table.add_row("10", "📖 Documentation")
+        table.add_row("2", "🎬 Run Demo (E2E test)")
+        table.add_row("3", "⚡ Quick Execute (run a command)")
+        table.add_row("4", "📊 Check Status")
+        table.add_row("5", "👥 List Peers")
+        table.add_row("6", "💰 View Wallet")
+        table.add_row("7", "📺 Live Monitor")
+        table.add_row("8", "📝 Create Job")
+        table.add_row("9", "📤 Submit Job")
+        table.add_row("10", "📈 Run Benchmark")
+        table.add_row("11", "⚙️  Configuration")
+        table.add_row("12", "📖 Documentation")
         table.add_row("0", "❌ Exit")
 
         console.print(table)
@@ -324,7 +334,7 @@ def show_main_menu():
 
         choice = Prompt.ask(
             "[bold yellow]Select an option[/bold yellow]",
-            choices=["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"],
+            choices=["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"],
             default="1"
         )
 
@@ -334,22 +344,26 @@ def show_main_menu():
         elif choice == "1":
             start_marlos_interactive()
         elif choice == "2":
-            quick_execute()
+            run_demo_interactive()
         elif choice == "3":
-            check_status()
+            quick_execute()
         elif choice == "4":
-            list_peers()
+            check_status()
         elif choice == "5":
-            view_wallet()
+            list_peers()
         elif choice == "6":
-            live_monitor()
+            view_wallet()
         elif choice == "7":
-            create_job()
+            live_monitor()
         elif choice == "8":
-            submit_job()
+            create_job()
         elif choice == "9":
-            configuration_menu()
+            submit_job()
         elif choice == "10":
+            run_benchmark_interactive()
+        elif choice == "11":
+            configuration_menu()
+        elif choice == "12":
             show_documentation()
 
         if choice != "0":
@@ -745,6 +759,30 @@ def start_service_mode():
         console.print("\nCreate a service using: [cyan]marl install[/cyan]")
 
 
+def run_demo_interactive():
+    """Run E2E demo from interactive menu"""
+    console.print("\n[bold cyan]🎬 MarlOS End-to-End Demo[/bold cyan]\n")
+    nodes = int(Prompt.ask("Number of nodes", default="3"))
+    jobs = int(Prompt.ask("Number of jobs", default="2"))
+
+    import asyncio
+    sys.path.insert(0, str(MARLOS_ROOT))
+    from scripts.demo import run_demo
+    asyncio.run(run_demo(num_nodes=nodes, num_jobs=jobs))
+
+
+def run_benchmark_interactive():
+    """Run benchmark from interactive menu"""
+    console.print("\n[bold cyan]📈 MarlOS Benchmark[/bold cyan]\n")
+    nodes = int(Prompt.ask("Number of nodes", default="3"))
+    jobs = int(Prompt.ask("Number of jobs", default="10"))
+
+    import asyncio
+    sys.path.insert(0, str(MARLOS_ROOT))
+    from scripts.benchmark import run_benchmark
+    asyncio.run(run_benchmark(num_nodes=nodes, num_jobs=jobs))
+
+
 def quick_execute():
     """Quick execute a shell command"""
     console.print("\n[bold cyan]⚡ Quick Execute[/bold cyan]\n")
@@ -857,20 +895,38 @@ def create_job():
     """Create a job template"""
     console.print("\n[bold cyan]📝 Create Job Template[/bold cyan]\n")
 
-    job_types = ["shell", "docker", "malware_scan", "port_scan"]
+    job_types = ["shell", "docker", "docker_build", "port_scan", "malware_scan", "hash_crack", "threat_intel"]
     job_type = Prompt.ask("Job type", choices=job_types, default="shell")
 
     if job_type == "shell":
         command = Prompt.ask("Command to execute", default="echo 'Hello MarlOS'")
         payload = {"command": command}
+    elif job_type == "docker":
+        image = Prompt.ask("Docker image", default="python:3.11-slim")
+        command = Prompt.ask("Command", default="python -c 'print(1+1)'")
+        payload = {"image": image, "command": command}
+    elif job_type == "docker_build":
+        dockerfile = Prompt.ask("Dockerfile path", default=".")
+        tag = Prompt.ask("Image tag", default="myapp:latest")
+        payload = {"dockerfile": dockerfile, "tag": tag}
     elif job_type == "port_scan":
-        target = Prompt.ask("Target IP")
+        target = Prompt.ask("Target IP/CIDR", default="192.168.1.0/24")
         ports = Prompt.ask("Port range", default="1-1000")
         payload = {"target": target, "ports": ports}
+    elif job_type == "malware_scan":
+        file_path = Prompt.ask("File path to scan")
+        payload = {"file_path": file_path}
+    elif job_type == "hash_crack":
+        hash_val = Prompt.ask("Hash to crack")
+        algorithm = Prompt.ask("Algorithm", choices=["md5", "sha1", "sha256"], default="md5")
+        payload = {"hash": hash_val, "algorithm": algorithm}
+    elif job_type == "threat_intel":
+        indicator = Prompt.ask("Indicator (IP, domain, or hash)")
+        payload = {"indicator": indicator}
     else:
         payload = {}
 
-    payment = float(Prompt.ask("Payment (AC)", default="100"))
+    payment = float(Prompt.ask("Payment (AC)", default="50"))
     priority = float(Prompt.ask("Priority (0-1)", default="0.5"))
     output_file = Prompt.ask("Output file", default="job.json")
 
@@ -1404,12 +1460,17 @@ def show_documentation():
         root_dir = MARLOS_ROOT
 
     docs = [
-        ("Quick Start", "docs/QUICKSTART.md"),
-        ("Installation Guide", "docs/INSTALL.md"),
-        ("Deployment Guide", "docs/DISTRIBUTED_DEPLOYMENT.md"),
-        ("Network Design", "docs/NETWORK_DESIGN.md"),
+        ("Local Testing", "docs/LOCAL_TESTING.md"),
+        ("CLI Guide", "docs/CLI_GUIDE.md"),
+        ("Deployment Guide", "docs/DEPLOYMENT.md"),
+        ("Lab Setup (LAN)", "docs/LAB_SETUP.md"),
+        ("API Guide (REST + MCP + SDK)", "docs/API_GUIDE.md"),
+        ("Plugin Development", "docs/PLUGINS.md"),
         ("RL Architecture", "docs/ARCHITECTURE_RL.md"),
-        ("Share Guide", "docs/SHARE.md"),
+        ("Token Economy", "docs/ARCHITECTURE_TOKEN.md"),
+        ("Economic Whitepaper", "docs/ECONOMIC_WHITEPAPER.md"),
+        ("Network Design", "docs/NETWORK_DESIGN.md"),
+        ("Configuration", "docs/CONFIG_ARCHITECTURE.md"),
     ]
 
     table = Table(box=box.ROUNDED)
@@ -1430,7 +1491,7 @@ def show_documentation():
 # Click CLI group
 @click.group(invoke_without_command=True)
 @click.pass_context
-@click.version_option(version="1.0.5", prog_name="MarlOS")
+@click.version_option(version="1.1.0", prog_name="MarlOS")
 def cli(ctx):
     """
     🌌 MarlOS - Autonomous Distributed Computing Operating System
@@ -1605,6 +1666,63 @@ def create(name, command, payment, priority, output):
 
 
 @cli.command()
+@click.option('--nodes', '-n', default=3, help='Number of nodes (default: 3)')
+@click.option('--jobs', '-j', default=10, help='Number of jobs (default: 10)')
+def benchmark(nodes, jobs):
+    """Run performance benchmark"""
+    import asyncio
+    sys.path.insert(0, str(MARLOS_ROOT))
+    from scripts.benchmark import run_benchmark
+
+    exit_code = asyncio.run(run_benchmark(num_nodes=nodes, num_jobs=jobs))
+    sys.exit(exit_code)
+
+
+@cli.command()
+@click.option('--nodes', '-n', default=100, help='Simulated nodes (default: 100)')
+@click.option('--jobs', '-j', default=1000, help='Simulated jobs (default: 1000)')
+@click.option('--output', '-o', default='docs/charts', help='Output directory for charts')
+def simulate(nodes, jobs, output):
+    """Run economic simulation (generates charts)"""
+    sys.path.insert(0, str(MARLOS_ROOT))
+    from scripts.economic_simulation import EconomicSimulator, gini_coefficient, plot_results
+    import random
+
+    console.print(f"[cyan]Running economic simulation: {nodes} nodes, {jobs} jobs...[/cyan]\n")
+
+    random.seed(42)
+    sim_fair = EconomicSimulator(nodes, jobs, fairness_enabled=True)
+    sim_fair.run()
+    fair_results = sim_fair.get_results()
+
+    random.seed(42)
+    sim_unfair = EconomicSimulator(nodes, jobs, fairness_enabled=False)
+    sim_unfair.run()
+    unfair_results = sim_unfair.get_results()
+
+    console.print(f"  Fairness ON  — Gini: {fair_results['final_gini']:.3f}, Participation: {fair_results['participation_rate']:.0%}")
+    console.print(f"  Fairness OFF — Gini: {unfair_results['final_gini']:.3f}, Participation: {unfair_results['participation_rate']:.0%}")
+
+    plot_results(fair_results, unfair_results, output)
+
+
+@cli.command()
+@click.option('--port', '-p', default=3101, help='REST API port (default: 3101)')
+def health(port):
+    """Check if a MarlOS node is reachable"""
+    import json
+    try:
+        import urllib.request
+        url = f"http://localhost:{port}/api/health"
+        with urllib.request.urlopen(url, timeout=3) as resp:
+            data = json.loads(resp.read())
+            console.print(f"[green]OK[/green] Node [bold]{data.get('node_id', '?')}[/bold] is running on port {port}")
+    except Exception as e:
+        console.print(f"[red]FAIL[/red] No MarlOS node reachable on port {port}")
+        console.print(f"[dim]{e}[/dim]")
+
+
+@cli.command()
 def start():
     """Start MarlOS (interactive mode selection)"""
     # Verify MarlOS installation
@@ -1618,9 +1736,19 @@ def start():
 @cli.command()
 def version():
     """Show version information"""
-    console.print("\n[bold cyan]🌌 MarlOS v1.0.5[/bold cyan]")
-    console.print("[cyan]Autonomous Distributed Computing Operating System[/cyan]")
-    console.print("\n[dim]Built by Team async_await[/dim]\n")
+    print_banner()
+    console.print("[cyan]Decentralized Compute Network powered by Multi-Agent RL[/cyan]")
+    console.print()
+    table = Table(show_header=False, box=box.ROUNDED, border_style="cyan")
+    table.add_column("", style="dim", width=20)
+    table.add_column("", style="green")
+    table.add_row("Version", "1.1.0")
+    table.add_row("License", "Apache-2.0")
+    table.add_row("Python", f"{sys.version_info.major}.{sys.version_info.minor}.{sys.version_info.micro}")
+    table.add_row("Platform", sys.platform)
+    table.add_row("GitHub", "github.com/ayush-jadaun/MarlOS")
+    console.print(table)
+    console.print()
 
 
 # Node management commands

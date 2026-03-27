@@ -1,6 +1,6 @@
 # MarlOS CLI Reference Guide
 
-Complete reference for the `marl` command-line interface (v1.0.5).
+Complete reference for the `marl` command-line interface (v1.1.0).
 
 MarlOS provides two layers of CLI interaction: **direct commands** you run from your terminal, and an **interactive menu** that launches when you run `marl` with no arguments.
 
@@ -498,7 +498,7 @@ marl --version
 **Output:**
 
 ```
-MarlOS v1.0.5
+MarlOS v1.1.0
 Autonomous Distributed Computing Operating System
 Built by Team async_await
 ```

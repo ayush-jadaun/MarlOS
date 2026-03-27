@@ -19,7 +19,14 @@ class ShellRunner:
         'ls', 'cat', 'grep', 'find', 'wc', 'head', 'tail', 'sort', 'uniq',
         'echo', 'pwd', 'whoami', 'date', 'hostname', 'uname', 'df', 'du',
         'ps', 'top', 'free', 'uptime', 'ping', 'curl', 'wget', 'git',
-        'python3', 'python', 'node', 'npm', 'pip', 'docker', 'sleep'
+        'python3', 'python', 'node', 'npm', 'pip', 'docker', 'sleep',
+        'mkdir', 'cp', 'mv', 'touch', 'tar', 'gzip', 'zip', 'unzip',
+        'ssh', 'scp', 'rsync', 'nmap', 'dig', 'nslookup', 'traceroute',
+        'awk', 'sed', 'cut', 'tr', 'xargs', 'tee', 'env', 'printenv',
+        'which', 'type', 'file', 'stat', 'md5sum', 'sha256sum',
+        'java', 'go', 'cargo', 'rustc', 'gcc', 'g++', 'make', 'cmake',
+        'apt', 'yum', 'brew', 'snap',  # package managers (read operations)
+        'dir', 'type', 'where', 'ipconfig', 'netstat', 'tasklist',  # Windows
     }
 
     # Blacklisted dangerous commands
