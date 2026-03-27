@@ -69,7 +69,7 @@ Repository = "https://github.com/ayush-jadaun/MarlOS"
 marl = "cli.main:cli"
 
 [tool.setuptools.packages.find]
-include = ["agent*", "cli*", "rl_trainer*", "scripts*", "examples*"]
+include = ["agent*", "cli*", "marlos*", "rl_trainer*", "scripts*", "examples*"]
 exclude = ["test*", "dashboard*", "docs*"]
 
 [tool.setuptools.package-data]
