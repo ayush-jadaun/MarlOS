@@ -50,8 +50,10 @@ class RLConfig:
     action_dim: int = 3  # BID, FORWARD, DEFER
 
     # Learning
-    online_learning: bool = False
+    online_learning: bool = True
     exploration_rate: float = 0.1
+    exploration_min: float = 0.01
+    exploration_decay: float = 0.995  # per update cycle
     enabled: bool = True
 
 
@@ -364,8 +366,10 @@ def load_config(config_file: str = None) -> AgentConfig:
             model_path=rl_dict.get('model_path', 'rl_trainer/models/policy_v1.zip'),
             state_dim=rl_dict.get('state_dim', 25),
             action_dim=rl_dict.get('action_dim', 3),
-            online_learning=rl_dict.get('online_learning', False),
+            online_learning=rl_dict.get('online_learning', True),
             exploration_rate=rl_dict.get('exploration_rate', 0.1),
+            exploration_min=rl_dict.get('exploration_min', 0.01),
+            exploration_decay=rl_dict.get('exploration_decay', 0.995),
             enabled=rl_dict.get('enabled', True)
         )
 
