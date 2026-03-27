@@ -1,10 +1,12 @@
 name: CI
 
+# Disabled for now — re-enable when ready
 on:
-  push:
-    branches: [main, ayush]
-  pull_request:
-    branches: [main]
+  workflow_dispatch:  # Manual trigger only
+  # push:
+  #   branches: [main, ayush]
+  # pull_request:
+  #   branches: [main]
 
 jobs:
   test:
