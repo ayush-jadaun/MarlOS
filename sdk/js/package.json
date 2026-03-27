@@ -1,0 +1,17 @@
+{
+  "name": "marlos-sdk",
+  "version": "1.0.0",
+  "description": "JavaScript SDK for MarlOS — Decentralized Compute Network",
+  "main": "dist/index.js",
+  "module": "src/index.js",
+  "types": "src/index.d.ts",
+  "scripts": {
+    "test": "node test/test.js"
+  },
+  "keywords": ["marlos", "distributed", "compute", "decentralized", "reinforcement-learning"],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ayush-jadaun/MarlOS"
+  }
+}
