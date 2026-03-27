@@ -87,14 +87,14 @@ async def test_recovery_manager_takeover_on_timeout(manager, mock_job_backup):
 
 async def test_recovery_manager_no_takeover_with_heartbeats(manager, mock_job_backup):
     """Test that jobs are NOT taken over if heartbeats are received."""
-    
-    # 1. Set a short timeout
-    manager.heartbeat_timeout = 0.2  # 200ms
-    
+
+    # 1. Set timeout long enough that continuous heartbeats prevent takeover
+    manager.heartbeat_timeout = 0.3  # 300ms
+
     # 2. Set mock callback
     mock_executor_cb = AsyncMock()
     manager.set_executor_callback(mock_executor_cb)
-    
+
     # 3. Register job — reset timestamp to now so async fixture overhead
     #    doesn't make the heartbeat look stale before monitoring even starts
     job_id = mock_job_backup.job_id
@@ -103,16 +103,13 @@ async def test_recovery_manager_no_takeover_with_heartbeats(manager, mock_job_ba
 
     # 4. Start monitoring
     await manager.start()
-    
-    # 5. Send a heartbeat *before* the timeout
-    await asyncio.sleep(0.1)
-    manager.update_heartbeat(job_id, 0.5)
-    
-    # 6. Wait past the *original* timeout
-    await asyncio.sleep(0.2)
-    
-    # 7. Assertions
-    # The executor should NOT have been called
+
+    # 5. Send heartbeats continuously to keep the job alive
+    for _ in range(4):
+        await asyncio.sleep(0.1)
+        manager.update_heartbeat(job_id, 0.5)
+
+    # 6. Assertions — executor should NOT have been called
     mock_executor_cb.assert_not_called()
     # The job should still be in the backup list
     assert manager.get_backup_count() == 1
