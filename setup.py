@@ -41,7 +41,7 @@ setup(
     author='Team async_await',
     author_email='ayushjadaun6@gmail.com',
     url='https://github.com/ayush-jadaun/MarlOS',
-    license='MIT',
+    license='Apache-2.0',
 
     # Package discovery - include ALL packages
     packages=find_packages(exclude=['tests', 'dashboard', 'venv', 'build', 'dist']),
@@ -77,7 +77,7 @@ setup(
         'Intended Audience :: Science/Research',
         'Topic :: System :: Distributed Computing',
         'Topic :: Scientific/Engineering :: Artificial Intelligence',
-        'License :: OSI Approved :: MIT License',
+        'License :: OSI Approved :: Apache Software License',
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.11',
         'Programming Language :: Python :: 3.12',

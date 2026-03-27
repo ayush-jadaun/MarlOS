@@ -1,215 +1,61 @@
 # MarlOS Documentation Index
 
-Complete guide to MarlOS documentation.
+## Getting Started
 
-## 📚 Getting Started
+| Guide | Description |
+|---|---|
+| [Local Testing](LOCAL_TESTING.md) | Run demos, benchmarks, and tests on one machine |
+| [CLI Guide](CLI_GUIDE.md) | All `marl` commands with examples |
+| [Quick Start](QUICKSTART.md) | 5-minute manual setup |
+| [pip Installation](PIP_INSTALL.md) | Install with pip |
+| [PATH Setup](PATH_SETUP_QUICK_REFERENCE.md) | Fix "command not found" |
 
-### Installation & Setup
-- **[pip Installation](PIP_INSTALL.md)** - Install with pip and use `marl` command
-  - Quickest method for most users
-  - Includes PATH setup guide
+## Deployment
 
-- **[Interactive Installer](INSTALL.md)** - Full system setup with guided wizard
-  - Automated dependency installation
-  - Network configuration
+| Guide | Description |
+|---|---|
+| [Deployment Guide](DEPLOYMENT.md) | Single node, Docker, LAN, cloud, worldwide |
+| [Lab Setup](LAB_SETUP.md) | Step-by-step: 5+ machines on same network |
+| [Distributed Deployment](DISTRIBUTED_DEPLOYMENT.md) | Real device deployment (detailed) |
+| [Network Modes](USER_GUIDE_NETWORK_MODES.md) | Private vs Public mode |
 
-- **[Quick Start Guide](QUICKSTART.md)** - 5-minute manual setup
-  - For experienced users
-  - Minimal configuration
+## API & Integration
 
-- **[PATH Setup Reference](PATH_SETUP_QUICK_REFERENCE.md)** - Fix "command not found" errors
-  - OS-specific instructions
-  - Windows, macOS, Linux
+| Guide | Description |
+|---|---|
+| [API Guide](API_GUIDE.md) | REST API, MCP server, JavaScript SDK, pipelines, groups |
+| [Plugin System](PLUGINS.md) | Write a custom runner in 5 minutes |
+| [JS SDK](../sdk/js/README.md) | JavaScript/TypeScript client library |
 
-### Using MarlOS
-- **[Command Reference](COMMANDS.md)** - Complete `marl` CLI guide
-  - All available commands
-  - Usage examples
-  - Tips & tricks
+## Architecture
 
----
+| Guide | Description |
+|---|---|
+| [RL Architecture](ARCHITECTURE_RL.md) | 25D state vector, PPO training, fairness metrics |
+| [Token Economy](ARCHITECTURE_TOKEN.md) | MarlCredits, taxation, UBI, Gini monitoring |
+| [Economic Whitepaper](ECONOMIC_WHITEPAPER.md) | Formal model with simulation results |
+| [Network Design](NETWORK_DESIGN.md) | P2P protocol, ZMQ, Ed25519, DHT |
+| [Checkpoint & Recovery](CHECKPOINT_RECOVERY_GUIDE.md) | Fault tolerance, job migration |
+| [Predictive System](RL_PREDICTION_DESIGN.md) | Speculative pre-execution |
 
-## 🌐 Network & Deployment
+## Configuration
 
-### Network Configuration
-- **[User Guide: Network Modes](USER_GUIDE_NETWORK_MODES.md)** - Choose between Private and Public modes
-  - Private Mode: Connect your own devices
-  - Public Mode: Join global network
+| Guide | Description |
+|---|---|
+| [Config Architecture](CONFIG_ARCHITECTURE.md) | 3-tier config system |
+| [Full Config Reference](FULL_CONFIG_USAGE.md) | All parameters |
+| [Config Management](CONFIG_MANAGEMENT_GUIDE.md) | Create, edit, delete node configs |
+| [Predictive Config](PREDICTIVE_CONFIG.md) | Prediction/speculation settings |
 
-- **[Network Design](NETWORK_DESIGN.md)** - P2P communication architecture
-  - ZeroMQ protocol
-  - Peer discovery
-  - Security
-  - NAT traversal, bootstrap servers, DHT integration
+## Other
 
-### Deployment
-- **[Distributed Deployment](DISTRIBUTED_DEPLOYMENT.md)** - Deploy on real devices
-  - Multi-device setup
-  - Network configuration
-  - Firewall rules
-
-- **[Quick Start](QUICKSTART.md)** - Test your setup
-  - Automated test suite
-  - Connection validation
-  - Performance benchmarks
-
-- **[Share Guide](SHARE.md)** - Share MarlOS with your team
-  - Quick sharing links
-  - Team deployment
-  - Collaboration tips
+| Guide | Description |
+|---|---|
+| [Interactive Installer](INSTALL.md) | Guided setup wizard |
+| [Share Guide](SHARE.md) | Share MarlOS with your team |
+| [Contributing](../CONTRIBUTING.md) | How to contribute |
+| [Changelog](../CHANGELOG.md) | Version history |
 
 ---
 
-## ⚙️ Configuration Management
-
-### Configuration System
-- **[Configuration Architecture](CONFIG_ARCHITECTURE.md)** - Two-tier config system design
-  - System defaults vs node configs
-  - Configuration precedence
-  - Architecture decisions
-
-- **[Configuration Management Guide](CONFIG_MANAGEMENT_GUIDE.md)** - Manage node configurations
-  - Create, edit, delete nodes
-  - Configuration operations
-  - Best practices
-
-- **[Full Configuration Usage](FULL_CONFIG_USAGE.md)** - Complete config reference
-  - All configuration options
-  - Environment variables
-  - YAML configuration
-  - Per-node settings
-
-- **[Predictive Config](PREDICTIVE_CONFIG.md)** - Predictive pre-execution settings
-  - Enable/disable prediction
-  - Economic constraints
-  - RL speculation
-
----
-
-## 🏗️ Architecture & Design
-
-### Core Systems
-- **[RL Architecture](ARCHITECTURE_RL.md)** - Reinforcement learning system
-  - PPO agent design
-  - State representation
-  - Bidding policy
-
-- **[Token Economy](ARCHITECTURE_TOKEN.md)** - Economic system design
-  - MarlCredits token system
-  - Fairness mechanisms
-  - Progressive taxation
-
-- **[RL Prediction Design](RL_PREDICTION_DESIGN.md)** - Predictive pre-execution
-  - Pattern detection
-  - Speculative execution
-  - Cache system
-
-### Reliability
-- **[Checkpoint & Recovery](CHECKPOINT_RECOVERY_GUIDE.md)** - Fault tolerance
-  - Job checkpointing
-  - Failure recovery
-  - Migration strategies
-
----
-
-## 🔧 Developer Guides
-
-### Integration
-- **[Install Guide](INSTALL.md)** - Integrate predictive system
-  - Code modifications
-  - Hook integration
-  - Testing
-
-### Project Structure
-- **[Project Structure](../PROJECT_STRUCTURE.md)** - Codebase organization
-  - Directory layout
-  - File naming conventions
-  - Quick navigation
-
----
-
-## 📖 Documentation by Use Case
-
-### I want to...
-
-#### Install MarlOS
-1. Start with [pip Installation](PIP_INSTALL.md)
-2. If issues, check [PATH Setup](PATH_SETUP_QUICK_REFERENCE.md)
-3. Share with friends: [Install Guide](INSTALL.md)
-
-#### Deploy MarlOS on Multiple Devices
-1. Read [Quick Start](QUICKSTART.md)
-2. Follow [Distributed Deployment](DISTRIBUTED_DEPLOYMENT.md)
-3. Choose network mode: [Network Modes Guide](USER_GUIDE_NETWORK_MODES.md)
-4. Verify setup: [Quick Start](QUICKSTART.md)
-
-#### Configure My Nodes
-1. Understand [Configuration Architecture](CONFIG_ARCHITECTURE.md)
-2. Use [Configuration Management Guide](CONFIG_MANAGEMENT_GUIDE.md)
-3. Reference [Full Configuration Usage](FULL_CONFIG_USAGE.md)
-
-#### Understand the System
-1. Read [Network Design](NETWORK_DESIGN.md)
-2. Learn [RL Architecture](ARCHITECTURE_RL.md)
-3. Explore [Token Economy](ARCHITECTURE_TOKEN.md)
-
-#### Customize Behavior
-1. Check [Configuration Usage](FULL_CONFIG_USAGE.md)
-2. Adjust [Predictive Config](PREDICTIVE_CONFIG.md)
-3. Use [Configuration Management Guide](CONFIG_MANAGEMENT_GUIDE.md) for code changes
-
----
-
-## 🆘 Troubleshooting
-
-### Common Issues
-
-**"marl: command not found"**
-→ See [PATH Setup Reference](PATH_SETUP_QUICK_REFERENCE.md)
-
-**Can't connect nodes across different networks**
-→ Read [Network Design](NETWORK_DESIGN.md)
-
-**Installation fails**
-→ Check [pip Installation](PIP_INSTALL.md) troubleshooting section
-
-**Need to configure node behavior**
-→ Use [Configuration Management](CONFIG_MANAGEMENT_GUIDE.md)
-
----
-
-## 📝 Documentation Standards
-
-### For Users
-- Guides are task-oriented
-- Include working examples
-- Step-by-step instructions
-- Troubleshooting sections
-
-### For Developers
-- Architecture docs explain design decisions
-- Integration guides show code modifications
-- Reference docs cover all options
-
----
-
-## 🔄 Keep Documentation Updated
-
-When adding features:
-1. Update relevant architecture docs
-2. Add usage examples to guides
-3. Update command reference if CLI changes
-4. Add to this index
-
----
-
-## 📞 Need Help?
-
-- **GitHub Issues**: https://github.com/ayush-jadaun/MarlOS/issues
-- **Demo Video**: https://youtu.be/EGv7Z3kXv30
-- **Presentation**: https://www.canva.com/design/DAG4KrB5-D0/W-mglhEG6lW3rpzn7PW4BA/view
-
----
-
-**Last Updated**: November 2025
-**Version**: 1.0.5
+**Version**: 1.1.0 | **Last Updated**: March 2026
