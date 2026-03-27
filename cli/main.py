@@ -1455,6 +1455,23 @@ def install():
     run_installation_wizard()
 
 
+@cli.command()
+@click.option('--nodes', '-n', default=3, help='Number of demo nodes (default: 3)')
+@click.option('--jobs', '-j', default=2, help='Number of demo jobs (default: 2)')
+def demo(nodes, jobs):
+    """Run end-to-end demo of MarlOS network"""
+    import asyncio
+    sys.path.insert(0, str(MARLOS_ROOT))
+    from scripts.demo import run_demo, banner, info
+
+    banner("MarlOS End-to-End Demo")
+    info(f"Nodes: {nodes}, Jobs: {jobs}")
+    info("Starting a local MarlOS network, submitting jobs, and showing the full lifecycle.")
+
+    exit_code = asyncio.run(run_demo(num_nodes=nodes, num_jobs=jobs))
+    sys.exit(exit_code)
+
+
 # Import all commands from marlOS.py
 @cli.command()
 @click.argument('command')
