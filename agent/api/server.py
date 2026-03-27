@@ -42,6 +42,10 @@ class RESTAPIServer:
         self.app.router.add_post("/api/pipelines", self.submit_pipeline)
         self.app.router.add_get("/api/pipelines", self.list_pipelines)
         self.app.router.add_get("/api/pipelines/{pipeline_id}", self.get_pipeline)
+        # Job group (batch) endpoints
+        self.app.router.add_post("/api/groups", self.submit_group)
+        self.app.router.add_get("/api/groups", self.list_groups)
+        self.app.router.add_get("/api/groups/{group_id}", self.get_group)
 
         # CORS middleware
         self.app.middlewares.append(self._cors_middleware)
@@ -259,3 +263,33 @@ class RESTAPIServer:
         if not pipeline:
             return web.json_response({"error": "Pipeline not found"}, status=404)
         return web.json_response(pipeline.to_dict())
+
+    # ── Job group (batch) endpoints ──────────────────────────────
+
+    async def submit_group(self, request):
+        """POST /api/groups — Submit a batch of jobs as a group."""
+        try:
+            body = await request.json()
+        except json.JSONDecodeError:
+            return web.json_response({"error": "Invalid JSON"}, status=400)
+
+        jobs = body.get("jobs", [])
+        if not jobs:
+            return web.json_response({"error": "jobs array is required"}, status=400)
+
+        group_id = body.get("group_id")
+        group = await self.agent.aggregator.submit_group(jobs, group_id=group_id)
+        return web.json_response(group.to_dict(), status=201)
+
+    async def list_groups(self, request):
+        """GET /api/groups — List all job groups."""
+        groups = self.agent.aggregator.list_groups()
+        return web.json_response({"groups": groups, "total": len(groups)})
+
+    async def get_group(self, request):
+        """GET /api/groups/{group_id} — Get group status and results."""
+        group_id = request.match_info["group_id"]
+        group = self.agent.aggregator.get_group(group_id)
+        if not group:
+            return web.json_response({"error": "Group not found"}, status=404)
+        return web.json_response(group.to_dict())
