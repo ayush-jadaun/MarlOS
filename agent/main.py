@@ -42,6 +42,7 @@ from .executor.security import (
 )
 from .executor.recovery import RecoveryManager
 from .dashboard.server import DashboardServer
+from .api.server import RESTAPIServer
 from .bidding.router import JobRouter
 from .rl.online_learner import OnlineLearner
 from .p2p.coordinator import CoordinatorElection
@@ -119,6 +120,8 @@ class MarlOSAgent:
             config.dashboard,
             self
         )
+        # REST API
+        self.rest_api = RESTAPIServer(self)
         self.online_learner = OnlineLearner(
             self.node_id,
             config.rl,
@@ -453,6 +456,7 @@ class MarlOSAgent:
         print(f"\n✅ Agent {self.node_name} is ONLINE")
 
         asyncio.create_task(self.dashboard.start())
+        asyncio.create_task(self.rest_api.start())
         asyncio.create_task(self._stats_reporter())
         asyncio.create_task(self._idle_reward_task())
 
@@ -473,6 +477,7 @@ class MarlOSAgent:
         print(f"   Dashboard URLs:")
         print(f"     - Local:   http://localhost:{self.config.dashboard.port}")
         print(f"     - Network: http://{local_ip}:{self.config.dashboard.port}")
+        print(f"   REST API: http://{local_ip}:{self.rest_api.port}")
         print(f"   P2P Address: tcp://{local_ip}:{self.config.network.pub_port}\n")
     
     async def stop(self):
@@ -489,6 +494,7 @@ class MarlOSAgent:
         await self.watchdog.stop()
         await self.recovery.stop()
         await self.dashboard.stop()
+        await self.rest_api.stop()
         await self.predictive.stop()
 
         print("✅ Agent stopped cleanly")
