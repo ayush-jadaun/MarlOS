@@ -43,6 +43,7 @@ from .executor.security import (
 from .executor.recovery import RecoveryManager
 from .dashboard.server import DashboardServer
 from .api.server import RESTAPIServer
+from .pipeline.engine import PipelineEngine
 from .bidding.router import JobRouter
 from .rl.online_learner import OnlineLearner
 from .p2p.coordinator import CoordinatorElection
@@ -122,6 +123,8 @@ class MarlOSAgent:
         )
         # REST API
         self.rest_api = RESTAPIServer(self)
+        # Pipeline engine (job chaining / DAGs)
+        self.pipeline_engine = PipelineEngine(self)
         self.online_learner = OnlineLearner(
             self.node_id,
             config.rl,

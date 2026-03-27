@@ -38,6 +38,10 @@ class RESTAPIServer:
         self.app.router.add_get("/api/wallet", self.get_wallet)
         self.app.router.add_get("/api/trust", self.get_trust)
         self.app.router.add_get("/api/rl", self.get_rl_stats)
+        # Pipeline endpoints
+        self.app.router.add_post("/api/pipelines", self.submit_pipeline)
+        self.app.router.add_get("/api/pipelines", self.list_pipelines)
+        self.app.router.add_get("/api/pipelines/{pipeline_id}", self.get_pipeline)
 
         # CORS middleware
         self.app.middlewares.append(self._cors_middleware)
@@ -219,3 +223,39 @@ class RESTAPIServer:
             "exploration_rate": self.agent.rl_policy.exploration_rate
             if hasattr(self.agent.rl_policy, "exploration_rate") else None,
         })
+
+    # ── Pipeline endpoints ───────────────────────────────────────
+
+    async def submit_pipeline(self, request):
+        """POST /api/pipelines — Submit a job pipeline (DAG)."""
+        try:
+            body = await request.json()
+        except json.JSONDecodeError:
+            return web.json_response({"error": "Invalid JSON"}, status=400)
+
+        from ..pipeline.dag import Pipeline
+
+        try:
+            pipeline = Pipeline.from_dict(body)
+        except (KeyError, TypeError) as e:
+            return web.json_response({"error": f"Invalid pipeline format: {e}"}, status=400)
+
+        errors = pipeline.validate()
+        if errors:
+            return web.json_response({"error": errors}, status=400)
+
+        result = await self.agent.pipeline_engine.submit_pipeline(pipeline)
+        return web.json_response(result.to_dict(), status=201)
+
+    async def list_pipelines(self, request):
+        """GET /api/pipelines — List all pipelines."""
+        pipelines = self.agent.pipeline_engine.list_pipelines()
+        return web.json_response({"pipelines": pipelines, "total": len(pipelines)})
+
+    async def get_pipeline(self, request):
+        """GET /api/pipelines/{pipeline_id} — Get pipeline status."""
+        pipeline_id = request.match_info["pipeline_id"]
+        pipeline = self.agent.pipeline_engine.get_pipeline(pipeline_id)
+        if not pipeline:
+            return web.json_response({"error": "Pipeline not found"}, status=404)
+        return web.json_response(pipeline.to_dict())
