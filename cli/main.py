@@ -1491,7 +1491,7 @@ def show_documentation():
 # Click CLI group
 @click.group(invoke_without_command=True)
 @click.pass_context
-@click.version_option(version="1.1.0", prog_name="MarlOS")
+@click.version_option(version="1.1.1", prog_name="MarlOS")
 def cli(ctx):
     """
     🌌 MarlOS - Autonomous Distributed Computing Operating System

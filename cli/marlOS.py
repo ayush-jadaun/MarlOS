@@ -42,7 +42,7 @@ console = Console()
 
 
 @click.group()
-@click.version_option(version="1.1.0", prog_name="MarlOS")
+@click.version_option(version="1.1.1", prog_name="MarlOS")
 def cli():
     """
     🌌 MarlOS - Autonomous Distributed Computing Swarm
