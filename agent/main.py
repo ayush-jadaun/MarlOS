@@ -45,6 +45,7 @@ from .dashboard.server import DashboardServer
 from .api.server import RESTAPIServer
 from .pipeline.engine import PipelineEngine
 from .pipeline.aggregator import ResultAggregator
+from .plugins.loader import PluginLoader
 from .bidding.router import JobRouter
 from .rl.online_learner import OnlineLearner
 from .p2p.coordinator import CoordinatorElection
@@ -220,7 +221,13 @@ class MarlOSAgent:
         threat_intel_runner = ThreatIntelRunner()
         self.executor.register_runner('threat_intel', threat_intel_runner.run)
         
-        print(f"✅ Registered {len(self.executor.get_capabilities())} job runners")
+        print(f"✅ Registered {len(self.executor.get_capabilities())} built-in runners")
+
+        # Load plugin runners
+        plugin_loader = PluginLoader()
+        plugin_count = plugin_loader.register_with_engine(self.executor)
+        if plugin_count > 0:
+            print(f"✅ Loaded {plugin_count} plugin runner(s)")
     
     def _register_message_handlers(self):
         """Register P2P message handlers"""
