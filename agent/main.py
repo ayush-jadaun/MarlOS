@@ -9,8 +9,6 @@ import sys
 from pathlib import Path
 import time
 from typing import Dict, List
-import paho.mqtt.client as mqtt
-
 # Fix Windows console encoding for emojis
 if sys.platform == 'win32':
     try:
@@ -22,7 +20,6 @@ if sys.platform == 'win32':
         import io
         sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8', errors='replace')
         sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding='utf-8', errors='replace')
-from .executor.hardware import HardwareRunner
 from .config import AgentConfig, load_config
 from .crypto.signing import SigningKey, sign_message, verify_message
 from .p2p.node import P2PNode
@@ -45,6 +42,10 @@ from .executor.security import (
 )
 from .executor.recovery import RecoveryManager
 from .dashboard.server import DashboardServer
+from .api.server import RESTAPIServer
+from .pipeline.engine import PipelineEngine
+from .pipeline.aggregator import ResultAggregator
+from .plugins.loader import PluginLoader
 from .bidding.router import JobRouter
 from .rl.online_learner import OnlineLearner
 from .p2p.coordinator import CoordinatorElection
@@ -52,7 +53,7 @@ from .predictive.integration import PredictiveExtension
 from .p2p.peer_manager import PeerManager
 from .p2p.dht_manager import DHTManager
 from .config import NetworkMode
-import os  # <-- ADD THIS
+import os
 
 class MarlOSAgent:
     """
@@ -67,8 +68,6 @@ class MarlOSAgent:
         self.config = config
         self.node_id = config.node_id
         self.node_name = config.node_name
-
-        self.has_hardware = os.getenv('ENABLE_HARDWARE_RUNNER', 'false').lower() == 'true'
 
         print(f"🌌 Initializing MarlOS Agent: {self.node_name}")
 
@@ -118,31 +117,18 @@ class MarlOSAgent:
         self.executor = ExecutionEngine(self.node_id, config.executor)
         self.recovery = RecoveryManager(self.node_id)
 
-       # 3. ADD MQTT CLIENT (near the end of __init__)
-        self.mqtt_client = mqtt.Client(mqtt.CallbackAPIVersion.VERSION1)
-        mqtt_host = getattr(config, 'mqtt_broker_host', 'mosquitto')
-        mqtt_port = getattr(config, 'mqtt_broker_port', 1883)
-        self.mqtt_connected = False
-        
-        try:
-            # The healthcheck should make this connect on the first try
-            print(f"[MQTT] Attempting to connect to broker at {mqtt_host}:{mqtt_port}...")
-            self.mqtt_client.connect(mqtt_host, mqtt_port, 60)
-            self.mqtt_client.loop_start() # Start background loop
-            self.mqtt_connected = True
-            print(f"🛰️  MQTT client connected.")
-        
-        except Exception as e:
-            # This will catch any error, including ConnectionRefused
-            print(f"⚠️  CRITICAL: Failed to connect to MQTT broker: {e}")
-            print("   Hardware runner will NOT be registered.")
-        
         # Dashboard
         self.dashboard = DashboardServer(
             self.node_id,
             config.dashboard,
             self
         )
+        # REST API
+        self.rest_api = RESTAPIServer(self)
+        # Pipeline engine (job chaining / DAGs)
+        self.pipeline_engine = PipelineEngine(self)
+        # Result aggregator (batch job groups)
+        self.aggregator = ResultAggregator(self)
         self.online_learner = OnlineLearner(
             self.node_id,
             config.rl,
@@ -235,15 +221,13 @@ class MarlOSAgent:
         threat_intel_runner = ThreatIntelRunner()
         self.executor.register_runner('threat_intel', threat_intel_runner.run)
         
-       # 4. REGISTER THE HARDWARE RUNNER (ONLY IF ENABLED)
-        if self.has_hardware:
-            print("✨ This is a HARDWARE AGENT. Registering led_control...")
-            hardware_command_topic = "marlos/devices/uno-01/command"
-            hardware_runner = HardwareRunner(self.mqtt_client, hardware_command_topic)
-            self.executor.register_runner('led_control', hardware_runner.run)
-        else:
-            print("Standard agent. Skipping hardware runner.")
-        print(f"✅ Registered {len(self.executor.get_capabilities())} job runners")
+        print(f"✅ Registered {len(self.executor.get_capabilities())} built-in runners")
+
+        # Load plugin runners
+        plugin_loader = PluginLoader()
+        plugin_count = plugin_loader.register_with_engine(self.executor)
+        if plugin_count > 0:
+            print(f"✅ Loaded {plugin_count} plugin runner(s)")
     
     def _register_message_handlers(self):
         """Register P2P message handlers"""
@@ -485,6 +469,7 @@ class MarlOSAgent:
         print(f"\n✅ Agent {self.node_name} is ONLINE")
 
         asyncio.create_task(self.dashboard.start())
+        asyncio.create_task(self.rest_api.start())
         asyncio.create_task(self._stats_reporter())
         asyncio.create_task(self._idle_reward_task())
 
@@ -505,6 +490,7 @@ class MarlOSAgent:
         print(f"   Dashboard URLs:")
         print(f"     - Local:   http://localhost:{self.config.dashboard.port}")
         print(f"     - Network: http://{local_ip}:{self.config.dashboard.port}")
+        print(f"   REST API: http://{local_ip}:{self.rest_api.port}")
         print(f"   P2P Address: tcp://{local_ip}:{self.config.network.pub_port}\n")
     
     async def stop(self):
@@ -521,6 +507,7 @@ class MarlOSAgent:
         await self.watchdog.stop()
         await self.recovery.stop()
         await self.dashboard.stop()
+        await self.rest_api.stop()
         await self.predictive.stop()
 
         print("✅ Agent stopped cleanly")

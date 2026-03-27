@@ -3,7 +3,7 @@ import { useMultiAgentWebSocket } from './hooks/useMultiAgentWebSocket';
 import Sidebar from './components/Layout/Sidebar';
 import Header from './components/Layout/Header';
 import Overview from './components/Views/Overview';
-import Network from './components/Views/Network';
+import NetworkGraph from './components/Views/NetworkGraph';
 import Jobs from './components/Views/Jobs';
 import Bidding from './components/Views/Bidding';
 import Trust from './components/Views/Trust';
@@ -23,7 +23,7 @@ function App() {
       case 'overview':
         return <Overview agentState={agentState} />;
       case 'network':
-        return <Network agentState={agentState} />;
+        return <NetworkGraph agentState={agentState} />;
       case 'jobs':
         return <Jobs agentState={agentState} />;
       case 'bidding':

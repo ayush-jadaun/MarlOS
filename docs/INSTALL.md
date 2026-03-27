@@ -164,8 +164,6 @@ Peer IPs: 192.168.1.101,192.168.1.102
 ? Enable Docker job execution? (y/n): n
 ℹ Docker execution disabled. Shell and security jobs will still work.
 
-? Enable hardware control (Arduino/ESP32 via MQTT)? (y/n): n
-
 Setting up firewall rules...
 ? Do you want to configure firewall rules automatically? (y/n): y
 

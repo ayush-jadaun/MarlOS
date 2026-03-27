@@ -377,7 +377,7 @@ class P2PNode:
                 message_id = message.get('message_id')
                 if message_id in self.seen_messages:
                     if msg_type == 'job_broadcast':
-                        print(f"[P2P DEBUG] Skipping duplicate message {message_id}")
+                        logger.debug("Skipping duplicate message %s", message_id)
                     continue
 
                 # Mark as seen AFTER validation

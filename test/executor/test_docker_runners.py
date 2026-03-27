@@ -8,8 +8,6 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')
 # Assuming runners are in: agent.executor.docker
 from agent.executor.docker import DockerRunner, DockerBuildRunner
 
-pytestmark = pytest.mark.asyncio
-
 # Try to connect to Docker. If it fails, skip all tests in this file.
 try:
     docker.from_env()
@@ -17,8 +15,11 @@ try:
 except Exception:
     docker_available = False
 
-# Skip all tests in this module if Docker is not available
-pytestmark = pytest.mark.skipif(not docker_available, reason="Docker is not running or not installed")
+# Both marks must be in a single list — the second assignment was overwriting asyncio mark
+pytestmark = [
+    pytest.mark.asyncio,
+    pytest.mark.skipif(not docker_available, reason="Docker is not running or not installed"),
+]
 
 @pytest_asyncio.fixture
 def mock_docker_client():

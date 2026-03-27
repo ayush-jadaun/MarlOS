@@ -78,6 +78,10 @@ class OnlineLearner:
         # Training model (separate from inference model)
         self.training_model: Optional[PPO] = None
 
+        # Exploration decay
+        self.exploration_decay = getattr(config, 'exploration_decay', 0.995) if config else 0.995
+        self.exploration_min = getattr(config, 'exploration_min', 0.01) if config else 0.01
+
         # Stats
         self.updates_performed = 0
         self.last_update_time = 0
@@ -210,10 +214,19 @@ class OnlineLearner:
                 print("[ONLINE LEARNER] Performing full retraining...")
                 await self._retrain_model(experiences)
             
+            # Decay exploration rate
+            if self.policy and hasattr(self.policy, 'exploration_rate'):
+                old_rate = self.policy.exploration_rate
+                self.policy.exploration_rate = max(
+                    self.exploration_min,
+                    self.policy.exploration_rate * self.exploration_decay
+                )
+                print(f"[ONLINE LEARNER] Exploration: {old_rate:.4f} -> {self.policy.exploration_rate:.4f}")
+
             duration = time.time() - start_time
             self.updates_performed += 1
             self.last_update_time = time.time()
-            
+
             print(f"[ONLINE LEARNER] Update completed in {duration:.2f}s")
             print(f"{'='*60}\n")
         

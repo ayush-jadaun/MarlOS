@@ -1,367 +1,356 @@
 <h1 align="center">MarlOS</h1>
 <p align="center"><strong>Decentralized, self-organizing compute network powered by Multi-Agent Reinforcement Learning</strong></p>
 <p align="center">
-  <a href="https://youtu.be/EGv7Z3kXv30"><img src="https://img.shields.io/badge/YouTube-Demo-red?style=flat-square&logo=youtube" /></a>
+  <a href="https://github.com/ayush-jadaun/MarlOS/actions/workflows/ci.yml"><img src="https://github.com/ayush-jadaun/MarlOS/actions/workflows/ci.yml/badge.svg" alt="CI" /></a>
   <img src="https://img.shields.io/badge/Python-3.11+-blue?style=flat-square&logo=python" />
-  <img src="https://img.shields.io/badge/License-MIT-green?style=flat-square" />
-  <img src="https://img.shields.io/badge/Built%20at-Hack36-orange?style=flat-square" />
+  <img src="https://img.shields.io/badge/Tests-236+-passing-brightgreen?style=flat-square" />
+  <img src="https://img.shields.io/badge/License-Apache-2.0-green?style=flat-square" />
 </p>
 
 ---
 
 MarlOS is a **peer-to-peer distributed computing OS** where every node is autonomous, cryptographically authenticated, and makes its own bidding decisions using reinforcement learning — with no central orchestrator, no Kubernetes, no cloud controller.
 
-When a job enters the network, nodes independently decide whether to **Bid**, **Forward**, or **Defer** it. The winner is determined by a decentralized auction. Payment flows automatically via a token economy. Nodes that fail get replaced by their pre-assigned backups. Nodes that misbehave get quarantined by the trust system.
+When a job enters the network, nodes independently decide whether to **Bid**, **Forward**, or **Defer**. The winner is determined by a decentralized auction. Payment flows automatically via a token economy. Nodes that fail get replaced by backups. Nodes that misbehave get quarantined.
 
-The whole thing runs without asking permission from anyone.
+```bash
+# Try it in 30 seconds
+git clone https://github.com/ayush-jadaun/MarlOS.git && cd MarlOS
+pip install -r requirements.txt
+python scripts/demo.py
+```
 
 ---
 
-## Why This Matters
+## Features
 
-Centralized compute infrastructure (AWS, Kubernetes, Ray) has a fundamental problem: there is always a single point of control. That control can be taken away, rate-limited, or priced out of reach.
+### Core System
+- **RL-Driven Scheduling** — PPO policy on 25D state vector (BID/FORWARD/DEFER)
+- **Decentralized Auctions** — Ed25519-signed bids, deterministic winner selection
+- **Token Economy** — MarlCredits with staking, progressive taxation, UBI
+- **Trust & Reputation** — 0.0-1.0 scores, automatic quarantine of bad actors
+- **Self-Healing** — Backup node takeover, heartbeat monitoring, checkpoint recovery
+- **Predictive Pre-Execution** — RL-powered speculation cache for near-zero latency
 
-MarlOS is the opposite. Any device — a laptop, a server, a Raspberry Pi, even an Arduino via MQTT — can join the network, earn tokens by completing jobs, and participate as a first-class compute node. No registration. No approval. Cryptographic identity is self-generated on first start.
+### New in v1.1
+- **REST API** — HTTP endpoints for jobs, peers, wallet, trust, pipelines ([docs](docs/API_GUIDE.md))
+- **MCP Server** — Claude and AI agents can submit jobs via Model Context Protocol ([docs](docs/API_GUIDE.md#mcp-server))
+- **Job Pipelines (DAGs)** — Chain jobs with dependencies, output flows between steps ([docs](docs/API_GUIDE.md#pipelines))
+- **Result Aggregation** — Submit batch jobs, get combined results ([docs](docs/API_GUIDE.md#job-groups))
+- **Plugin System** — Drop a .py file in `plugins/`, restart, new runner available ([docs](docs/PLUGINS.md))
+- **File Transfer** — P2P chunked transfer with SHA-256 integrity verification
+- **Online Learning** — Exploration decay, behavioral cloning from successful experiences
+- **D3.js Network Visualization** — Force-directed graph in the dashboard
+- **JavaScript SDK** — `npm install marlos-sdk` for Node.js/browser integration ([docs](sdk/js/README.md))
+- **Economic Whitepaper** — Formal token model with simulation results ([docs](docs/ECONOMIC_WHITEPAPER.md))
 
-This architecture is particularly relevant for the current shift toward **agentic AI**: when AI agents (Claude, GPT, AutoGen crews) need to execute code, run containers, scan networks, or process files, they need a compute layer that is cheap, decentralized, and programmable. MarlOS is designed to be exactly that layer.
+### Proven by Simulation
+| Metric | Fairness ON | Fairness OFF |
+|---|---|---|
+| Gini Coefficient | **0.549** | 0.822 |
+| Participation Rate | **100%** | 27% |
+| Adversarial Detection | **100%** | — |
+| False Positive Rate | **0%** | — |
+| Online Learning Win Rate | **+9.2pp** improvement over 500 jobs |
 
----
-
-## How It Works
-
-### Data Flow
-
-```
-Job Submitted
-     │
-     ▼
-[P2P Broadcast] ──── ZeroMQ PUB/SUB ────► All Nodes Receive
-                                                │
-                                    ┌───────────┼───────────┐
-                                    ▼           ▼           ▼
-                                  BID        FORWARD      DEFER
-                              (RL decides) (RL decides) (RL decides)
-                                    │
-                                    ▼
-                           [Decentralized Auction]
-                           Ed25519-signed bids
-                           Deterministic winner
-                                    │
-                                    ▼
-                           [Winner Claims Job]
-                           Stakes MarlCredits
-                           Assigns backup node
-                                    │
-                                    ▼
-                           [Execution Engine]
-                           Shell / Docker / Security
-                           Hardware (MQTT/Arduino)
-                                    │
-                              ┌─────┴─────┐
-                              ▼           ▼
-                          Success       Failure
-                              │           │
-                         Pay winner   Slash stake
-                         +trust       -trust
-                         +reputation  RecoveryManager
-                                      takes over
-```
-
-### The Three Decisions (RL Actions)
-
-Every node runs a **PPO policy** trained on a 25-dimensional state vector. For each incoming job, the policy outputs one of:
-
-| Action | When | Effect |
-|--------|------|--------|
-| `BID=0` | Node has capacity, good match | Enter decentralized auction |
-| `FORWARD=1` | Another node is better suited | Route job to that peer |
-| `DEFER=2` | Overloaded or low trust | Skip this job |
-
-The 25D state vector encodes: CPU/memory/disk, job type and priority, wallet balance, peer count, historical success rate, trust score, and 7 fairness metrics (Gini coefficient, diversity factor, UBI eligibility, tax rate, affirmative boost, job complexity, cooperative index).
-
-See [`docs/ARCHITECTURE_RL.md`](docs/ARCHITECTURE_RL.md) for full state vector specification and training methodology.
+Charts: [`docs/charts/`](docs/charts/)
 
 ---
 
 ## Architecture
 
 ```
-┌─────────────────────────────────────────────────────────────┐
-│                        MarlOS Node                          │
-│                                                             │
-│  ┌──────────┐  ┌──────────┐  ┌──────────┐  ┌──────────┐   │
-│  │  P2P     │  │  RL      │  │ Bidding  │  │ Executor │   │
-│  │ ZMQ      │  │ Policy   │  │ Auction  │  │ Engine   │   │
-│  │ Ed25519  │  │ PPO      │  │ Scorer   │  │ Shell    │   │
-│  │ Gossip   │  │ 25D state│  │ Router   │  │ Docker   │   │
-│  └────┬─────┘  └────┬─────┘  └────┬─────┘  │ Security │   │
-│       │             │             │         │ Hardware │   │
-│       └─────────────┴─────────────┘         └──────────┘   │
-│                           │                                 │
-│  ┌──────────┐  ┌──────────┴──┐  ┌──────────┐  ┌────────┐  │
-│  │  Token   │  │   Trust /   │  │Predictive│  │ Dash-  │  │
-│  │ Economy  │  │ Reputation  │  │Pre-exec  │  │ board  │  │
-│  │ Wallet   │  │ Quarantine  │  │Spec cache│  │ WS:3001│  │
-│  │ Ledger   │  │ Watchdog    │  │RL specul │  │        │  │
-│  └──────────┘  └─────────────┘  └──────────┘  └────────┘  │
-└─────────────────────────────────────────────────────────────┘
+┌─────────────────────────────────────────────────────────────────┐
+│                         MarlOS Node                              │
+│                                                                  │
+│  ┌──────────┐  ┌──────────┐  ┌──────────┐  ┌──────────────┐    │
+│  │  P2P     │  │  RL      │  │ Bidding  │  │  Executor    │    │
+│  │ ZMQ      │  │ PPO      │  │ Auction  │  │  Shell       │    │
+│  │ Ed25519  │  │ 25D state│  │ Scorer   │  │  Docker      │    │
+│  │ Gossip   │  │ Online   │  │ Router   │  │  Security    │    │
+│  │ FileTx   │  │ Learning │  │          │  │  Plugins     │    │
+│  └──────────┘  └──────────┘  └──────────┘  └──────────────┘    │
+│                                                                  │
+│  ┌──────────┐  ┌──────────┐  ┌──────────┐  ┌──────────────┐    │
+│  │  Token   │  │  Trust   │  │Pipeline  │  │  Interfaces  │    │
+│  │ Economy  │  │ Reputat. │  │ DAG      │  │  Dashboard   │    │
+│  │ Wallet   │  │ Quarant. │  │ Aggreg.  │  │  REST API    │    │
+│  │ Tax/UBI  │  │ Watchdog │  │ FileTx   │  │  MCP Server  │    │
+│  └──────────┘  └──────────┘  └──────────┘  └──────────────┘    │
+└─────────────────────────────────────────────────────────────────┘
 ```
 
-### Key Source Files
+### Data Flow
 
-| Component | File | Purpose |
-|-----------|------|---------|
-| Main agent | `agent/main.py` | Wires all components; message handlers |
-| Configuration | `agent/config.py` | 3-tier config: defaults → YAML → env vars |
-| P2P network | `agent/p2p/node.py` | ZMQ gossip, Ed25519 auth, rate limiting |
-| Message protocol | `agent/p2p/protocol.py` | All message types and dataclasses |
-| RL policy | `agent/rl/policy.py` | PPO decision engine (BID/FORWARD/DEFER) |
-| State calculator | `agent/rl/state.py` | 25D state vector builder |
-| Auction | `agent/bidding/auction.py` | Non-blocking decentralized auction |
-| Bid scorer | `agent/bidding/scorer.py` | Score calculation for bids |
-| Job router | `agent/bidding/router.py` | Peer selection for FORWARD action |
-| Execution engine | `agent/executor/engine.py` | Job dispatch and tracking |
-| Recovery manager | `agent/executor/recovery.py` | Heartbeat monitoring and job takeover |
-| Wallet | `agent/tokens/wallet.py` | SQLite-backed token balance and staking |
-| Ledger | `agent/tokens/ledger.py` | Distributed transaction log |
-| Token economy | `agent/tokens/economy.py` | Payment calculation, taxation, UBI |
-| Reputation | `agent/trust/reputation.py` | 0.0–1.0 trust scores, quarantine logic |
-| Watchdog | `agent/trust/watchdog.py` | Automatic trust penalisation |
-| DHT manager | `agent/p2p/dht_manager.py` | Kademlia peer discovery (public mode) |
-| Coordinator | `agent/p2p/coordinator.py` | Deterministic leader election |
-| Predictive | `agent/predictive/` | RL-powered speculative pre-execution |
-| Dashboard | `agent/dashboard/server.py` | WebSocket dashboard on port 3001 |
-| CLI | `cli/main.py` | `marl` command entry point |
-| RL trainer | `rl_trainer/train_policy.py` | Offline PPO training script |
+```
+Job Submitted → P2P Broadcast → All Nodes Receive
+                                      │
+                          ┌───────────┼───────────┐
+                          ▼           ▼           ▼
+                        BID        FORWARD      DEFER
+                    (RL decides) (RL decides) (RL decides)
+                          │
+                          ▼
+                 Decentralized Auction
+                 Ed25519-signed bids
+                          │
+                          ▼
+                 Winner Claims Job → Stakes tokens → Executes
+                          │
+                    ┌─────┴─────┐
+                    ▼           ▼
+                Success       Failure
+                Pay winner   Slash stake
+                +trust       Backup takes over
+```
 
 ---
 
-## What Makes It Different
+## Quick Start
 
-### 1. Nodes make their own decisions using RL
+### Demo (one command)
 
-There is no scheduler, no central queue, no master node assigning work. Each node independently evaluates every job against its own state and the network context, then decides what to do. The PPO policy is trained across four market scenarios — normal operation, high competition, resource scarcity, and job abundance — so it generalises across real-world conditions.
+```bash
+python scripts/demo.py --nodes 3 --jobs 2
+# or
+marl demo
+```
 
-### 2. Fairness is a first-class citizen
+This starts 3 nodes on localhost, submits jobs, shows the full auction lifecycle, token transfers, and trust updates.
 
-Seven fairness metrics are embedded directly in the RL state vector. The reward function penalises monopolisation, rewards cooperative behaviour, and includes progressive taxation, UBI for struggling nodes, and affirmative action bonuses for nodes with low win rates. Wealth inequality (Gini coefficient) is a live network metric that influences every bidding decision.
+### Run a Node
 
-See [`docs/ARCHITECTURE_TOKEN.md`](docs/ARCHITECTURE_TOKEN.md) for the full economic model.
+```bash
+# Single node
+NODE_ID=my-node python -m agent.main
 
-### 3. Cryptographic security without a blockchain
+# With peers
+NODE_ID=node-1 BOOTSTRAP_PEERS="tcp://192.168.1.100:5555" python -m agent.main
+```
 
-Every P2P message is Ed25519-signed with a timestamp and nonce. Replay protection, clock synchronisation, and quorum consensus are built into the message layer. No proof-of-work, no gas fees, no blockchain overhead.
+### Submit Jobs
 
-### 4. Self-healing at the protocol level
+```bash
+# Via CLI
+marl execute "echo hello"
 
-When a node wins a job, it selects a backup node (second-highest bidder) and broadcasts a `JOB_CLAIM` message naming both. The backup monitors heartbeats. If the primary goes silent for 15 seconds, the backup takes over — resuming from the last checkpoint if one exists — and broadcasts a `JOB_TAKEOVER` message so the rest of the network updates their state. No human intervention required.
+# Via REST API
+curl -X POST http://localhost:3101/api/jobs \
+  -H "Content-Type: application/json" \
+  -d '{"job_type": "shell", "payload": {"command": "echo hello"}, "payment": 50}'
 
-See [`docs/CHECKPOINT_RECOVERY_GUIDE.md`](docs/CHECKPOINT_RECOVERY_GUIDE.md) for details.
+# Via JavaScript SDK
+import { MarlOSClient } from 'marlos-sdk';
+const client = new MarlOSClient('http://localhost:3101');
+const result = await client.submitAndWait('shell', { command: 'echo hello' });
+```
 
-### 5. Any hardware can participate
+### Submit a Pipeline (DAG)
 
-The execution engine is extensible. Currently registered runners:
-- `shell` — arbitrary shell commands
-- `docker` — containerised workloads
-- `docker_build` — container builds
-- `malware_scan`, `port_scan`, `hash_crack`, `threat_intel` — security tools
-- `led_control` — hardware control via MQTT (Arduino/Raspberry Pi)
+```bash
+curl -X POST http://localhost:3101/api/pipelines \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "security-scan",
+    "steps": [
+      {"id": "scan", "job_type": "port_scan", "payload": {"target": "10.0.0.0/24"}},
+      {"id": "analyze", "job_type": "shell", "payload": {"command": "python analyze.py"}, "depends_on": ["scan"]}
+    ]
+  }'
+```
 
-Adding a new runner is registering a single async function. See `agent/main.py::_register_job_runners()`.
+### AI Agent Integration (MCP)
+
+Add to `claude_desktop_config.json`:
+```json
+{
+  "mcpServers": {
+    "marlos": {
+      "command": "python",
+      "args": ["-m", "agent.mcp.server"],
+      "env": {"MARLOS_API_URL": "http://localhost:3101"}
+    }
+  }
+}
+```
+
+Then Claude can: *"Submit a port scan of 192.168.1.0/24 to MarlOS"*
 
 ---
 
 ## Network Modes
 
 ### Private Mode (default)
-
-Nodes connect to a manually specified peer list. Suitable for a home lab, a team's machines, or an office network. Peers are saved to `~/.marlos/peers.json` and auto-reconnected on restart.
+Connect to specific peers. Good for labs, teams, home networks.
 
 ```bash
-NODE_ID=node-1 BOOTSTRAP_PEERS="tcp://192.168.1.100:5555" python -m agent.main
+NODE_ID=node-1 BOOTSTRAP_PEERS="tcp://192.168.1.100:5555,tcp://192.168.1.101:5555" python -m agent.main
 ```
 
 ### Public Mode
-
-Uses Kademlia DHT for automatic global peer discovery. Any MarlOS node running in public mode serves as a bootstrap point. Sybil resistance is enforced: nodes must have a minimum token balance (`min_peer_stake=10 AC`) and each /24 subnet is limited to 3 peers.
+DHT-based global discovery. Anyone can join.
 
 ```bash
 NODE_ID=node-1 NETWORK_MODE=public DHT_ENABLED=true \
   DHT_BOOTSTRAP="bootstrap1.example.com:5559" python -m agent.main
 ```
 
-See [`docs/USER_GUIDE_NETWORK_MODES.md`](docs/USER_GUIDE_NETWORK_MODES.md) and [`docs/NETWORK_DESIGN.md`](docs/NETWORK_DESIGN.md).
+Sybil resistance: minimum stake (10 AC) and per-subnet peer limits.
 
 ---
 
-## What This Can Become
+## Job Types
 
-MarlOS was built as a hackathon project. The infrastructure is real. Here is what it is positioned to grow into:
-
-### Distributed AI Agent Compute
-
-The BID/FORWARD/DEFER action space maps directly to how AI orchestrators (LangGraph, AutoGen, CrewAI) route tasks. A MarlOS network becomes a **P2P compute marketplace for AI agents**: Claude submits a job via MCP, the network auctions it, the winning node executes it, payment flows in MarlCredits. No AWS, no fixed pricing, no single provider.
-
-The WebSocket dashboard on port 3001 is one layer away from becoming an MCP server. The `ai_task` job type can be added as a runner in the same way `shell` or `docker` was added.
-
-### Edge + IoT Compute Mesh
-
-The hardware runner already handles MQTT/Arduino. A MarlOS mesh where a Raspberry Pi bids on sensor-reading jobs and a GPU node bids on inference jobs — same auction, same token economy — is a realistic near-term capability. No other distributed compute project unifies edge hardware and cloud-class compute in the same job market.
-
-### Private Compute Mesh for Teams
-
-Private mode works today. A team of 5 developers with MarlOS on their laptops gets automatic workload distribution, token-based billing between teammates, and fault-tolerant job execution. No infrastructure needed beyond the machines themselves.
-
----
-
-## Current Status
-
-| Feature | Status |
-|---------|--------|
-| P2P messaging (ZMQ + Ed25519) | Working |
-| Decentralized auction | Working |
-| RL bidding (PPO) | Working |
-| Token economy | Working |
-| Trust / reputation / quarantine | Working |
-| Self-healing (heartbeat + takeover) | Working |
-| Job forwarding (JOB_FORWARD handler) | Fixed — was broken |
-| Predictive pre-execution | Working |
-| Dashboard (WebSocket) | Working |
-| Private mode (manual peers) | Working |
-| Public mode (DHT discovery) | Partially working — bootstrap wired, PEX loop closed |
-| Online RL learning | Working — was a no-op, now fixed |
-| Integration tests (multi-node) | 1/10 pass — active area of work |
-
----
-
-## Getting Started
-
-### Install with pip
-
-```bash
-pip install git+https://github.com/ayush-jadaun/MarlOS.git
-marl start
-```
-
-See [`docs/PIP_INSTALL.md`](docs/PIP_INSTALL.md). If `marl` is not found after install, see [`docs/PATH_SETUP_QUICK_REFERENCE.md`](docs/PATH_SETUP_QUICK_REFERENCE.md).
-
-### Install with one-line script
-
-```bash
-curl -sSL https://raw.githubusercontent.com/ayush-jadaun/MarlOS/main/scripts/install-marlos.sh | bash
-```
-
-### Run with Docker (local multi-node testing)
-
-```bash
-docker-compose up -d   # starts 3 nodes + MQTT broker
-```
-
-### Manual setup (real devices)
-
-```bash
-# On each device:
-git clone https://github.com/ayush-jadaun/MarlOS.git && cd MarlOS
-pip install -e .
-
-# Node 1 (no bootstrap needed — it IS the bootstrap)
-NODE_ID=node-1 python -m agent.main
-
-# Node 2 (points at node-1)
-NODE_ID=node-2 BOOTSTRAP_PEERS="tcp://<node1-ip>:5555" python -m agent.main
-
-# Submit a job from anywhere
-marl execute "echo hello from the mesh"
-```
-
-See [`docs/QUICKSTART.md`](docs/QUICKSTART.md) and [`docs/DISTRIBUTED_DEPLOYMENT.md`](docs/DISTRIBUTED_DEPLOYMENT.md).
-
-### Configuration
-
-Configuration is resolved in three layers (highest priority wins):
-
-| Layer | Source | Example |
-|-------|--------|---------|
-| 1 (lowest) | Dataclass defaults in `agent/config.py` | `pub_port=5555` |
-| 2 | YAML file at `~/.marlos/nodes/{NODE_ID}/config.yaml` | custom node config |
-| 3 (highest) | Environment variables | `PUB_PORT=6000` |
-
-Key env vars: `NODE_ID`, `PUB_PORT`, `SUB_PORT`, `DASHBOARD_PORT`, `NETWORK_MODE`, `BOOTSTRAP_PEERS`, `DHT_ENABLED`, `DHT_BOOTSTRAP`, `ENABLE_HARDWARE_RUNNER`.
-
-See [`docs/CONFIG_ARCHITECTURE.md`](docs/CONFIG_ARCHITECTURE.md) and [`docs/FULL_CONFIG_USAGE.md`](docs/FULL_CONFIG_USAGE.md).
+| Type | Runner | Example |
+|---|---|---|
+| `shell` | Shell commands | `{"command": "echo hello"}` |
+| `docker` | Docker containers | `{"image": "python:3.11", "command": "python -c 'print(1)'"}` |
+| `docker_build` | Container builds | `{"dockerfile": ".", "tag": "myapp"}` |
+| `port_scan` | Network scanning | `{"target": "192.168.1.0/24"}` |
+| `malware_scan` | File analysis | `{"file_path": "/tmp/suspicious.bin"}` |
+| `hash_crack` | Hash cracking | `{"hash": "5f4dcc3b...", "algorithm": "md5"}` |
+| `threat_intel` | Threat lookups | `{"indicator": "evil.com"}` |
+| Custom plugins | Drop in `plugins/` | See [Plugin Guide](docs/PLUGINS.md) |
 
 ---
 
 ## Running Tests
 
 ```bash
-# All tests (skip integration)
+# Unit tests (fast, ~30s)
 python -m pytest test/ --ignore=test/integration -v
 
-# Specific module
-python -m pytest test/token/ -v
-python -m pytest test/ -k "rl or fairness or auction" -v
+# API tests
+python -m pytest test/api/ -v
+
+# Pipeline/DAG tests
+python -m pytest test/pipeline/ -v
+
+# Plugin tests
+python -m pytest test/plugins/ -v
+
+# Integration tests (3-node real network, ~3 min)
+python -m pytest test/integration/ -v
+
+# Benchmark
+python scripts/benchmark.py --nodes 3 --jobs 10
+
+# Economic simulation (generates charts)
+python scripts/economic_simulation.py
+
+# Adversarial resistance demo
+python scripts/adversarial_demo.py
 ```
 
----
-
-## Demo
-
-- **Video:** [https://youtu.be/EGv7Z3kXv30](https://youtu.be/EGv7Z3kXv30)
-- **Slides:** [Canva Presentation](https://www.canva.com/design/DAG4KrB5-D0/W-mglhEG6lW3rpzn7PW4BA/view)
+**236+ tests passing** across unit, API, pipeline, plugin, economic, adversarial, and integration tests.
 
 ---
 
-## Documentation Index
+## Configuration
 
-### Setup
-- [`docs/PIP_INSTALL.md`](docs/PIP_INSTALL.md) — Install with pip
-- [`docs/INSTALL.md`](docs/INSTALL.md) — Full interactive installer walkthrough
+Three layers (highest priority wins):
+
+| Layer | Source | Example |
+|---|---|---|
+| 1 (lowest) | Dataclass defaults | `pub_port=5555` |
+| 2 | YAML: `~/.marlos/nodes/{NODE_ID}/config.yaml` | Custom per-node |
+| 3 (highest) | Environment variables | `PUB_PORT=6000` |
+
+Key env vars: `NODE_ID`, `PUB_PORT`, `SUB_PORT`, `DASHBOARD_PORT`, `NETWORK_MODE`, `BOOTSTRAP_PEERS`, `DHT_ENABLED`, `DHT_BOOTSTRAP`
+
+See [`docs/CONFIG_ARCHITECTURE.md`](docs/CONFIG_ARCHITECTURE.md) for details.
+
+---
+
+## Documentation
+
+### Getting Started
+- [`docs/LOCAL_TESTING.md`](docs/LOCAL_TESTING.md) — Run demos, benchmarks, and tests locally
+- [`docs/CLI_GUIDE.md`](docs/CLI_GUIDE.md) — All `marl` CLI commands
 - [`docs/QUICKSTART.md`](docs/QUICKSTART.md) — 5-minute manual setup
-- [`docs/COMMANDS.md`](docs/COMMANDS.md) — All CLI commands
-- [`docs/DISTRIBUTED_DEPLOYMENT.md`](docs/DISTRIBUTED_DEPLOYMENT.md) — Deploy on real devices
-- [`docs/PATH_SETUP_QUICK_REFERENCE.md`](docs/PATH_SETUP_QUICK_REFERENCE.md) — Fix PATH issues
 
-### Configuration & Network
-- [`docs/CONFIG_ARCHITECTURE.md`](docs/CONFIG_ARCHITECTURE.md) — 3-tier config system design
-- [`docs/CONFIG_MANAGEMENT_GUIDE.md`](docs/CONFIG_MANAGEMENT_GUIDE.md) — Manage node configs
-- [`docs/FULL_CONFIG_USAGE.md`](docs/FULL_CONFIG_USAGE.md) — Complete config reference
-- [`docs/USER_GUIDE_NETWORK_MODES.md`](docs/USER_GUIDE_NETWORK_MODES.md) — Private vs Public mode
-- [`docs/NETWORK_DESIGN.md`](docs/NETWORK_DESIGN.md) — P2P communication architecture
+### Deployment
+- [`docs/DEPLOYMENT.md`](docs/DEPLOYMENT.md) — Single node, LAN, cloud, worldwide
+- [`docs/DISTRIBUTED_DEPLOYMENT.md`](docs/DISTRIBUTED_DEPLOYMENT.md) — Real device deployment
 
-### Architecture & Design
-- [`docs/ARCHITECTURE_RL.md`](docs/ARCHITECTURE_RL.md) — RL system, 25D state vector, PPO training
-- [`docs/ARCHITECTURE_TOKEN.md`](docs/ARCHITECTURE_TOKEN.md) — Token economy, taxation, UBI, Gini
-- [`docs/CHECKPOINT_RECOVERY_GUIDE.md`](docs/CHECKPOINT_RECOVERY_GUIDE.md) — Fault tolerance and job migration
-- [`docs/RL_PREDICTION_DESIGN.md`](docs/RL_PREDICTION_DESIGN.md) — Speculative pre-execution system
-- [`docs/PREDICTIVE_CONFIG.md`](docs/PREDICTIVE_CONFIG.md) — Predictive system configuration
+### API & Integration
+- [`docs/API_GUIDE.md`](docs/API_GUIDE.md) — REST API, MCP server, JavaScript SDK
+- [`docs/PLUGINS.md`](docs/PLUGINS.md) — Writing custom runners
+- [`sdk/js/README.md`](sdk/js/README.md) — JavaScript SDK reference
+
+### Architecture
+- [`docs/ARCHITECTURE_RL.md`](docs/ARCHITECTURE_RL.md) — 25D state vector, PPO, fairness metrics
+- [`docs/ARCHITECTURE_TOKEN.md`](docs/ARCHITECTURE_TOKEN.md) — Token economy, taxation, UBI
+- [`docs/ECONOMIC_WHITEPAPER.md`](docs/ECONOMIC_WHITEPAPER.md) — Formal economic model
+- [`docs/NETWORK_DESIGN.md`](docs/NETWORK_DESIGN.md) — P2P protocol design
+- [`docs/CHECKPOINT_RECOVERY_GUIDE.md`](docs/CHECKPOINT_RECOVERY_GUIDE.md) — Fault tolerance
+
+### Configuration
+- [`docs/CONFIG_ARCHITECTURE.md`](docs/CONFIG_ARCHITECTURE.md) — 3-tier config system
+- [`docs/FULL_CONFIG_USAGE.md`](docs/FULL_CONFIG_USAGE.md) — All parameters
+- [`docs/USER_GUIDE_NETWORK_MODES.md`](docs/USER_GUIDE_NETWORK_MODES.md) — Private vs Public
 
 ---
 
 ## Technology Stack
 
 | Layer | Technology |
-|-------|-----------|
-| Language | Python 3.11+ |
-| P2P messaging | ZeroMQ PUB/SUB |
-| Cryptography | Ed25519 (PyNaCl) |
-| RL framework | PyTorch + Stable-Baselines3 (PPO) |
-| Job isolation | Docker |
-| Hardware control | paho-mqtt (MQTT) |
-| Token storage | SQLite (wallet), JSON (ledger) |
-| Event loop | winloop (Windows) / uvloop (Linux/macOS) |
-| Dashboard | WebSockets (aiohttp) |
+|---|---|
+| Language | Python 3.11+ (async/await) |
+| P2P | ZeroMQ PUB/SUB |
+| Crypto | Ed25519 (PyNaCl) |
+| RL | PyTorch + Stable-Baselines3 (PPO) |
+| API | aiohttp (REST) + MCP SDK |
+| Execution | Shell, Docker, custom plugins |
+| Storage | SQLite (wallet), JSON (ledger) |
+| Dashboard | React + D3.js + WebSockets |
+| SDK | JavaScript/TypeScript |
+
+---
+
+## Project Structure
+
+```
+agent/                 # Core agent
+  p2p/                 # ZMQ networking, Ed25519, file transfer
+  rl/                  # PPO policy, online learner, state calc
+  bidding/             # Auction, scoring, routing
+  executor/            # Job runners (shell, docker, security)
+  tokens/              # Wallet, ledger, economy
+  trust/               # Reputation, watchdog, quarantine
+  pipeline/            # DAGs, aggregator
+  plugins/             # Plugin loader
+  api/                 # REST API server
+  mcp/                 # MCP server for AI agents
+  dashboard/           # WebSocket server
+  predictive/          # Speculation cache
+cli/                   # marl CLI
+scripts/               # Demo, benchmark, simulations
+plugins/               # Custom runner plugins
+sdk/js/                # JavaScript SDK
+dashboard/             # React + D3.js frontend
+test/                  # 236+ tests
+docs/                  # Documentation
+```
+
+---
+
+## Contributing
+
+See [`CONTRIBUTING.md`](CONTRIBUTING.md) for guidelines, code style, and how to write a new runner.
 
 ---
 
 ## Contributors
 
-**Team async_await — built at Hack36**
+**Team async_await**
 
-- [Ayush Jadaun](https://github.com/ayushjadaun)
+- [Ayush Jadaun](https://github.com/ayush-jadaun)
 - [Shreeya Srivastava](https://github.com/shreesriv12)
 - [Arnav Raj](https://github.com/arnavraj-7)
 
 ---
 
-[![Built at Hack36](https://raw.githubusercontent.com/nihal2908/Hack-36-Readme-Template/main/BUILT-AT-Hack36-9-Secure.png)](https://hack36.com)
+## License
+
+Apache-2.0
